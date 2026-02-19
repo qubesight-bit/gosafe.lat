@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
-import { Pill, BookOpen, AlertCircle, Shield, CheckCircle, Globe, FlaskConical } from 'lucide-react';
+import { Pill, BookOpen, AlertCircle, Shield, CheckCircle, Globe, FlaskConical, MapPin, ExternalLink } from 'lucide-react';
 import heroImage from '@/assets/hero-health.jpg';
 
 const features = [
@@ -167,6 +167,40 @@ const Index = () => {
               <span className="text-muted-foreground text-sm font-body">{full}</span>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Naloxone Finder CTA */}
+      <section className="max-w-7xl mx-auto px-4 pb-8">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-elevated p-8 flex flex-col sm:flex-row items-center gap-6">
+          {/* Decorative background circles */}
+          <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-primary-foreground/5 pointer-events-none" />
+          <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-primary-foreground/5 pointer-events-none" />
+          {/* Icon */}
+          <div className="relative z-10 shrink-0 w-16 h-16 rounded-2xl bg-primary-foreground/15 border border-primary-foreground/20 flex items-center justify-center">
+            <MapPin className="w-8 h-8 text-primary-foreground" />
+          </div>
+          {/* Text */}
+          <div className="relative z-10 flex-1 text-center sm:text-left">
+            <span className="inline-block text-[10px] font-semibold uppercase tracking-widest text-primary-foreground/60 mb-1 font-body">Harm Reduction Resource</span>
+            <h3 className="font-display font-bold text-primary-foreground text-xl md:text-2xl mb-1">
+              Find Naloxone Near You
+            </h3>
+            <p className="text-primary-foreground/75 text-sm font-body leading-relaxed max-w-md">
+              Naloxone (Narcan) reverses opioid overdoses. Use this finder to locate free or low-cost naloxone at pharmacies and community programs near you.
+            </p>
+          </div>
+          {/* Button */}
+          <a
+            href="https://nextdistro.org/naloxone#state-finder"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative z-10 shrink-0 inline-flex items-center gap-2.5 px-6 py-3.5 bg-primary-foreground text-primary font-bold rounded-xl hover:bg-primary-foreground/90 active:scale-95 transition-all duration-200 shadow-elevated font-body text-sm group"
+          >
+            <MapPin className="w-4 h-4" />
+            Find Naloxone
+            <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
+          </a>
         </div>
       </section>
 
