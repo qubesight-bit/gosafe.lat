@@ -18,7 +18,7 @@ export function Layout({ children }: LayoutProps) {
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="grid md:grid-cols-3 gap-6 mb-6">
             <div>
-              <h4 className="font-display font-semibold text-foreground mb-2">HealthEd CR</h4>
+              <h4 className="font-display font-semibold text-foreground mb-2">GoSafe.lat</h4>
               <p className="text-muted-foreground text-sm font-body leading-relaxed">
                 Public health education platform focused on medication interaction awareness and harm prevention. Educational only — not a substitute for medical care.
               </p>
@@ -40,7 +40,7 @@ export function Layout({ children }: LayoutProps) {
             </div>
           </div>
           <div className="border-t border-border pt-4 flex flex-wrap gap-4 items-center justify-between text-xs text-muted-foreground">
-            <p>© 2024 HealthEd CR — Public Health Education Platform</p>
+            <p>© 2024 GoSafe.lat — Public Health Education Platform</p>
             <p>Not medical advice · For educational purposes only · Consult a healthcare professional</p>
           </div>
         </div>
