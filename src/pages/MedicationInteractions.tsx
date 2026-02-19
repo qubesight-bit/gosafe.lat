@@ -6,7 +6,7 @@ import { searchInteraction, severityConfig, knownInteractions } from '@/data/int
 import type { InteractionResult } from '@/data/interactions';
 import { lookupRxNavInteraction } from '@/lib/rxnav';
 import type { NormalizedInteraction } from '@/lib/rxnav';
-import { Pill, Search, AlertCircle, ChevronDown, Info, Loader2, Database, Globe } from 'lucide-react';
+import { Pill, Search, AlertCircle, ChevronDown, Info, Loader2, Database, Globe, Lightbulb } from 'lucide-react';
 
 const commonDrugs = [
   'Warfarin', 'Aspirin', 'SSRI', 'MAOI', 'Metformin',
@@ -95,6 +95,7 @@ export default function MedicationInteractions() {
           drug2: result.data.drug2,
           severity: result.data.severity,
           mechanism: result.data.mechanism,
+          plainEnglish: result.data.plainEnglish,
           clinicalNote: result.data.clinicalNote,
           sources: result.data.sources,
           sourceLabel: 'Static Educational Database',
@@ -105,6 +106,7 @@ export default function MedicationInteractions() {
           drug2: result.data.drug2,
           severity: result.data.severity,
           mechanism: result.data.mechanism,
+          plainEnglish: undefined as string | undefined,
           clinicalNote: result.data.clinicalNote,
           sources: result.data.sources,
           sourceLabel: 'NIH / NLM RxNav Live Database',
@@ -269,6 +271,21 @@ export default function MedicationInteractions() {
                 <h4 className="font-semibold text-foreground mb-2 text-sm uppercase tracking-wide font-body">Interaction Mechanism (Educational Overview)</h4>
                 <p className="text-foreground/80 text-sm font-body leading-relaxed">{displayData.mechanism}</p>
               </div>
+
+              {/* Plain English Explanation */}
+              {displayData.plainEnglish && (
+                <div className="rounded-xl border-2 border-primary/20 bg-primary-muted p-5 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
+                      <Lightbulb className="w-4 h-4 text-primary" />
+                    </div>
+                    <h4 className="font-semibold text-primary text-sm font-body">In Plain Terms</h4>
+                  </div>
+                  <p className="text-foreground/85 text-sm font-body leading-relaxed pl-9">
+                    {displayData.plainEnglish}
+                  </p>
+                </div>
+              )}
 
               <div className="bg-muted/50 border border-border rounded-lg p-4">
                 <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mb-1 font-body">Professional Referral Note</p>
