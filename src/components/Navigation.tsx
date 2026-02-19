@@ -24,10 +24,10 @@ export function Navigation() {
             </div>
             <div>
               <span className="font-display font-semibold text-foreground text-lg leading-none block">
-                HealthEd CR
+                GoSafe.lat
               </span>
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-body leading-none">
-                Public Health Education
+                Harm Reduction Platform
               </span>
             </div>
           </Link>
