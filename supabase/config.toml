@@ -1,0 +1,4 @@
+project_id = "emyznzzqszerzoiiqeyb"
+
+[functions.isabel-api]
+verify_jwt = false
