@@ -5,6 +5,8 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
+const ISABEL_BASE = "https://apiscsandbox.isabelhealthcare.com/v3";
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -18,90 +20,97 @@ serve(async (req) => {
       });
     }
 
-    const { action, base_url, ...params } = await req.json();
+    const { action, ...params } = await req.json();
 
-    // Allow overriding base URL for testing, default to known Isabel API endpoint
-    const ISABEL_BASE = base_url || "https://apiws.isabelhealthcare.com/v3";
+    const authHeaders = { "Authorization": apiKey };
+    const jsonHeaders = { ...corsHeaders, "Content-Type": "application/json" };
 
     if (action === "ping") {
-      return new Response(JSON.stringify({ 
-        status: "ok", 
-        hasKey: true, 
-        keyPreview: apiKey.substring(0, 8) + "...",
-        defaultBase: ISABEL_BASE 
-      }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(JSON.stringify({ status: "ok", hasKey: true }), { headers: jsonHeaders });
     }
 
-    if (action === "test_connectivity") {
-      // Try to reach the Isabel API and report what happens
-      const testUrls = [
-        "https://apiws.isabelhealthcare.com/v3/suggest?query=headache&language=english",
-        "https://symptomchecker.isabelhealthcare.com/api/v3/suggest?query=headache&language=english",
-      ];
-      
-      const results = [];
-      for (const url of testUrls) {
-        try {
-          const resp = await fetch(url, {
-            headers: { "Authorization": apiKey },
-          });
-          const body = await resp.text();
-          results.push({ 
-            url, 
-            status: resp.status, 
-            bodyPreview: body.substring(0, 200),
-            contentType: resp.headers.get("content-type")
-          });
-        } catch (err) {
-          results.push({ url, error: err.message });
-        }
-      }
-      
-      return new Response(JSON.stringify({ results }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    if (action === "suggest") {
-      const { query } = params;
-      const url = `${ISABEL_BASE}/suggest?query=${encodeURIComponent(query)}&language=english`;
-      const resp = await fetch(url, {
-        headers: { "Authorization": apiKey },
-      });
+    if (action === "age_groups") {
+      const url = `${ISABEL_BASE}/age_groups?language=en&web_service=json`;
+      const resp = await fetch(url, { headers: authHeaders });
       const data = await resp.text();
-      return new Response(data, {
-        status: resp.status,
-        headers: { ...corsHeaders, "Content-Type": resp.headers.get("content-type") || "application/json" },
-      });
+      return new Response(data, { status: resp.status, headers: jsonHeaders });
+    }
+
+    if (action === "regions") {
+      const url = `${ISABEL_BASE}/regions?language=en&web_service=json`;
+      const resp = await fetch(url, { headers: authHeaders });
+      const data = await resp.text();
+      return new Response(data, { status: resp.status, headers: jsonHeaders });
+    }
+
+    if (action === "countries") {
+      const url = `${ISABEL_BASE}/countries?language=en&web_service=json`;
+      const resp = await fetch(url, { headers: authHeaders });
+      const data = await resp.text();
+      return new Response(data, { status: resp.status, headers: jsonHeaders });
+    }
+
+    if (action === "pregnancies") {
+      const url = `${ISABEL_BASE}/pregnancies?language=en&web_service=json`;
+      const resp = await fetch(url, { headers: authHeaders });
+      const data = await resp.text();
+      return new Response(data, { status: resp.status, headers: jsonHeaders });
+    }
+
+    if (action === "predictive_text") {
+      const { language } = params;
+      const url = `${ISABEL_BASE}/predictive-text?language=${language || "en"}`;
+      const resp = await fetch(url, { headers: authHeaders });
+      const data = await resp.text();
+      return new Response(data, { status: resp.status, headers: jsonHeaders });
     }
 
     if (action === "diagnosis") {
-      const { querytext, dob, sex, region, flag } = params;
+      const { querytext, dob, sex, pregnant, region, country_id, flag, language } = params;
       const searchParams = new URLSearchParams({
-        querytext: querytext || "",
+        language: language || "en",
+        specialties: "28",
         dob: dob || "",
-        sex: sex || "male",
-        region: region || "10",
-        language: "english",
+        sex: sex || "m",
+        pregnant: pregnant || "",
+        querytext: querytext || "",
+        suggest: "Suggest+Differential+Diagnosis",
+        flag: flag || "sortbyRW_advanced",
+        searchType: "0",
         web_service: "json",
       });
-      if (flag) searchParams.set("flag", flag);
+      if (region) searchParams.set("region", region);
+      if (country_id) searchParams.set("country_id", country_id);
 
-      const url = `${ISABEL_BASE}/diagnosis_checklist?${searchParams.toString()}`;
-      const resp = await fetch(url, {
-        headers: { "Authorization": apiKey },
-      });
+      const url = `${ISABEL_BASE}/ranked_differential_diagnoses?${searchParams.toString()}`;
+      const resp = await fetch(url, { headers: authHeaders });
       const data = await resp.text();
-      return new Response(data, {
-        status: resp.status,
-        headers: { ...corsHeaders, "Content-Type": resp.headers.get("content-type") || "application/json" },
-      });
+      return new Response(data, { status: resp.status, headers: jsonHeaders });
     }
 
-    return new Response(JSON.stringify({ error: "Unknown action. Use: ping, test_connectivity, suggest, diagnosis" }), {
-      status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    if (action === "triage") {
+      const { triage_url, answers } = params;
+      // triage_url comes from diagnosis response; fill in Q1-Q7
+      let url = triage_url;
+      if (answers) {
+        for (let i = 1; i <= 7; i++) {
+          url = url.replace(`Q${i}=`, `Q${i}=${answers[`Q${i}`] || ""}`);
+        }
+      }
+      const resp = await fetch(url, { headers: authHeaders });
+      const data = await resp.text();
+      return new Response(data, { status: resp.status, headers: jsonHeaders });
+    }
+
+    if (action === "knowledge") {
+      const { knowledge_url } = params;
+      const resp = await fetch(knowledge_url, { headers: authHeaders });
+      const data = await resp.text();
+      return new Response(data, { status: resp.status, headers: jsonHeaders });
+    }
+
+    return new Response(JSON.stringify({ error: "Unknown action. Use: ping, age_groups, regions, countries, pregnancies, predictive_text, diagnosis, triage, knowledge" }), {
+      status: 400, headers: jsonHeaders,
     });
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), {
