@@ -14,7 +14,8 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import {
   Stethoscope, AlertCircle, CalendarIcon, X, Search, Loader2,
-  AlertTriangle, BookOpen, ExternalLink, Shield, ChevronRight, Flag, Star
+  AlertTriangle, BookOpen, ExternalLink, Shield, ChevronRight, Flag, Star,
+  Phone, Clock, Building2, CheckCircle2
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -46,8 +47,9 @@ const SymptomChecker = () => {
   const [result, setResult] = useState<DiagnosisResult | null>(null);
   const [knowledgeData, setKnowledgeData] = useState<Record<number, KnowledgeGroup[]>>({});
   const [loadingKnowledge, setLoadingKnowledge] = useState<number | null>(null);
-  const [triageData, setTriageData] = useState<unknown>(null);
+  const [triageData, setTriageData] = useState<Record<string, unknown> | null>(null);
   const [loadingTriage, setLoadingTriage] = useState(false);
+  const [triageAnswers, setTriageAnswers] = useState<Record<string, string>>({});
 
   // Load metadata on mount
   useEffect(() => {
@@ -147,12 +149,12 @@ const SymptomChecker = () => {
     }
   };
 
-  const handleTriage = async () => {
+  const handleTriage = async (answers?: Record<string, string>) => {
     const triageUrl = result?.diagnoses_checklist?.triage_api_url;
     if (!triageUrl) return;
     setLoadingTriage(true);
     try {
-      const data = await api.getTriage(triageUrl);
+      const data = await api.getTriage(triageUrl, answers) as Record<string, unknown>;
       setTriageData(data);
     } catch {
       toast({ title: "Error loading triage", variant: "destructive" });
@@ -519,29 +521,126 @@ const SymptomChecker = () => {
 
             {/* Triage */}
             {triageUrl && (
-              <div className="card-elevated p-6">
-                <h2 className="font-display text-lg font-semibold text-foreground mb-2 flex items-center gap-2">
+              <div className="card-elevated p-6 space-y-4">
+                <h2 className="font-display text-lg font-semibold text-foreground flex items-center gap-2">
                   <AlertTriangle className="w-5 h-5 text-accent" />
                   Triage — Where to Get Care?
                 </h2>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Get an urgency assessment based on your symptoms and potential diagnoses.
+                <p className="text-sm text-muted-foreground">
+                  Answer these questions to get an urgency assessment based on your symptoms.
                 </p>
-                {!triageData ? (
-                  <Button onClick={handleTriage} disabled={loadingTriage} variant="outline">
-                    {loadingTriage ? (
-                      <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Loading triage...</>
-                    ) : (
-                      <><ChevronRight className="w-4 h-4 mr-2" />Get Triage Score</>
-                    )}
-                  </Button>
-                ) : (
-                  <div className="bg-muted rounded-lg p-4">
-                    <pre className="text-sm font-body whitespace-pre-wrap text-foreground">
-                      {JSON.stringify(triageData, null, 2)}
-                    </pre>
-                  </div>
-                )}
+
+                {/* Triage Questions */}
+                <div className="space-y-3">
+                  {[
+                    { key: "Q1", label: "Is the patient experiencing severe pain?" },
+                    { key: "Q2", label: "Has there been a sudden onset of symptoms?" },
+                    { key: "Q3", label: "Is the patient having difficulty breathing?" },
+                    { key: "Q4", label: "Is the patient feeling confused or disoriented?" },
+                    { key: "Q5", label: "Has the patient experienced loss of consciousness?" },
+                    { key: "Q6", label: "Is the patient bleeding or has signs of bleeding?" },
+                    { key: "Q7", label: "Has the patient had a seizure?" },
+                  ].map(q => (
+                    <div key={q.key} className="flex items-center justify-between gap-4 p-3 rounded-lg bg-muted/50 border border-border">
+                      <span className="text-sm font-body text-foreground">{q.label}</span>
+                      <div className="flex gap-2 shrink-0">
+                        <button
+                          onClick={() => setTriageAnswers(prev => ({ ...prev, [q.key]: "Y" }))}
+                          className={cn(
+                            "px-3 py-1 rounded-md text-xs font-semibold transition-colors border",
+                            triageAnswers[q.key] === "Y"
+                              ? "bg-destructive/10 border-destructive/30 text-destructive"
+                              : "border-border text-muted-foreground hover:bg-muted"
+                          )}
+                        >
+                          Yes
+                        </button>
+                        <button
+                          onClick={() => setTriageAnswers(prev => ({ ...prev, [q.key]: "N" }))}
+                          className={cn(
+                            "px-3 py-1 rounded-md text-xs font-semibold transition-colors border",
+                            triageAnswers[q.key] === "N"
+                              ? "bg-primary/10 border-primary/30 text-primary"
+                              : "border-border text-muted-foreground hover:bg-muted"
+                          )}
+                        >
+                          No
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <Button
+                  onClick={() => handleTriage(triageAnswers)}
+                  disabled={loadingTriage || Object.keys(triageAnswers).length < 7}
+                  variant="outline"
+                  className="w-full"
+                >
+                  {loadingTriage ? (
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Analyzing urgency...</>
+                  ) : (
+                    <><ChevronRight className="w-4 h-4 mr-2" />Get Triage Score ({Object.keys(triageAnswers).length}/7 answered)</>
+                  )}
+                </Button>
+
+                {/* Triage Result */}
+                {triageData && (() => {
+                  const score = (triageData as Record<string, Record<string, string>>)?.where_to_now?.triage_score || "";
+                  const needsQuestions = score.toLowerCase().includes("please send");
+                  
+                  // Determine urgency level from score text
+                  let urgency: "emergency" | "urgent" | "routine" | "info" = "info";
+                  let urgencyLabel = "Information";
+                  let urgencyDesc = score;
+                  const scoreLower = score.toLowerCase();
+                  
+                  if (scoreLower.includes("emergency") || scoreLower.includes("911") || scoreLower.includes("immediately")) {
+                    urgency = "emergency";
+                    urgencyLabel = "Emergency — Call 911";
+                    urgencyDesc = score;
+                  } else if (scoreLower.includes("urgent") || scoreLower.includes("soon") || scoreLower.includes("today")) {
+                    urgency = "urgent";
+                    urgencyLabel = "Urgent — See a Doctor Today";
+                    urgencyDesc = score;
+                  } else if (scoreLower.includes("routine") || scoreLower.includes("appointment") || scoreLower.includes("schedule")) {
+                    urgency = "routine";
+                    urgencyLabel = "Routine — Schedule an Appointment";
+                    urgencyDesc = score;
+                  }
+                  
+                  if (needsQuestions) {
+                    return (
+                      <div className="p-4 rounded-lg bg-accent/10 border border-accent/20 flex items-start gap-3">
+                        <AlertTriangle className="w-5 h-5 text-accent mt-0.5 shrink-0" />
+                        <p className="text-sm text-foreground">{score}</p>
+                      </div>
+                    );
+                  }
+
+                  const colorMap = {
+                    emergency: { bg: "bg-red-500/10", border: "border-red-500/30", text: "text-red-600", icon: Phone },
+                    urgent: { bg: "bg-amber-500/10", border: "border-amber-500/30", text: "text-amber-600", icon: Clock },
+                    routine: { bg: "bg-green-500/10", border: "border-green-500/30", text: "text-green-600", icon: Building2 },
+                    info: { bg: "bg-primary/10", border: "border-primary/30", text: "text-primary", icon: CheckCircle2 },
+                  };
+                  const style = colorMap[urgency];
+                  const Icon = style.icon;
+
+                  return (
+                    <div className={cn("p-5 rounded-xl border-2", style.bg, style.border)}>
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className={cn("w-10 h-10 rounded-full flex items-center justify-center", style.bg)}>
+                          <Icon className={cn("w-5 h-5", style.text)} />
+                        </div>
+                        <div>
+                          <h3 className={cn("font-display font-bold text-lg", style.text)}>{urgencyLabel}</h3>
+                        </div>
+                      </div>
+                      <p className="text-sm text-foreground/80 font-body">{urgencyDesc}</p>
+                    </div>
+                  );
+                })()}
               </div>
             )}
           </div>

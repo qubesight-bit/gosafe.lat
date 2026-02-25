@@ -90,11 +90,14 @@ serve(async (req) => {
 
     if (action === "triage") {
       const { triage_url, answers } = params;
-      // triage_url comes from diagnosis response; fill in Q1-Q7
       let url = triage_url;
       if (answers) {
+        // Replace Q1= through Q7= values in the URL
         for (let i = 1; i <= 7; i++) {
-          url = url.replace(`Q${i}=`, `Q${i}=${answers[`Q${i}`] || ""}`);
+          const key = `Q${i}`;
+          const val = answers[key] || "";
+          // Match Q1= followed by nothing (before & or end of string)
+          url = url.replace(new RegExp(`${key}=([^&]*)`, 'g'), `${key}=${encodeURIComponent(val)}`);
         }
       }
       const resp = await fetch(url, { headers: authHeaders });
