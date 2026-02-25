@@ -209,10 +209,16 @@ const SymptomChecker = () => {
         </div>
 
         {/* Disclaimer */}
-        <div className="disclaimer-box p-4 flex items-start gap-3 mb-8">
+        <div className="disclaimer-box p-4 flex items-start gap-3 mb-4">
           <AlertCircle className="w-5 h-5 text-accent mt-0.5 shrink-0" />
           <p className="text-sm font-body text-foreground/80">
             <strong className="font-semibold">Educational purposes only.</strong> This tool does not provide medical advice, diagnosis, or treatment recommendations. Always consult a licensed healthcare professional.
+          </p>
+        </div>
+        <div className="disclaimer-box p-4 flex items-start gap-3 mb-8 border-amber-500/30 bg-amber-500/5">
+          <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+          <p className="text-sm font-body text-foreground/80">
+            <strong className="font-semibold">Not a medical device.</strong> Isabel Symptom Checker does not indicate a specific degree of likelihood or a definitive diagnosis for any condition. By showing a broad list of suggested conditions without specific ranking of probability, the system remains an informational tool rather than a diagnostic one.
           </p>
         </div>
 
