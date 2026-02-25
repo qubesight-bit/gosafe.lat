@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
-import { Pill, BookOpen, AlertCircle, Shield, CheckCircle, Globe, FlaskConical, MapPin, ExternalLink } from 'lucide-react';
+import { Pill, BookOpen, AlertCircle, Shield, CheckCircle, Globe, FlaskConical, MapPin, ExternalLink, Stethoscope } from 'lucide-react';
 import heroImage from '@/assets/hero-health.jpg';
 
 const features = [
@@ -21,6 +21,15 @@ const features = [
     cta: 'View Substance Library',
     color: 'text-green-700',
     bg: 'bg-green-50',
+  },
+  {
+    icon: Stethoscope,
+    title: 'Symptom Checker',
+    desc: 'Enter symptoms for educational differential diagnosis information, triage scoring, and links to trusted medical knowledge pages.',
+    to: '/symptom-checker',
+    cta: 'Check Symptoms',
+    color: 'text-purple-700',
+    bg: 'bg-purple-50',
   },
   {
     icon: AlertCircle,
