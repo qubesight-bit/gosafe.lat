@@ -40,7 +40,17 @@ export function Layout({ children }: LayoutProps) {
             </div>
           </div>
           <div className="border-t border-border pt-4 flex flex-wrap gap-4 items-center justify-between text-xs text-muted-foreground">
-            <p>© 2024 GoSafe.lat — Public Health Education Platform</p>
+            <div className="flex items-center gap-3">
+              <p>© 2024 GoSafe.lat — Public Health Education Platform</p>
+              <a
+                href="https://opensource.org/licenses/MIT"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-medium"
+              >
+                MIT License
+              </a>
+            </div>
             <p>Not medical advice · For educational purposes only · Consult a healthcare professional</p>
           </div>
         </div>
