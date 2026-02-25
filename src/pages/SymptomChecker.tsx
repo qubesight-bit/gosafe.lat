@@ -417,10 +417,16 @@ const SymptomChecker = () => {
             {/* Diagnoses list */}
             {diagnoses && diagnoses.length > 0 && (
               <div className="space-y-4">
-                <h2 className="font-display text-xl font-semibold text-foreground flex items-center gap-2">
-                  <Stethoscope className="w-5 h-5 text-primary" />
-                  Differential Diagnoses ({diagnoses.length} results)
-                </h2>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <h2 className="font-display text-xl font-semibold text-foreground flex items-center gap-2">
+                    <Stethoscope className="w-5 h-5 text-primary" />
+                    Differential Diagnoses ({diagnoses.length} results)
+                  </h2>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium border">
+                    <Shield className="w-3 h-3" />
+                    Source: Isabel Healthcare · isabelhealthcare.com
+                  </span>
+                </div>
 
                 <div className="space-y-3">
                   {diagnoses.map((dx, i) => (
