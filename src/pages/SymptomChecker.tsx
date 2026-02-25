@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+// Accordion no longer needed - diagnoses shown as cards
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import {
@@ -408,99 +408,112 @@ const SymptomChecker = () => {
 
             {/* Diagnoses list */}
             {diagnoses && diagnoses.length > 0 && (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <h2 className="font-display text-xl font-semibold text-foreground flex items-center gap-2">
                   <Stethoscope className="w-5 h-5 text-primary" />
-                  Differential Diagnoses
+                  Differential Diagnoses ({diagnoses.length} results)
                 </h2>
 
-                <Accordion type="multiple" className="space-y-2">
+                <div className="space-y-3">
                   {diagnoses.map((dx, i) => (
-                    <AccordionItem
+                    <div
                       key={dx.diagnosis_id}
-                      value={String(dx.diagnosis_id)}
-                      className="card-elevated border rounded-xl overflow-hidden"
+                      className={cn(
+                        "card-elevated border rounded-xl p-5 transition-all",
+                        dx.red_flag === 'true' && "border-destructive/30 bg-destructive/5"
+                      )}
                     >
-                      <AccordionTrigger
-                        className="px-5 py-4 hover:no-underline hover:bg-muted/50"
-                        onClick={() => handleKnowledge(dx)}
-                      >
-                        <div className="flex items-center gap-3 text-left flex-1 mr-4">
-                          <span className="text-xs font-mono text-muted-foreground w-6 shrink-0">#{i + 1}</span>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-foreground font-body">{dx.diagnosis_name}</p>
-                            <p className="text-xs text-muted-foreground mt-0.5">{dx.specialty}</p>
-                          </div>
-                          <div className="flex gap-1.5 shrink-0">
+                      {/* Main diagnosis info - always visible */}
+                      <div className="flex items-start gap-3">
+                        <span className={cn(
+                          "text-sm font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0",
+                          dx.red_flag === 'true' ? "bg-destructive/10 text-destructive" : "bg-primary/10 text-primary"
+                        )}>
+                          {i + 1}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-display text-lg font-semibold text-foreground">{dx.diagnosis_name}</h3>
+                          <p className="text-sm text-muted-foreground mt-0.5">{dx.specialty}</p>
+                          
+                          {/* Badges */}
+                          <div className="flex flex-wrap gap-2 mt-2">
                             {dx.red_flag === 'true' && (
-                              <Badge className="bg-destructive/10 text-destructive border-destructive/20 gap-1 text-xs">
-                                <Flag className="w-3 h-3" /> Red Flag
-                              </Badge>
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-destructive/10 text-destructive text-xs font-semibold">
+                                <Flag className="w-3 h-3" /> Don't Miss — Red Flag
+                              </span>
                             )}
                             {dx.common_diagnosis === 'true' && (
-                              <Badge variant="secondary" className="gap-1 text-xs">
-                                <Star className="w-3 h-3" /> Common
-                              </Badge>
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+                                <Star className="w-3 h-3" /> Common Diagnosis
+                              </span>
                             )}
                           </div>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent className="px-5 pb-4">
-                        <div className="border-t border-border pt-4 space-y-3">
-                          {/* ICD codes */}
-                          <div className="flex flex-wrap gap-2 text-xs">
+
+                          {/* ICD / SNOMED codes */}
+                          <div className="flex flex-wrap gap-2 mt-2 text-xs">
                             {dx.icd10_diagnosis_id && (
-                              <span className="px-2 py-1 rounded bg-muted text-muted-foreground font-mono">
+                              <span className="px-2 py-0.5 rounded bg-muted text-muted-foreground font-mono">
                                 ICD-10: {dx.icd10_diagnosis_id.trim()}
                               </span>
                             )}
                             {dx.snomed_diagnosis_id && (
-                              <span className="px-2 py-1 rounded bg-muted text-muted-foreground font-mono">
+                              <span className="px-2 py-0.5 rounded bg-muted text-muted-foreground font-mono">
                                 SNOMED: {dx.snomed_diagnosis_id.trim()}
                               </span>
                             )}
                           </div>
 
-                          {/* Knowledge links */}
-                          {loadingKnowledge === dx.diagnosis_id && (
-                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                              <Loader2 className="w-4 h-4 animate-spin" /> Loading resources...
-                            </div>
-                          )}
-                          {knowledgeData[dx.diagnosis_id] && (
-                            <div className="space-y-3">
-                              {knowledgeData[dx.diagnosis_id].map((group, gi) => (
-                                <div key={gi}>
-                                  <p className="text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5">
-                                    <BookOpen className="w-3.5 h-3.5 text-primary" />
-                                    {group.heading}
-                                  </p>
-                                  <div className="grid sm:grid-cols-2 gap-2">
-                                    {group.links.map((link, li) => (
+                          {/* Learn More button */}
+                          <div className="mt-3">
+                            {!knowledgeData[dx.diagnosis_id] && loadingKnowledge !== dx.diagnosis_id && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleKnowledge(dx)}
+                                className="text-xs"
+                              >
+                                <BookOpen className="w-3.5 h-3.5 mr-1.5" />
+                                Learn More — View Resources
+                              </Button>
+                            )}
+                            {loadingKnowledge === dx.diagnosis_id && (
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <Loader2 className="w-4 h-4 animate-spin" /> Loading resources...
+                              </div>
+                            )}
+                            {knowledgeData[dx.diagnosis_id] && (
+                              <div className="mt-2 space-y-2">
+                                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                                  <BookOpen className="w-3 h-3" />
+                                  Trusted Resources
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                  {knowledgeData[dx.diagnosis_id].flatMap(group =>
+                                    group.links.map((link, li) => (
                                       <a
                                         key={li}
                                         href={link.link}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border hover:bg-muted/50 transition-colors text-sm"
+                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border hover:bg-muted/50 transition-colors text-xs"
                                       >
                                         {link.image_url && (
-                                          <img src={link.image_url} alt="" className="w-5 h-5 object-contain" />
+                                          <img src={link.image_url} alt="" className="w-4 h-4 object-contain" />
                                         )}
-                                        <span className="font-body text-foreground flex-1">{link.name}</span>
-                                        <ExternalLink className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                                        <span className="font-body text-foreground">{link.name}</span>
+                                        <ExternalLink className="w-3 h-3 text-muted-foreground" />
                                       </a>
-                                    ))}
-                                  </div>
+                                    ))
+                                  )}
                                 </div>
-                              ))}
-                            </div>
-                          )}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </AccordionContent>
-                    </AccordionItem>
+                      </div>
+                    </div>
                   ))}
-                </Accordion>
+                </div>
               </div>
             )}
 
