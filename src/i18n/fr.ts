@@ -24,6 +24,8 @@ export const fr: Record<string, string> = {
   'nav.desc_reports': 'Témoignages d\'expériences communautaires',
   'nav.desc_faq': 'Questions fréquentes',
   'nav.desc_emergency': 'Contacts de crise et naloxone',
+  'nav.transparency': 'Transparence des Données',
+  'nav.desc_transparency': 'APIs et sources de données utilisées',
   'banner.official': 'Pour des conseils officiels et plus d\'informations, veuillez contacter votre autorité sanitaire locale ou un professionnel de santé agréé.',
   'disclaimer.title': 'Information Éducative Uniquement',
   'disclaimer.body': 'Cet outil est uniquement à des fins éducatives et ne remplace pas les conseils médicaux professionnels, le diagnostic ou le traitement. Consultez toujours un professionnel de santé qualifié.',

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import {
   Menu, X, Pill, BookOpen, AlertCircle, Home, Shield, Stethoscope,
   Combine, Grid3X3, HelpCircle, Languages, ChevronDown, FileText,
-  Beaker, Heart, ShieldAlert, Check,
+  Beaker, Heart, ShieldAlert, Check, Database,
 } from 'lucide-react';
 import { useLanguage, LANGUAGES } from '@/i18n/LanguageContext';
 import gosafeLogo from '@/assets/gosafe-logo.png';
@@ -63,6 +63,7 @@ export function Navigation() {
   const infoNav: NavItem[] = [
     { to: '/faq', label: t('nav.faq'), icon: HelpCircle, description: t('nav.desc_faq') },
     { to: '/emergency', label: t('nav.emergency'), icon: AlertCircle, description: t('nav.desc_emergency') },
+    { to: '/faq#transparency', label: t('nav.transparency'), icon: Database, description: t('nav.desc_transparency') },
   ];
 
   const allToolItems = [...rxNav, ...harmNav, ...infoNav];

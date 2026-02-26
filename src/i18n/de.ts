@@ -24,6 +24,8 @@ export const de: Record<string, string> = {
   'nav.desc_reports': 'Gemeinschaftliche Erfahrungsberichte',
   'nav.desc_faq': 'Häufige Fragen beantwortet',
   'nav.desc_emergency': 'Krisenkontakte & Naloxon',
+  'nav.transparency': 'Datentransparenz',
+  'nav.desc_transparency': 'APIs und Datenquellen die wir nutzen',
   'banner.official': 'Für offizielle Beratung und weitere Informationen wenden Sie sich bitte an Ihre lokale Gesundheitsbehörde oder einen zugelassenen Gesundheitsfachmann.',
   'disclaimer.title': 'Nur Bildungsinformationen',
   'disclaimer.body': 'Dieses Tool dient ausschließlich Bildungszwecken und ersetzt keine professionelle medizinische Beratung, Diagnose oder Behandlung. Konsultieren Sie immer einen qualifizierten Gesundheitsfachmann.',
