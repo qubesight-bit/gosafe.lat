@@ -1,6 +1,7 @@
+import { useState, useMemo } from 'react';
 import { Layout } from '@/components/Layout';
 import { SEO } from '@/components/SEO';
-import { AlertCircle, Phone, Heart, Brain, Thermometer, Activity, Shield } from 'lucide-react';
+import { AlertCircle, Phone, Heart, Brain, Thermometer, Activity, Shield, Search } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { globalEmergencyContacts } from '@/data/emergency-contacts';
 const additionalContacts = [
@@ -37,6 +38,7 @@ const professionalReferralTypes = [
 
 export default function EmergencyResources() {
   const { t } = useLanguage();
+  const [countrySearch, setCountrySearch] = useState('');
 
   const warningCategories = [
     {
@@ -193,21 +195,48 @@ export default function EmergencyResources() {
 
           {/* Global grid */}
           <div className="card-elevated p-5 mb-5">
-            <div className="flex items-center gap-2 mb-4">
-              <Phone className="w-4 h-4 text-primary" />
-              <h3 className="font-display font-semibold text-foreground text-lg">Global Emergency Numbers</h3>
+            <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-primary" />
+                <h3 className="font-display font-semibold text-foreground text-lg">Global Emergency Numbers</h3>
+              </div>
+              <div className="relative w-full sm:w-64">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder={t('emergency.search_country') || 'Search country...'}
+                  value={countrySearch}
+                  onChange={(e) => setCountrySearch(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 rounded-lg border border-border bg-background text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-colors"
+                />
+              </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
-              {globalEmergencyContacts.map(({ country, emoji, number, capital }) => (
-                <div key={country} className="flex items-center justify-between gap-2 text-sm py-2 px-3 rounded-lg bg-muted/50">
-                  <div>
-                    <span className="text-foreground/90 font-body font-medium">{emoji} {country}</span>
-                    {capital && <span className="text-muted-foreground text-xs ml-1">({capital})</span>}
-                  </div>
-                  <span className="font-bold text-foreground font-body shrink-0">{number}</span>
+            {(() => {
+              const filtered = globalEmergencyContacts.filter(({ country, capital }) =>
+                country.toLowerCase().includes(countrySearch.toLowerCase()) ||
+                (capital && capital.toLowerCase().includes(countrySearch.toLowerCase()))
+              );
+              if (filtered.length === 0) {
+                return (
+                  <p className="text-muted-foreground text-sm font-body text-center py-4">
+                    No countries found matching "{countrySearch}"
+                  </p>
+                );
+              }
+              return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
+                  {filtered.map(({ country, emoji, number, capital }) => (
+                    <div key={country} className="flex items-center justify-between gap-2 text-sm py-2 px-3 rounded-lg bg-muted/50">
+                      <div>
+                        <span className="text-foreground/90 font-body font-medium">{emoji} {country}</span>
+                        {capital && <span className="text-muted-foreground text-xs ml-1">({capital})</span>}
+                      </div>
+                      <span className="font-bold text-foreground font-body shrink-0">{number}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              );
+            })()}
           </div>
 
           {/* Specialized contacts */}
