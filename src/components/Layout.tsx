@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { GlobalHealthBanner } from './GlobalHealthBanner';
 import { Navigation } from './Navigation';
 import { DonateButton } from './DonateButton';
+import { DisclaimerModal } from './DisclaimerModal';
 import { useLanguage } from '@/i18n/LanguageContext';
 
 interface LayoutProps {
@@ -13,6 +14,7 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <DisclaimerModal />
       <GlobalHealthBanner />
       <Navigation />
       <main className="flex-1">
