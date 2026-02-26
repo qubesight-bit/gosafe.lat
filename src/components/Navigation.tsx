@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
-import { Menu, X, Pill, BookOpen, AlertCircle, Home, Shield, Stethoscope, Combine, Grid3X3, HelpCircle, Languages, ChevronDown } from 'lucide-react';
+import { Menu, X, Pill, BookOpen, AlertCircle, Home, Shield, Stethoscope, Combine, Grid3X3, HelpCircle, Languages, ChevronDown, FileText } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 
 export function Navigation() {
@@ -36,6 +36,7 @@ export function Navigation() {
   const toolsNav = [
     { to: '/combinations', label: t('nav.combos'), icon: Combine },
     { to: '/matrix', label: t('nav.matrix'), icon: Grid3X3 },
+    { to: '/reports', label: t('nav.reports'), icon: FileText },
     { to: '/symptom-checker', label: t('nav.symptoms'), icon: Stethoscope },
     { to: '/faq', label: t('nav.faq'), icon: HelpCircle },
   ];
