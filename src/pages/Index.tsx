@@ -3,52 +3,7 @@ import { Layout } from '@/components/Layout';
 import { SEO } from '@/components/SEO';
 import { Pill, BookOpen, AlertCircle, Shield, CheckCircle, Globe, FlaskConical, MapPin, ExternalLink, Stethoscope } from 'lucide-react';
 import heroImage from '@/assets/hero-health.jpg';
-
-const features = [
-  {
-    icon: Pill,
-    title: 'Medication Interaction Awareness',
-    desc: 'Educational information on known medication interactions, severity levels, and mechanisms — based on governmental and academic sources.',
-    to: '/interactions',
-    cta: 'Explore Interactions',
-    color: 'text-primary',
-    bg: 'bg-primary-muted',
-  },
-  {
-    icon: BookOpen,
-    title: 'Substance Education',
-    desc: 'Comprehensive, source-cited public health education on psychoactive substances — risks, classifications, and harm prevention awareness.',
-    to: '/substances',
-    cta: 'View Substance Library',
-    color: 'text-green-700',
-    bg: 'bg-green-50',
-  },
-  {
-    icon: Stethoscope,
-    title: 'Symptom Checker',
-    desc: 'Enter symptoms for educational differential diagnosis information, triage scoring, and links to trusted medical knowledge pages.',
-    to: '/symptom-checker',
-    cta: 'Check Symptoms',
-    color: 'text-purple-700',
-    bg: 'bg-purple-50',
-  },
-  {
-    icon: AlertCircle,
-    title: 'Emergency Resources',
-    desc: 'Warning signs, when to seek immediate help, and how to contact emergency services and healthcare professionals.',
-    to: '/emergency',
-    cta: 'View Emergency Info',
-    color: 'text-red-600',
-    bg: 'bg-red-50',
-  },
-];
-
-const principles = [
-  { icon: Shield, label: 'Ethics-First', desc: 'No medical advice, prescriptions, or treatment recommendations — ever.' },
-  { icon: Globe, label: 'Source-Transparent', desc: 'Every piece of information is cited with its institutional source and type.' },
-  { icon: CheckCircle, label: 'Professionally Aligned', desc: 'Content aligned with WHO, NIH, NIDA, and IAFA Costa Rica guidelines.' },
-  { icon: FlaskConical, label: 'Harm Reduction Focus', desc: 'Public health education to support awareness, not to guide or enable use.' },
-];
+import { useLanguage } from '@/i18n/LanguageContext';
 
 const sources = [
   { name: 'WHO', full: 'World Health Organization' },
@@ -60,11 +15,59 @@ const sources = [
 ];
 
 const Index = () => {
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      icon: Pill,
+      title: t('index.feature_interactions_title'),
+      desc: t('index.feature_interactions_desc'),
+      to: '/interactions',
+      cta: t('index.feature_interactions_cta'),
+      color: 'text-primary',
+      bg: 'bg-primary-muted',
+    },
+    {
+      icon: BookOpen,
+      title: t('index.feature_substances_title'),
+      desc: t('index.feature_substances_desc'),
+      to: '/substances',
+      cta: t('index.feature_substances_cta'),
+      color: 'text-green-700',
+      bg: 'bg-green-50',
+    },
+    {
+      icon: Stethoscope,
+      title: t('index.feature_symptoms_title'),
+      desc: t('index.feature_symptoms_desc'),
+      to: '/symptom-checker',
+      cta: t('index.feature_symptoms_cta'),
+      color: 'text-purple-700',
+      bg: 'bg-purple-50',
+    },
+    {
+      icon: AlertCircle,
+      title: t('index.feature_emergency_title'),
+      desc: t('index.feature_emergency_desc'),
+      to: '/emergency',
+      cta: t('index.feature_emergency_cta'),
+      color: 'text-red-600',
+      bg: 'bg-red-50',
+    },
+  ];
+
+  const principles = [
+    { icon: Shield, label: t('index.principle_ethics'), desc: t('index.principle_ethics_desc') },
+    { icon: Globe, label: t('index.principle_source'), desc: t('index.principle_source_desc') },
+    { icon: CheckCircle, label: t('index.principle_aligned'), desc: t('index.principle_aligned_desc') },
+    { icon: FlaskConical, label: t('index.principle_harm'), desc: t('index.principle_harm_desc') },
+  ];
+
   return (
     <Layout>
       <SEO
         title="GoSafe.lat"
-        description="Public health education on medication interactions and substance awareness. Harm reduction platform grounded in governmental and academic sources."
+        description="Public health education on medication interactions and substance awareness."
         path="/"
       />
       {/* Hero Section */}
@@ -78,14 +81,14 @@ const Index = () => {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-foreground/15 border border-primary-foreground/25 text-primary-foreground text-xs font-medium mb-6 font-body">
               <Shield className="w-3.5 h-3.5" />
-              Public Health Education Platform — Educational Only
+              {t('index.badge')}
             </div>
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-5">
-              Source-Transparent<br />
-              <span className="opacity-85">Health Education</span>
+              {t('index.title_1')}<br />
+              <span className="opacity-85">{t('index.title_2')}</span>
             </h1>
             <p className="text-primary-foreground/85 text-lg md:text-xl font-body leading-relaxed mb-8 max-w-xl">
-              Public health information on medication interactions and substance awareness — grounded in governmental and academic sources. Not medical advice.
+              {t('index.subtitle')}
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -93,14 +96,14 @@ const Index = () => {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-primary-foreground text-primary font-semibold rounded-lg hover:bg-primary-foreground/90 transition-all duration-200 shadow-elevated font-body text-sm"
               >
                 <Pill className="w-4 h-4" />
-                Medication Interactions
+                {t('index.cta_interactions')}
               </Link>
               <Link
                 to="/substances"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-primary-foreground/15 border border-primary-foreground/30 text-primary-foreground font-semibold rounded-lg hover:bg-primary-foreground/25 transition-all duration-200 font-body text-sm"
               >
                 <BookOpen className="w-4 h-4" />
-                Substance Education
+                {t('index.cta_substances')}
               </Link>
             </div>
           </div>
@@ -112,7 +115,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-start gap-3">
           <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
           <p className="text-amber-800 text-sm font-body">
-            <strong className="font-semibold">Educational purposes only.</strong> This platform does not provide medical advice, diagnosis, prescriptions, or treatment guidance. Always consult a licensed healthcare professional for medical decisions.
+            <strong className="font-semibold">{t('index.disclaimer_banner')}</strong>
           </p>
         </div>
       </section>
@@ -121,10 +124,10 @@ const Index = () => {
       <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-3">
-            Public Health Tools
+            {t('index.tools_title')}
           </h2>
           <p className="text-muted-foreground text-lg font-body max-w-xl mx-auto">
-            Educational resources grounded in cited, institutional health data.
+            {t('index.tools_subtitle')}
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
@@ -151,9 +154,9 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 py-14">
           <div className="text-center mb-10">
             <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2">
-              Our Ethical Framework
+              {t('index.principles_title')}
             </h2>
-            <p className="text-muted-foreground font-body">What guides every piece of content on this platform.</p>
+            <p className="text-muted-foreground font-body">{t('index.principles_subtitle')}</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {principles.map(({ icon: Icon, label, desc }) => (
@@ -172,8 +175,8 @@ const Index = () => {
       {/* Approved Sources */}
       <section className="max-w-7xl mx-auto px-4 py-14">
         <div className="text-center mb-8">
-          <h2 className="font-display text-2xl font-bold text-foreground mb-2">Approved Source Institutions</h2>
-          <p className="text-muted-foreground text-sm font-body">Only governmental, academic, and clearly-labeled educational sources are used.</p>
+          <h2 className="font-display text-2xl font-bold text-foreground mb-2">{t('index.sources_title')}</h2>
+          <p className="text-muted-foreground text-sm font-body">{t('index.sources_subtitle')}</p>
         </div>
         <div className="flex flex-wrap justify-center gap-3">
           {sources.map(({ name, full }) => (
@@ -188,24 +191,20 @@ const Index = () => {
       {/* Naloxone Finder CTA */}
       <section className="max-w-7xl mx-auto px-4 pb-8">
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-elevated p-8 flex flex-col sm:flex-row items-center gap-6">
-          {/* Decorative background circles */}
           <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-primary-foreground/5 pointer-events-none" />
           <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-primary-foreground/5 pointer-events-none" />
-          {/* Icon */}
           <div className="relative z-10 shrink-0 w-16 h-16 rounded-2xl bg-primary-foreground/15 border border-primary-foreground/20 flex items-center justify-center">
             <MapPin className="w-8 h-8 text-primary-foreground" />
           </div>
-          {/* Text */}
           <div className="relative z-10 flex-1 text-center sm:text-left">
-            <span className="inline-block text-[10px] font-semibold uppercase tracking-widest text-primary-foreground/60 mb-1 font-body">Harm Reduction Resource</span>
+            <span className="inline-block text-[10px] font-semibold uppercase tracking-widest text-primary-foreground/60 mb-1 font-body">{t('index.naloxone_badge')}</span>
             <h3 className="font-display font-bold text-primary-foreground text-xl md:text-2xl mb-1">
-              Find Naloxone Near You
+              {t('index.naloxone_title')}
             </h3>
             <p className="text-primary-foreground/75 text-sm font-body leading-relaxed max-w-md">
-              Naloxone (Narcan) reverses opioid overdoses. Use this finder to locate free or low-cost naloxone at pharmacies and community programs near you.
+              {t('index.naloxone_desc')}
             </p>
           </div>
-          {/* Button */}
           <a
             href="https://nextdistro.org/naloxone#state-finder"
             target="_blank"
@@ -213,7 +212,7 @@ const Index = () => {
             className="relative z-10 shrink-0 inline-flex items-center gap-2.5 px-6 py-3.5 bg-primary-foreground text-primary font-bold rounded-xl hover:bg-primary-foreground/90 active:scale-95 transition-all duration-200 shadow-elevated font-body text-sm group"
           >
             <MapPin className="w-4 h-4" />
-            Find Naloxone
+            {t('index.naloxone_cta')}
             <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
           </a>
         </div>
@@ -225,10 +224,10 @@ const Index = () => {
           <AlertCircle className="w-8 h-8 text-red-600 shrink-0" />
           <div className="flex-1">
             <h3 className="font-display font-semibold text-red-800 text-lg mb-1">
-              Experiencing a health emergency?
+              {t('index.emergency_title')}
             </h3>
             <p className="text-red-700 text-sm font-body">
-              Do not use this platform. Call emergency services immediately. Costa Rica: 911 | International: local emergency number.
+              {t('index.emergency_desc')}
             </p>
           </div>
           <Link
@@ -236,7 +235,7 @@ const Index = () => {
             className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors font-body text-sm"
           >
             <AlertCircle className="w-4 h-4" />
-            Emergency Info
+            {t('index.emergency_cta')}
           </Link>
         </div>
       </section>

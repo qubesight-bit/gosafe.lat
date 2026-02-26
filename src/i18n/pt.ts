@@ -9,7 +9,7 @@ export const pt: Record<string, string> = {
   'nav.reports': 'Relatos',
   'nav.symptoms': 'Sintomas',
   'nav.emergency': 'Emergência',
-  'nav.tools': 'Ferramentas',
+  'nav.tools': 'Ferramentas e Recursos',
   'nav.section_rx': 'Rx e Clínico',
   'nav.section_harm': 'Redução de Danos',
   'nav.section_info': 'Info e Ajuda',
@@ -78,9 +78,14 @@ export const pt: Record<string, string> = {
   'index.emergency_title': 'Está passando por uma emergência de saúde?',
   'index.emergency_desc': 'Não use esta plataforma. Ligue para os serviços de emergência imediatamente.',
   'index.emergency_cta': 'Info de Emergência',
+
+  // Interactions
   'interactions.badge': 'Ferramenta Educativa',
   'interactions.title': 'Conscientização sobre Interações Medicamentosas',
   'interactions.subtitle': 'Pesquise informações educativas sobre interações medicamentosas reportadas.',
+
+  // Substances
+  'substances.badge': 'Educação em Saúde Pública',
   'substances.title': 'Biblioteca de Educação sobre Substâncias',
   'substances.subtitle': 'Informação de saúde pública com fontes citadas sobre substâncias psicoativas.',
   'substances.search_placeholder': 'Pesquisar substâncias por nome...',
@@ -91,6 +96,8 @@ export const pt: Record<string, string> = {
   'substances.wiki_title': 'Diretório PsychonautWiki',
   'substances.wiki_desc': 'Dados comunitários sob CC BY-SA 4.0. Clique em qualquer substância para ver efeitos, duração e interações.',
   'substances.from_wiki': 'de PsychonautWiki',
+
+  // Wiki
   'wiki.community_source': 'Dados educacionais comunitários do PsychonautWiki (CC BY-SA 4.0)',
   'wiki.classification': 'Classificação',
   'wiki.chemical_class': 'Classe Química',
@@ -125,19 +132,88 @@ export const pt: Record<string, string> = {
   'wiki.combo_checker': 'Verificador de Combinações',
   'wiki.interaction_matrix': 'Matriz de Interações',
   'wiki.call_911': 'Ligar 911',
+
+  // Combos
+  'combos.badge': 'Ferramenta de Redução de Danos',
+  'combos.title': 'Verificador de Segurança de Combinações',
+  'combos.subtitle': 'Verifique a segurança reportada da interação entre duas substâncias.',
+
+  // Matrix
+  'matrix.badge': 'Ferramenta de Redução de Danos',
+  'matrix.title': 'Matriz de Interações entre Substâncias',
+  'matrix.subtitle': 'Visão geral visual dos riscos de combinação reportados entre substâncias comuns.',
+
+  // FAQ
+  'faq.badge': 'Respostas Baseadas em Evidências',
+  'faq.title': 'Perguntas Frequentes e Mitos',
+  'faq.subtitle': 'Conceitos errôneos comuns sobre substâncias, desmentidos com evidência científica citada.',
+  'faq.search_placeholder': 'Pesquisar mitos...',
+  'faq.all': 'Todas',
+  'faq.showing': 'Mostrando',
+  'faq.of': 'de',
+  'faq.entries': 'entradas',
+  'faq.no_results': 'Nenhuma entrada encontrada. Tente um termo diferente.',
+  'faq.hide_details': '▲ Ocultar detalhes',
+  'faq.read_more': '▼ Ler mais e fontes',
+
+  // Emergency
   'emergency.badge': 'Informação de Emergência',
   'emergency.title': 'Recursos de Emergência',
   'emergency.subtitle': 'Se você acredita que alguém está passando por uma emergência médica, ligue para os serviços de emergência imediatamente.',
+  'emergency.cr_label': 'Emergência Costa Rica',
+  'emergency.active_title': 'Se esta é uma emergência ativa, pare e ligue 911 agora.',
+  'emergency.active_desc': 'Não dependa de recursos da internet durante uma emergência médica. Esta página contém apenas informações educativas de saúde pública.',
+  'emergency.warning_title': 'Reconhecer Sinais de Alerta',
+  'emergency.warning_desc': 'As categorias a seguir descrevem sinais que requerem contato imediato com os serviços de emergência.',
+  'emergency.contacts_title': 'Números de Contato de Emergência',
+  'emergency.contacts_desc': 'Os números de contato são fornecidos como referência educativa. Sempre verifique os números atuais com as autoridades locais.',
+  'emergency.professional_title': 'Quando Buscar Consulta Profissional',
+  'emergency.professional_desc': 'Além de emergências agudas, os seguintes profissionais são qualificados para orientação sobre segurança medicamentosa e saúde mental:',
+  'emergency.iafa_desc': 'O IAFA é a instituição governamental oficial da Costa Rica para dependência de álcool e drogas.',
+  'emergency.iafa_helpline': 'Linha de Ajuda',
+  'emergency.iafa_website': 'Site',
+  'emergency.bottom_disclaimer': 'Esta página é apenas para referência educativa. As informações não constituem aconselhamento médico de emergência.',
+
+  // Symptoms
   'symptoms.title': 'Verificador de Sintomas',
   'symptoms.subtitle': 'Insira seus sintomas para informação educativa de diagnóstico diferencial.',
-  'combos.title': 'Verificador de Segurança de Combinações',
-  'combos.subtitle': 'Verifique a segurança reportada da interação entre duas substâncias.',
-  'matrix.title': 'Matriz de Interações entre Substâncias',
-  'matrix.subtitle': 'Visão geral visual dos riscos de combinação reportados entre substâncias comuns.',
-  'faq.title': 'Perguntas Frequentes e Mitos',
-  'faq.subtitle': 'Conceitos errôneos comuns sobre substâncias, desmentidos com evidência científica citada.',
+
+  // Not found
   'notfound.title': '404',
   'notfound.message': 'Ops! Página não encontrada',
   'notfound.link': 'Voltar ao Início',
+
+  // Categories
+  'cat.stimulant': 'Estimulante',
+  'cat.depressant': 'Depressivo',
+  'cat.psychedelic': 'Psicodélico',
+  'cat.dissociative': 'Dissociativo',
+  'cat.opioid': 'Opioide',
+  'cat.cannabinoid': 'Canabinoide',
+  'cat.entactogen': 'Entactógeno',
+  'cat.other': 'Outro',
+
+  // Dependency
+  'dep.low': 'Baixo',
+  'dep.moderate': 'Moderado',
+  'dep.high': 'Alto',
+  'dep.very_high': 'Muito Alto',
+
+  // FAQ categories
+  'faqcat.general': 'Geral',
+  'faqcat.alcohol': 'Álcool',
+  'faqcat.cannabis': 'Cannabis',
+  'faqcat.opioids': 'Opioides',
+  'faqcat.stimulants': 'Estimulantes',
+  'faqcat.psychedelics': 'Psicodélicos',
+  'faqcat.combinations': 'Combinações',
+
+  // Emergency warning categories
+  'warn.cardiovascular': 'Sinais de Alerta Cardiovascular',
+  'warn.neurological': 'Sinais de Alerta Neurológico',
+  'warn.temperature': 'Sinais de Alerta de Temperatura Corporal',
+  'warn.respiratory': 'Sinais de Alerta Respiratório',
+  'warn.psychiatric': 'Sinais de Emergência Psiquiátrica',
+
   'source.title': 'Fontes e Referências',
 };

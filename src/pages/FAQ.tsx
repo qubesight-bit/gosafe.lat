@@ -4,12 +4,14 @@ import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
 import { myths, categoryLabels, type MythEntry } from '@/data/faq-myths';
 import { Search, XCircle, CheckCircle2, ExternalLink, Filter, MessageCircleQuestion } from 'lucide-react';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 const categoryOrder = ['general', 'alcohol', 'cannabis', 'opioids', 'stimulants', 'psychedelics', 'combinations'];
 
 export default function FAQ() {
   const [query, setQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  const { t } = useLanguage();
 
   const filtered = useMemo(() => {
     let items = myths;
@@ -31,8 +33,8 @@ export default function FAQ() {
   return (
     <Layout>
       <SEO
-        title="FAQ & Myth-Busting — GoSafe.lat"
-        description="Evidence-based answers to common misconceptions about substances. Every claim is backed by WHO, NIH, CDC, and peer-reviewed sources."
+        title={`${t('faq.title')} — GoSafe.lat`}
+        description={t('faq.subtitle')}
       />
 
       <div className="max-w-4xl mx-auto">
@@ -40,13 +42,13 @@ export default function FAQ() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-accent-muted text-accent-foreground px-4 py-1.5 rounded-full text-sm font-body font-medium mb-4">
             <MessageCircleQuestion className="w-4 h-4" />
-            Evidence-Based Answers
+            {t('faq.badge')}
           </div>
           <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-3">
-            FAQ & Myth-Busting
+            {t('faq.title')}
           </h1>
           <p className="text-muted-foreground font-body max-w-2xl mx-auto">
-            Common misconceptions about substances, debunked with cited scientific evidence from WHO, NIH, CDC, and other authoritative sources.
+            {t('faq.subtitle')}
           </p>
         </div>
 
@@ -58,7 +60,7 @@ export default function FAQ() {
               type="text"
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Search myths..."
+              placeholder={t('faq.search_placeholder')}
               className="w-full pl-10 pr-4 py-2.5 border border-border rounded-lg bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring font-body text-sm"
             />
           </div>
@@ -72,7 +74,7 @@ export default function FAQ() {
                   : 'bg-muted text-muted-foreground hover:text-foreground'
               }`}
             >
-              All
+              {t('faq.all')}
             </button>
             {categoryOrder.map(cat => (
               <button
@@ -84,7 +86,7 @@ export default function FAQ() {
                     : 'bg-muted text-muted-foreground hover:text-foreground'
                 }`}
               >
-                {categoryLabels[cat]}
+                {t(`faqcat.${cat}`)}
               </button>
             ))}
           </div>
@@ -92,7 +94,7 @@ export default function FAQ() {
 
         {/* Results count */}
         <p className="text-sm text-muted-foreground font-body mb-6">
-          Showing {filtered.length} of {myths.length} entries
+          {t('faq.showing')} {filtered.length} {t('faq.of')} {myths.length} {t('faq.entries')}
         </p>
 
         {/* Myth cards */}
@@ -105,7 +107,7 @@ export default function FAQ() {
         {filtered.length === 0 && (
           <div className="text-center py-16">
             <MessageCircleQuestion className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-40" />
-            <p className="text-muted-foreground font-body">No matching entries found. Try a different search term.</p>
+            <p className="text-muted-foreground font-body">{t('faq.no_results')}</p>
           </div>
         )}
 
@@ -119,6 +121,7 @@ export default function FAQ() {
 
 function MythCard({ entry }: { entry: MythEntry }) {
   const [expanded, setExpanded] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
@@ -128,7 +131,7 @@ function MythCard({ entry }: { entry: MythEntry }) {
       >
         {/* Category badge */}
         <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium font-body bg-muted text-muted-foreground mb-3 uppercase tracking-wide">
-          {categoryLabels[entry.category]}
+          {t(`faqcat.${entry.category}`)}
         </span>
 
         {/* Myth */}
@@ -148,7 +151,7 @@ function MythCard({ entry }: { entry: MythEntry }) {
         </div>
 
         <span className="block mt-3 text-xs text-primary font-body font-medium">
-          {expanded ? '▲ Hide details' : '▼ Read more & sources'}
+          {expanded ? t('faq.hide_details') : t('faq.read_more')}
         </span>
       </button>
 
