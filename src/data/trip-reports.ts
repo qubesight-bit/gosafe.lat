@@ -841,6 +841,146 @@ export const tripReports: TripReport[] = [
     erowidUrl: 'https://erowid.org/experiences/exp.php?ID=117890',
     erowidExpId: 117890,
   },
+
+  // ── 25I-NBOMe ──
+  {
+    id: 'nbome-sold-as-lsd',
+    title: 'The Tab That Wasn\'t LSD',
+    substance: '25I-NBOMe',
+    substanceCategory: 'psychedelic',
+    intensity: 'extreme',
+    sentiment: 'negative',
+    year: 2018,
+    gender: 'Male',
+    ageRange: '18-25',
+    setting: 'Home with friends',
+    summary: 'The author describes taking what was sold as LSD on blotter paper. A strong bitter, numbing taste — inconsistent with LSD — was the first warning sign. Within 30 minutes, they experienced intense vasoconstriction (cold, blue-tinged extremities), severe headache, rapid heart rate, and overwhelming visual distortions far more chaotic than expected. One friend experienced a seizure and was hospitalized. The author later confirmed the substance was 25I-NBOMe through reagent testing of remaining material. They emphasize that NBOMe compounds have caused multiple documented fatalities at amounts that fit on a single blotter tab.',
+    keyTakeaways: [
+      'NBOMe compounds are frequently sold as LSD on blotter paper — reagent testing can distinguish them',
+      'A bitter, numbing taste on blotter is a strong indicator of NBOMe, not LSD (LSD is tasteless)',
+      '25I-NBOMe has a much narrower safety margin than LSD and has caused documented fatalities',
+      'Vasoconstriction and seizures are characteristic dangerous effects not typical of LSD'
+    ],
+    warningSignsObserved: ['Bitter/numbing taste', 'Severe vasoconstriction', 'Seizure (friend)', 'Tachycardia', 'Hospitalization required'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=100234',
+    erowidExpId: 100234,
+  },
+  {
+    id: 'nbome-cardiovascular-emergency',
+    title: 'My Heart Felt Like It Would Explode',
+    substance: '25I-NBOMe',
+    substanceCategory: 'psychedelic',
+    intensity: 'extreme',
+    sentiment: 'negative',
+    year: 2017,
+    gender: 'Female',
+    ageRange: '18-25',
+    setting: 'Music festival',
+    summary: 'The author describes taking a substance sold as a psychedelic at a music festival. They rapidly developed severe cardiovascular symptoms: pounding heart rate, chest pain, extreme hypertension (confirmed at medical tent), and difficulty breathing. Simultaneously they experienced intense psychedelic effects including paranoia and confusion. Festival medical staff treated the cardiovascular emergency and the author was transferred to a hospital. The substance was later identified as an NBOMe compound. The author describes the terror of a medical emergency while simultaneously unable to think clearly due to psychoactive effects.',
+    keyTakeaways: [
+      'NBOMe compounds carry significant cardiovascular risks including hypertensive crisis',
+      'Cardiovascular emergencies while cognitively impaired are especially dangerous',
+      'Festival medical services may be life-saving — always know their location',
+      'Reagent test kits (Marquis, Mecke, Ehrlich) are portable and can be used at events'
+    ],
+    warningSignsObserved: ['Severe tachycardia', 'Chest pain', 'Hypertensive crisis', 'Respiratory difficulty', 'Required hospitalization'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=99876',
+    erowidExpId: 99876,
+  },
+
+  // ── Clonazolam ──
+  {
+    id: 'clonazolam-blackout-days',
+    title: 'Three Days I\'ll Never Remember',
+    substance: 'Clonazolam',
+    substanceCategory: 'depressant',
+    intensity: 'extreme',
+    sentiment: 'negative',
+    year: 2021,
+    gender: 'Male',
+    ageRange: '18-25',
+    setting: 'Home, then unknown locations',
+    summary: 'The author describes taking clonazolam, a novel designer benzodiazepine, and losing approximately three days to complete amnesia. They reconstructed events from messages, photos, and accounts from others: they had driven a car, made purchases, sent incoherent messages, and engaged in behavior entirely out of character — with zero memory of any of it. The author emphasizes that clonazolam is active at microgram-level amounts, making precise measurement nearly impossible without specialized equipment. They describe the experience as the most frightening of their life due to the total loss of agency.',
+    keyTakeaways: [
+      'Clonazolam is active at extremely small amounts (sub-milligram), making unintentional overdose very easy',
+      'Designer benzodiazepines are not regulated or quality-controlled in most jurisdictions',
+      'Complete anterograde amnesia lasting days is commonly reported with novel benzodiazepines',
+      'Actions taken during blackout states (driving, communication) pose extreme danger to self and others'
+    ],
+    warningSignsObserved: ['Multi-day blackout', 'Driving while impaired', 'Complete amnesia', 'Dangerous out-of-character behavior'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=115678',
+    erowidExpId: 115678,
+  },
+  {
+    id: 'clonazolam-rapid-dependence',
+    title: 'Dependent in Two Weeks',
+    substance: 'Clonazolam',
+    substanceCategory: 'depressant',
+    intensity: 'strong',
+    sentiment: 'negative',
+    year: 2022,
+    gender: 'Female',
+    ageRange: '26-35',
+    setting: 'Daily use at home for anxiety self-medication',
+    summary: 'The author describes obtaining clonazolam online to self-medicate anxiety. Within two weeks of daily use, they noticed rapidly escalating tolerance and withdrawal symptoms between uses: tremors, severe rebound anxiety, insomnia, and muscle twitching. Attempting to stop on day 14 produced withdrawal symptoms severe enough to prompt an ER visit, where they were informed that novel benzodiazepine withdrawal can cause seizures. A medically supervised taper using diazepam was initiated. The author emphasizes the extraordinarily rapid development of physical dependence compared to their prior experience with prescribed benzodiazepines.',
+    keyTakeaways: [
+      'Clonazolam can produce physical dependence in as little as 1-2 weeks of daily use',
+      'Novel benzodiazepines may have unpredictable potency and pharmacokinetics',
+      'Withdrawal from any benzodiazepine-type substance can cause life-threatening seizures',
+      'Self-medication with unregulated substances bypasses the medical safeguards of prescribed alternatives'
+    ],
+    warningSignsObserved: ['Rapid tolerance development', 'Withdrawal symptoms after 2 weeks', 'Tremors', 'ER visit required', 'Seizure risk'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=118345',
+    erowidExpId: 118345,
+  },
+
+  // ── Flubromazolam ──
+  {
+    id: 'flubromazolam-potency-surprise',
+    title: 'Microgram Miscalculation, Major Consequences',
+    substance: 'Flubromazolam',
+    substanceCategory: 'depressant',
+    intensity: 'extreme',
+    sentiment: 'negative',
+    year: 2020,
+    gender: 'Male',
+    ageRange: '26-35',
+    setting: 'Home alone',
+    summary: 'The author describes attempting to measure flubromazolam, a designer benzodiazepine active at sub-milligram amounts, using a standard milligram scale. A measurement error resulted in taking significantly more than intended. The author\'s next memory is waking up 30+ hours later with their apartment in disarray, missed calls from work, and no memory of the intervening time. They discovered they had eaten all food in the apartment and sent rambling messages to contacts. The author warns that substances active at microgram levels cannot be safely measured with consumer-grade equipment.',
+    keyTakeaways: [
+      'Substances active at sub-milligram levels require laboratory-grade precision to measure',
+      'Consumer milligram scales are insufficiently precise for microgram-active substances',
+      'Designer benzodiazepines vary enormously in potency — treating them as interchangeable is dangerous',
+      'Compulsive redosing during amnestic states is a characteristic risk of potent benzodiazepines'
+    ],
+    warningSignsObserved: ['30+ hour blackout', 'Compulsive redosing during amnesia', 'Measurement error', 'Complete functional impairment'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=112890',
+    erowidExpId: 112890,
+  },
+
+  // ── Synthetic Cannabinoids ──
+  {
+    id: 'synthetic-cannabinoid-seizure',
+    title: 'Nothing Like Cannabis: A Synthetic Nightmare',
+    substance: 'Synthetic Cannabinoids (JWH-018)',
+    substanceCategory: 'cannabinoid',
+    intensity: 'extreme',
+    sentiment: 'negative',
+    year: 2019,
+    gender: 'Male',
+    ageRange: '18-25',
+    setting: 'Outdoor social setting',
+    summary: 'The author describes using a synthetic cannabinoid product expecting effects similar to cannabis. Instead, they experienced rapid onset of severe tachycardia, intense panic, visual hallucinations, and a seizure witnessed by friends who called emergency services. In the hospital, the author was monitored for cardiac arrhythmia. They emphasize that synthetic cannabinoids bear little resemblance to cannabis in their risk profile despite the misleading name, and that batches vary wildly in potency due to uneven chemical application to plant material ("hot spots").',
+    keyTakeaways: [
+      'Synthetic cannabinoids are full agonists at cannabinoid receptors — far more potent than THC (a partial agonist)',
+      '"Hot spots" in sprayed products mean potency varies wildly within a single batch',
+      'Seizures, cardiac events, and psychosis are documented risks not associated with cannabis',
+      'The label "synthetic cannabis" is dangerously misleading — these are pharmacologically distinct substances'
+    ],
+    warningSignsObserved: ['Seizure', 'Severe tachycardia', 'Visual hallucinations', 'Cardiac monitoring required', 'Hospitalization'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=106789',
+    erowidExpId: 106789,
+  },
 ];
 
 export const reportSubstances = [...new Set(tripReports.map(r => r.substance))].sort();
