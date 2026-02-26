@@ -1,4 +1,5 @@
 import { Layout } from '@/components/Layout';
+import { SEO } from '@/components/SEO';
 import { AlertCircle, Phone, Heart, Brain, Thermometer, Activity, Shield } from 'lucide-react';
 
 const warningCategories = [
@@ -106,6 +107,11 @@ const professionalReferralTypes = [
 export default function EmergencyResources() {
   return (
     <Layout>
+      <SEO
+        title="Emergency Resources"
+        description="Warning signs, emergency contacts, and when to seek immediate medical help. Costa Rica 911 and international resources."
+        path="/emergency"
+      />
       {/* Header */}
       <section className="bg-red-700 text-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-4">

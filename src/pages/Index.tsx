@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
+import { SEO } from '@/components/SEO';
 import { Pill, BookOpen, AlertCircle, Shield, CheckCircle, Globe, FlaskConical, MapPin, ExternalLink, Stethoscope } from 'lucide-react';
 import heroImage from '@/assets/hero-health.jpg';
 
@@ -61,6 +62,11 @@ const sources = [
 const Index = () => {
   return (
     <Layout>
+      <SEO
+        title="GoSafe.lat"
+        description="Public health education on medication interactions and substance awareness. Harm reduction platform grounded in governmental and academic sources."
+        path="/"
+      />
       {/* Hero Section */}
       <section className="relative overflow-hidden min-h-[520px] flex items-center">
         <div

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Layout } from '@/components/Layout';
+import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
 import { SubstanceAutocomplete, useCachedDrugNames } from '@/components/SubstanceAutocomplete';
 import { NotFoundSuggestions } from '@/components/NotFoundSuggestions';
@@ -82,6 +83,11 @@ export default function CombinationChecker() {
 
   return (
     <Layout>
+      <SEO
+        title="Combination Checker"
+        description="Check reported interaction safety between two substances using the TripSit community database. Educational harm reduction tool."
+        path="/combinations"
+      />
       {/* Header */}
       <section className="section-hero text-primary-foreground py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-4">

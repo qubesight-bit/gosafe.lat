@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Layout } from '@/components/Layout';
+import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
 import { SourceSection } from '@/components/SourceCard';
 import { SubstanceAutocomplete } from '@/components/SubstanceAutocomplete';
@@ -158,6 +159,11 @@ export default function MedicationInteractions() {
 
   return (
     <Layout>
+      <SEO
+        title="Medication Interaction Checker"
+        description="Search educational information on medication interactions, severity levels, and mechanisms from NIH, NLM RxNav, and academic sources."
+        path="/interactions"
+      />
       {/* Header */}
       <section className="section-hero text-primary-foreground py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-4">
