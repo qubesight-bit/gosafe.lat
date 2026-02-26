@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { Menu, X, Pill, BookOpen, AlertCircle, Home, Shield, Stethoscope, Combine, Grid3X3 } from 'lucide-react';
+import { Menu, X, Pill, BookOpen, AlertCircle, Home, Shield, Stethoscope, Combine, Grid3X3, HelpCircle } from 'lucide-react';
 
 const navItems = [
   { to: '/', label: 'Home', icon: Home },
@@ -8,6 +8,7 @@ const navItems = [
   { to: '/combinations', label: 'Combos', icon: Combine },
   { to: '/matrix', label: 'Matrix', icon: Grid3X3 },
   { to: '/substances', label: 'Substances', icon: BookOpen },
+  { to: '/faq', label: 'FAQ', icon: HelpCircle },
   { to: '/symptom-checker', label: 'Symptoms', icon: Stethoscope },
   { to: '/emergency', label: 'Emergency', icon: AlertCircle },
 ];
