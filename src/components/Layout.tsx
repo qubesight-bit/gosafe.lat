@@ -47,6 +47,9 @@ export function Layout({ children }: LayoutProps) {
             <div className="flex justify-center">
               <DonateButton />
             </div>
+            <p className="text-center text-xs text-muted-foreground font-body leading-relaxed max-w-2xl mx-auto">
+              Made and built by <span className="font-semibold text-foreground">QubeSight</span> for the people — GoSafe.lat is open-source and free to use for pharmacological education and harm reduction, helping prevent overdoses and dangerous pharmaceutical interactions.
+            </p>
             <div className="flex flex-wrap gap-4 items-center justify-between text-xs text-muted-foreground">
               <div className="flex items-center gap-3">
                 <p>{t('footer.copyright')}</p>
