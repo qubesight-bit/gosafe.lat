@@ -1,10 +1,13 @@
 import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { Layout } from '@/components/Layout';
 import { Disclaimer } from '@/components/Disclaimer';
 import { SourceSection } from '@/components/SourceCard';
 import { substances, categoryColors, dependencyColors } from '@/data/substances';
+import { useTripSitApi, mapTripSitStatus } from '@/hooks/use-tripsit-api';
+import type { TripSitDrug } from '@/hooks/use-tripsit-api';
 import {
-  AlertTriangle, AlertCircle, ArrowLeft, Brain, Heart, Clock, Zap, Scale, Shield
+  AlertTriangle, AlertCircle, ArrowLeft, Brain, Heart, Clock, Zap, Scale, Shield, ExternalLink, Loader2
 } from 'lucide-react';
 
 const dependencyLabels: Record<string, string> = {
@@ -23,6 +26,18 @@ const combinationColors: Record<string, string> = {
 export default function SubstanceDetail() {
   const { id } = useParams<{ id: string }>();
   const substance = substances.find((s) => s.id === id);
+  const tripSitApi = useTripSitApi();
+  const [tripSitData, setTripSitData] = useState<TripSitDrug | null>(null);
+  const [tripSitLoading, setTripSitLoading] = useState(false);
+
+  useEffect(() => {
+    if (!substance) return;
+    setTripSitLoading(true);
+    tripSitApi.getDrug(substance.name)
+      .then(data => setTripSitData(data))
+      .catch(() => setTripSitData(null))
+      .finally(() => setTripSitLoading(false));
+  }, [substance?.name]);
 
   if (!substance) {
     return (
@@ -35,6 +50,16 @@ export default function SubstanceDetail() {
       </Layout>
     );
   }
+
+  const tripSitCombos = tripSitData?.combos
+    ? Object.entries(tripSitData.combos).map(([name, combo]) => ({
+        name,
+        ...mapTripSitStatus(combo.status),
+        note: combo.note,
+      }))
+    : [];
+
+  const tripSitEffects = tripSitData?.formatted_effects ?? [];
 
   return (
     <Layout>
@@ -220,6 +245,90 @@ export default function SubstanceDetail() {
 
         {/* Sources */}
         <SourceSection sources={substance.sources} />
+
+        {/* TripSit Enrichment */}
+        {tripSitLoading && (
+          <div className="card-elevated p-6 flex items-center gap-3">
+            <Loader2 className="w-5 h-5 animate-spin text-primary" />
+            <span className="text-sm text-muted-foreground font-body">Loading TripSit community data…</span>
+          </div>
+        )}
+
+        {tripSitData && (
+          <div className="space-y-5">
+            <div className="flex items-center gap-2">
+              <ExternalLink className="w-4 h-4 text-muted-foreground" />
+              <h3 className="font-display font-semibold text-foreground">TripSit Community Data</h3>
+              <span className="text-xs text-amber-600 font-body font-medium px-2 py-0.5 rounded-full border border-amber-200 bg-amber-50">Anecdotal</span>
+            </div>
+
+            {/* Community-reported effects */}
+            {tripSitEffects.length > 0 && (
+              <div className="card-elevated p-5 space-y-3">
+                <h4 className="font-display font-semibold text-foreground text-sm">Community-Reported Effects</h4>
+                <div className="flex flex-wrap gap-2">
+                  {tripSitEffects.map((effect, i) => (
+                    <span key={i} className="px-2.5 py-1 text-xs border border-border rounded-full text-muted-foreground font-body bg-muted/50">
+                      {effect}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground font-body italic">
+                  These effects are community-reported and anecdotal. Individual experiences vary significantly.
+                </p>
+              </div>
+            )}
+
+            {/* TripSit Combination Grid */}
+            {tripSitCombos.length > 0 && (
+              <div className="card-elevated p-5 space-y-3">
+                <h4 className="font-display font-semibold text-foreground text-sm flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-primary" />
+                  TripSit Combination Chart ({tripSitCombos.length} substances)
+                </h4>
+                <p className="text-xs text-muted-foreground font-body italic">
+                  Community-sourced interaction statuses. Not peer-reviewed medical data.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-2 max-h-80 overflow-y-auto">
+                  {tripSitCombos
+                    .sort((a, b) => {
+                      const order = { severe: 0, moderate: 1, mild: 2, none: 3 };
+                      return order[a.severity] - order[b.severity];
+                    })
+                    .map((combo, i) => {
+                      const styles: Record<string, string> = {
+                        none: 'bg-emerald-50 border-emerald-200 text-emerald-800',
+                        mild: 'bg-sky-50 border-sky-200 text-sky-800',
+                        moderate: 'bg-amber-50 border-amber-200 text-amber-800',
+                        severe: 'bg-red-50 border-red-200 text-red-800',
+                      };
+                      return (
+                        <div key={i} className={`p-2.5 rounded-lg border text-xs font-body ${styles[combo.severity]}`}>
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="font-medium capitalize">{combo.name}</span>
+                            <span className="font-semibold text-[10px] uppercase">{combo.label}</span>
+                          </div>
+                          {combo.note && <p className="mt-1 opacity-80 text-[11px] leading-snug">{combo.note}</p>}
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            )}
+
+            {/* TripSit source attribution */}
+            <div className="bg-muted/30 border border-border rounded-lg p-4 flex items-start gap-3">
+              <ExternalLink className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+              <div>
+                <p className="text-xs font-medium text-foreground font-body">Source: TripSit.me</p>
+                <p className="text-xs text-muted-foreground font-body">Community-maintained harm reduction database · Type: <span className="text-amber-600 font-medium">Anecdotal</span></p>
+                <a href="https://tripsit.me" target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline font-body">
+                  tripsit.me →
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Final disclaimer */}
         <Disclaimer />

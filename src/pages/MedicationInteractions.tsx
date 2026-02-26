@@ -6,7 +6,8 @@ import { searchInteraction, severityConfig, knownInteractions } from '@/data/int
 import type { InteractionResult } from '@/data/interactions';
 import { lookupRxNavInteraction } from '@/lib/rxnav';
 import type { NormalizedInteraction } from '@/lib/rxnav';
-import { Pill, Search, AlertCircle, ChevronDown, Info, Loader2, Database, Globe, Lightbulb } from 'lucide-react';
+import { useTripSitApi, mapTripSitStatus } from '@/hooks/use-tripsit-api';
+import { Pill, Search, AlertCircle, ChevronDown, Info, Loader2, Database, Globe, Lightbulb, ExternalLink } from 'lucide-react';
 
 const commonDrugs = [
   'Warfarin', 'Aspirin', 'SSRI', 'MAOI', 'Metformin',
@@ -18,6 +19,7 @@ const commonDrugs = [
 type ResultState =
   | { type: 'static'; data: InteractionResult }
   | { type: 'rxnav'; data: NormalizedInteraction }
+  | { type: 'tripsit'; data: { drug1: string; drug2: string; severity: 'none' | 'mild' | 'moderate' | 'severe'; mechanism: string; clinicalNote: string; label: string; note?: string } }
   | { type: 'not-found' }
   | null;
 
@@ -28,6 +30,7 @@ export default function MedicationInteractions() {
   const [searched, setSearched] = useState(false);
   const [loading, setLoading] = useState(false);
   const [searchedTerms, setSearchedTerms] = useState({ d1: '', d2: '' });
+  const tripSitApi = useTripSitApi();
 
   const handleSearch = async () => {
     if (!drug1.trim() || !drug2.trim()) return;
@@ -50,18 +53,42 @@ export default function MedicationInteractions() {
     // 2. Try NIH NLM RxNav API (covers FDA-approved pharmaceuticals)
     try {
       const rxResult = await lookupRxNavInteraction(terms.d1, terms.d2);
-      if (rxResult === 'not-in-rxnorm') {
-        // Neither drug found in RxNorm and not in static DB
-        setResult({ type: 'not-found' });
-      } else if (rxResult) {
+      if (rxResult !== 'not-in-rxnorm' && rxResult !== null) {
         setResult({ type: 'rxnav', data: rxResult });
-      } else {
-        setResult({ type: 'not-found' });
+        setSearched(true);
+        setLoading(false);
+        return;
       }
     } catch {
-      setResult({ type: 'not-found' });
+      // Fall through to TripSit
     }
 
+    // 3. Try TripSit API as third-tier fallback
+    try {
+      const tsResult = await tripSitApi.getInteraction(terms.d1, terms.d2);
+      if (tsResult) {
+        const mapped = mapTripSitStatus(tsResult.status);
+        setResult({
+          type: 'tripsit',
+          data: {
+            drug1: terms.d1,
+            drug2: terms.d2,
+            severity: mapped.severity,
+            mechanism: mapped.description,
+            clinicalNote: 'This data is from the TripSit community database (anecdotal). Always consult a healthcare professional.',
+            label: mapped.label,
+            note: (tsResult as unknown as { note?: string }).note,
+          },
+        });
+        setSearched(true);
+        setLoading(false);
+        return;
+      }
+    } catch {
+      // Fall through to not-found
+    }
+
+    setResult({ type: 'not-found' });
     setSearched(true);
     setLoading(false);
   };
@@ -101,17 +128,31 @@ export default function MedicationInteractions() {
           sourceLabel: 'Static Educational Database',
           sourceIcon: <Database className="w-3.5 h-3.5" />,
         }
-      : {
-          drug1: result.data.drug1,
-          drug2: result.data.drug2,
-          severity: result.data.severity,
-          mechanism: result.data.mechanism,
-          plainEnglish: undefined as string | undefined,
-          clinicalNote: result.data.clinicalNote,
-          sources: result.data.sources,
-          sourceLabel: 'NIH / NLM RxNav Live Database',
-          sourceIcon: <Globe className="w-3.5 h-3.5" />,
-        }
+      : result.type === 'rxnav'
+        ? {
+            drug1: result.data.drug1,
+            drug2: result.data.drug2,
+            severity: result.data.severity,
+            mechanism: result.data.mechanism,
+            plainEnglish: undefined as string | undefined,
+            clinicalNote: result.data.clinicalNote,
+            sources: result.data.sources,
+            sourceLabel: 'NIH / NLM RxNav Live Database',
+            sourceIcon: <Globe className="w-3.5 h-3.5" />,
+          }
+        : {
+            drug1: result.data.drug1,
+            drug2: result.data.drug2,
+            severity: result.data.severity,
+            mechanism: result.data.mechanism,
+            plainEnglish: result.data.note,
+            clinicalNote: result.data.clinicalNote,
+            sources: [
+              { name: 'TripSit.me', institution: 'TripSit Community', type: 'anecdotal' as const, title: 'Combination Safety Database', url: 'https://combo.tripsit.me/' },
+            ],
+            sourceLabel: 'TripSit Community Database (Anecdotal)',
+            sourceIcon: <ExternalLink className="w-3.5 h-3.5" />,
+          }
     : null;
 
   return (

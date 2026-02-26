@@ -9,6 +9,7 @@ import SubstanceEducation from "./pages/SubstanceEducation";
 import SubstanceDetail from "./pages/SubstanceDetail";
 import EmergencyResources from "./pages/EmergencyResources";
 import SymptomChecker from "./pages/SymptomChecker";
+import CombinationChecker from "./pages/CombinationChecker";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/interactions" element={<MedicationInteractions />} />
           <Route path="/substances" element={<SubstanceEducation />} />
           <Route path="/substances/:id" element={<SubstanceDetail />} />
+          <Route path="/combinations" element={<CombinationChecker />} />
           <Route path="/emergency" element={<EmergencyResources />} />
           <Route path="/symptom-checker" element={<SymptomChecker />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
