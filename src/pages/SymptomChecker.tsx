@@ -572,10 +572,10 @@ const SymptomChecker = () => {
                           Yes
                         </button>
                         <button
-                          onClick={() => setTriageAnswers(prev => ({ ...prev, [q.key]: "0" }))}
+                          onClick={() => setTriageAnswers(prev => ({ ...prev, [q.key]: "2" }))}
                           className={cn(
                             "px-3 py-1 rounded-md text-xs font-semibold transition-colors border",
-                            triageAnswers[q.key] === "0"
+                            triageAnswers[q.key] === "2"
                               ? "bg-primary/10 border-primary/30 text-primary"
                               : "border-border text-muted-foreground hover:bg-muted"
                           )}
