@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Layout } from '@/components/Layout';
 import { Disclaimer } from '@/components/Disclaimer';
+import { SubstanceAutocomplete } from '@/components/SubstanceAutocomplete';
 import { useTripSitApi, mapTripSitStatus } from '@/hooks/use-tripsit-api';
 import type { TripSitInteraction } from '@/hooks/use-tripsit-api';
 import { Shield, Search, Loader2, AlertTriangle, CheckCircle2, Info, ExternalLink } from 'lucide-react';
@@ -113,28 +114,20 @@ export default function CombinationChecker() {
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5 font-body">First Substance</label>
-              <input
-                type="text"
-                value={drugA}
-                onChange={e => setDrugA(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="e.g. Cannabis"
-                className="w-full px-4 py-2.5 border border-border rounded-lg bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring font-body text-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5 font-body">Second Substance</label>
-              <input
-                type="text"
-                value={drugB}
-                onChange={e => setDrugB(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="e.g. MDMA"
-                className="w-full px-4 py-2.5 border border-border rounded-lg bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring font-body text-sm"
-              />
-            </div>
+            <SubstanceAutocomplete
+              value={drugA}
+              onChange={setDrugA}
+              onKeyDown={handleKeyDown}
+              placeholder="e.g. Cannabis"
+              label="First Substance"
+            />
+            <SubstanceAutocomplete
+              value={drugB}
+              onChange={setDrugB}
+              onKeyDown={handleKeyDown}
+              placeholder="e.g. MDMA"
+              label="Second Substance"
+            />
           </div>
 
           {/* Example combos */}

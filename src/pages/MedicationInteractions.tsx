@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Layout } from '@/components/Layout';
 import { Disclaimer } from '@/components/Disclaimer';
 import { SourceSection } from '@/components/SourceCard';
+import { SubstanceAutocomplete } from '@/components/SubstanceAutocomplete';
 import { searchInteraction, severityConfig, knownInteractions } from '@/data/interactions';
 import type { InteractionResult } from '@/data/interactions';
 import { lookupRxNavInteraction } from '@/lib/rxnav';
@@ -193,28 +194,20 @@ export default function MedicationInteractions() {
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5 font-body">First Medication / Substance</label>
-              <input
-                type="text"
-                value={drug1}
-                onChange={e => setDrug1(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="e.g. Warfarin"
-                className="w-full px-4 py-2.5 border border-border rounded-lg bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring font-body text-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5 font-body">Second Medication / Substance</label>
-              <input
-                type="text"
-                value={drug2}
-                onChange={e => setDrug2(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="e.g. Aspirin"
-                className="w-full px-4 py-2.5 border border-border rounded-lg bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring font-body text-sm"
-              />
-            </div>
+            <SubstanceAutocomplete
+              value={drug1}
+              onChange={setDrug1}
+              onKeyDown={handleKeyDown}
+              placeholder="e.g. Warfarin"
+              label="First Medication / Substance"
+            />
+            <SubstanceAutocomplete
+              value={drug2}
+              onChange={setDrug2}
+              onKeyDown={handleKeyDown}
+              placeholder="e.g. Aspirin"
+              label="Second Medication / Substance"
+            />
           </div>
 
           {/* Suggestions */}
