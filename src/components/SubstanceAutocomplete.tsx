@@ -6,6 +6,15 @@ import { Loader2 } from 'lucide-react';
 let cachedNames: string[] | null = null;
 let fetchPromise: Promise<string[]> | null = null;
 
+/** Hook to access the cached drug names list */
+export function useCachedDrugNames(): string[] {
+  const [names, setNames] = useState<string[]>(cachedNames ?? []);
+  useEffect(() => {
+    fetchAllDrugNames().then(setNames);
+  }, []);
+  return names;
+}
+
 async function fetchAllDrugNames(): Promise<string[]> {
   if (cachedNames) return cachedNames;
   if (fetchPromise) return fetchPromise;

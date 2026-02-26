@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Layout } from '@/components/Layout';
 import { Disclaimer } from '@/components/Disclaimer';
-import { SubstanceAutocomplete } from '@/components/SubstanceAutocomplete';
+import { SubstanceAutocomplete, useCachedDrugNames } from '@/components/SubstanceAutocomplete';
+import { NotFoundSuggestions } from '@/components/NotFoundSuggestions';
 import { useTripSitApi, mapTripSitStatus } from '@/hooks/use-tripsit-api';
 import type { TripSitInteraction } from '@/hooks/use-tripsit-api';
 import { Shield, Search, Loader2, AlertTriangle, CheckCircle2, Info, ExternalLink } from 'lucide-react';
@@ -15,6 +16,7 @@ const examplePairs = [
   ['LSD', 'MDMA'],
 ];
 
+
 export default function CombinationChecker() {
   const [drugA, setDrugA] = useState('');
   const [drugB, setDrugB] = useState('');
@@ -23,6 +25,7 @@ export default function CombinationChecker() {
   const [notFound, setNotFound] = useState(false);
   const [searched, setSearched] = useState(false);
   const [searchedTerms, setSearchedTerms] = useState({ a: '', b: '' });
+  const allNames = useCachedDrugNames();
 
   const api = useTripSitApi();
 
@@ -171,24 +174,11 @@ export default function CombinationChecker() {
 
         {/* Not found */}
         {notFound && (
-          <div className="card-elevated p-6 space-y-4 animate-fade-up">
-            <div className="flex items-start gap-3">
-              <Info className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-              <div>
-                <h3 className="font-display font-semibold text-foreground mb-1">No data found</h3>
-                <p className="text-muted-foreground text-sm font-body leading-relaxed">
-                  The TripSit database has no documented interaction between{' '}
-                  <strong>"{searchedTerms.a}"</strong> and <strong>"{searchedTerms.b}"</strong>.
-                  This does <em>not</em> mean the combination is safe.
-                </p>
-                <ul className="mt-3 space-y-1 text-sm font-body text-muted-foreground list-disc list-inside">
-                  <li>Try alternate names or common street names</li>
-                  <li>Check the substance name spelling</li>
-                  <li>Consult a healthcare professional for safety information</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          <NotFoundSuggestions
+            searchedTerms={searchedTerms}
+            allNames={allNames}
+            onSelect={(a, b) => { setDrugA(a); setDrugB(b); }}
+          />
         )}
 
         {/* Result */}
