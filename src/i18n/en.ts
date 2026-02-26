@@ -293,6 +293,7 @@ export const en: Record<string, string> = {
   'emergency.warning_desc': 'The following categories describe signs that require immediate emergency services contact. This is not a diagnostic tool — when in doubt, call emergency services.',
   'emergency.contacts_title': 'Emergency Contact Numbers',
   'emergency.contacts_desc': 'Contact numbers are provided for educational reference. Always verify current numbers with local authorities. This platform does not guarantee real-time accuracy.',
+  'emergency.search_country': 'Search country or capital...',
   'emergency.professional_title': 'When to Seek Professional Consultation',
   'emergency.professional_desc': 'Beyond acute emergencies, the following professionals are qualified to provide guidance on medication safety, mental health, and substance-related health concerns:',
   'emergency.iafa_desc': 'IAFA is Costa Rica\'s official governmental institution for alcohol and drug dependency. It provides prevention, education, treatment referral, and support services. It is the primary national authority aligned with WHO guidelines for substance-related public health.',

@@ -174,6 +174,7 @@ export const pt: Record<string, string> = {
   'emergency.warning_desc': 'As categorias a seguir descrevem sinais que requerem contato imediato com os serviços de emergência.',
   'emergency.contacts_title': 'Números de Contato de Emergência',
   'emergency.contacts_desc': 'Os números de contato são fornecidos como referência educativa. Sempre verifique os números atuais com as autoridades locais.',
+  'emergency.search_country': 'Buscar país ou capital...',
   'emergency.professional_title': 'Quando Buscar Consulta Profissional',
   'emergency.professional_desc': 'Além de emergências agudas, os seguintes profissionais são qualificados para orientação sobre segurança medicamentosa e saúde mental:',
   'emergency.iafa_desc': 'O IAFA é a instituição governamental oficial da Costa Rica para dependência de álcool e drogas.',
