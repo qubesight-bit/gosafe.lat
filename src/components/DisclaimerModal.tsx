@@ -42,17 +42,17 @@ export function DisclaimerModal() {
   return (
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent
-        className="sm:max-w-[460px] p-0 [&>button]:hidden overflow-hidden border-0 shadow-2xl max-h-[92vh]"
+        className="sm:max-w-[460px] p-0 [&>button]:hidden border-0 shadow-2xl max-h-[90vh] overflow-hidden rounded-2xl"
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
         {/* Top branded header */}
-        <div className="relative bg-gradient-to-br from-primary to-primary/80 px-6 pt-8 pb-10 text-center overflow-hidden">
+        <div className="relative bg-gradient-to-br from-primary to-primary/80 px-6 pt-10 pb-10 text-center overflow-hidden">
           <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-primary-foreground/5 pointer-events-none" />
           <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-primary-foreground/5 pointer-events-none" />
           <div className="relative z-10">
-            <div className="inline-flex p-3 rounded-2xl bg-primary-foreground/15 backdrop-blur-sm border border-primary-foreground/20 mb-4 shadow-lg">
-              <img src={gosafeLogo} alt="GoSafe.lat logo" className="w-14 h-14 object-contain" />
+            <div className="inline-flex p-3.5 rounded-2xl bg-primary-foreground/15 backdrop-blur-sm border border-primary-foreground/20 mb-5 shadow-lg">
+              <img src={gosafeLogo} alt="GoSafe.lat logo" className="w-16 h-16 object-contain" />
             </div>
             <h2 className="font-display text-xl font-bold text-primary-foreground mb-1.5">
               Educational Purposes Only
