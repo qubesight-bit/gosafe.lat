@@ -2,11 +2,12 @@ import { useState, useMemo } from 'react';
 import { Layout } from '@/components/Layout';
 import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
+import { SubstanceDirectory } from '@/components/SubstanceDirectory';
 import { tripReports, reportSubstances, type TripReport } from '@/data/trip-reports';
 import { useLanguage } from '@/i18n/LanguageContext';
 import {
   BookOpen, Search, AlertTriangle, ExternalLink, ChevronDown, ChevronUp,
-  Gauge, Heart, MessageCircleWarning, Eye, Shield
+  Gauge, Heart, MessageCircleWarning, Eye, Shield, Library, FileText
 } from 'lucide-react';
 
 const intensityConfig: Record<string, { label: string; className: string }> = {
@@ -130,7 +131,7 @@ function ReportCard({ report }: { report: TripReport }) {
 }
 
 const TripReports = () => {
-  const { t } = useLanguage();
+  const [activeTab, setActiveTab] = useState<'reports' | 'directory'>('directory');
   const [search, setSearch] = useState('');
   const [substanceFilter, setSubstanceFilter] = useState('all');
   const [intensityFilter, setIntensityFilter] = useState('all');
@@ -182,97 +183,129 @@ const TripReports = () => {
 
         <Disclaimer variant="compact" />
 
-        {/* Filters */}
-        <div className="mt-6 mb-8 space-y-3">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search reports by keyword..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm font-body focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-            />
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            <select
-              value={substanceFilter}
-              onChange={(e) => setSubstanceFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl border border-border bg-background text-sm font-body text-foreground"
-            >
-              <option value="all">All Substances</option>
-              {reportSubstances.map(s => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
-
-            <select
-              value={intensityFilter}
-              onChange={(e) => setIntensityFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl border border-border bg-background text-sm font-body text-foreground"
-            >
-              <option value="all">All Intensities</option>
-              <option value="mild">Mild</option>
-              <option value="moderate">Moderate</option>
-              <option value="strong">Strong</option>
-              <option value="extreme">Extreme</option>
-            </select>
-
-            <select
-              value={sentimentFilter}
-              onChange={(e) => setSentimentFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl border border-border bg-background text-sm font-body text-foreground"
-            >
-              <option value="all">All Sentiments</option>
-              <option value="positive">Positive</option>
-              <option value="mixed">Mixed</option>
-              <option value="negative">Negative</option>
-              <option value="neutral">Neutral</option>
-            </select>
-          </div>
-
-          <p className="text-xs text-muted-foreground">
-            Showing {filtered.length} of {tripReports.length} reports — educational summaries only
-          </p>
+        {/* Tabs */}
+        <div className="mt-6 mb-6 flex gap-2 border-b border-border/60">
+          <button
+            onClick={() => setActiveTab('directory')}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === 'directory'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Library className="w-4 h-4" />
+            Substance Directory
+          </button>
+          <button
+            onClick={() => setActiveTab('reports')}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === 'reports'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <FileText className="w-4 h-4" />
+            Curated Summaries
+          </button>
         </div>
 
-        {/* Report grid */}
-        {filtered.length === 0 ? (
-          <div className="text-center py-16 text-muted-foreground">
-            <p className="font-body">No reports match your filters. Try adjusting your search.</p>
-          </div>
+        {activeTab === 'directory' ? (
+          <SubstanceDirectory />
         ) : (
-          <div className="grid md:grid-cols-2 gap-5">
-            {filtered.map(report => (
-              <ReportCard key={report.id} report={report} />
-            ))}
-          </div>
-        )}
+          <>
+            {/* Filters */}
+            <div className="mb-8 space-y-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search reports by keyword..."
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm font-body focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                />
+              </div>
 
-        {/* Source disclaimer */}
-        <div className="mt-10 bg-muted/40 border border-border/60 rounded-2xl p-5">
-          <div className="flex items-start gap-3">
-            <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
-            <div className="text-sm text-muted-foreground font-body space-y-2">
-              <p>
-                <strong className="text-foreground">Data source:</strong>{' '}
-                <a href="https://erowid.org" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Erowid.org</a>{' '}
-                Experience Vault — a community-maintained harm reduction resource.
-                All report content is <strong>anecdotal</strong> and represents individual experiences that may not be representative.
-              </p>
-              <p>
-                These summaries are provided for <strong>educational harm reduction awareness only</strong>.
-                They do not include dosage, preparation, or route of administration information.
-                Individual reactions vary enormously based on health, genetics, environment, and other factors.
-                <strong> Always consult a healthcare professional.</strong>
-              </p>
-              <p className="text-xs">
-                Erowid citation: "Experience Reports." Erowid Experience Vault. erowid.org. Accessed 2024.
+              <div className="flex flex-wrap gap-2">
+                <select
+                  value={substanceFilter}
+                  onChange={(e) => setSubstanceFilter(e.target.value)}
+                  className="px-3 py-2 rounded-xl border border-border bg-background text-sm font-body text-foreground"
+                >
+                  <option value="all">All Substances</option>
+                  {reportSubstances.map(s => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+
+                <select
+                  value={intensityFilter}
+                  onChange={(e) => setIntensityFilter(e.target.value)}
+                  className="px-3 py-2 rounded-xl border border-border bg-background text-sm font-body text-foreground"
+                >
+                  <option value="all">All Intensities</option>
+                  <option value="mild">Mild</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="strong">Strong</option>
+                  <option value="extreme">Extreme</option>
+                </select>
+
+                <select
+                  value={sentimentFilter}
+                  onChange={(e) => setSentimentFilter(e.target.value)}
+                  className="px-3 py-2 rounded-xl border border-border bg-background text-sm font-body text-foreground"
+                >
+                  <option value="all">All Sentiments</option>
+                  <option value="positive">Positive</option>
+                  <option value="mixed">Mixed</option>
+                  <option value="negative">Negative</option>
+                  <option value="neutral">Neutral</option>
+                </select>
+              </div>
+
+              <p className="text-xs text-muted-foreground">
+                Showing {filtered.length} of {tripReports.length} reports — educational summaries only
               </p>
             </div>
-          </div>
-        </div>
+
+            {/* Report grid */}
+            {filtered.length === 0 ? (
+              <div className="text-center py-16 text-muted-foreground">
+                <p className="font-body">No reports match your filters. Try adjusting your search.</p>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 gap-5">
+                {filtered.map(report => (
+                  <ReportCard key={report.id} report={report} />
+                ))}
+              </div>
+            )}
+
+            {/* Source disclaimer */}
+            <div className="mt-10 bg-muted/40 border border-border/60 rounded-2xl p-5">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+                <div className="text-sm text-muted-foreground font-body space-y-2">
+                  <p>
+                    <strong className="text-foreground">Data source:</strong>{' '}
+                    <a href="https://erowid.org" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Erowid.org</a>{' '}
+                    Experience Vault — a community-maintained harm reduction resource.
+                    All report content is <strong>anecdotal</strong> and represents individual experiences that may not be representative.
+                  </p>
+                  <p>
+                    These summaries are provided for <strong>educational harm reduction awareness only</strong>.
+                    They do not include dosage, preparation, or route of administration information.
+                    Individual reactions vary enormously based on health, genetics, environment, and other factors.
+                    <strong> Always consult a healthcare professional.</strong>
+                  </p>
+                  <p className="text-xs">
+                    Erowid citation: "Experience Reports." Erowid Experience Vault. erowid.org. Accessed 2024.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </Layout>
   );
