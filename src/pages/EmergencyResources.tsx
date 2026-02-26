@@ -132,11 +132,34 @@ export default function EmergencyResources() {
           <p className="text-white/85 font-body text-lg max-w-2xl leading-relaxed">
             {t('emergency.subtitle')}
           </p>
-          <div className="mt-6 inline-flex items-center gap-3 bg-white/15 border border-white/30 rounded-xl px-5 py-3">
-            <Phone className="w-5 h-5 animate-pulse-slow" />
-            <div>
-              <p className="font-semibold font-body">{t('emergency.cr_label')}</p>
-              <p className="text-2xl font-bold font-display">911</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <div className="inline-flex items-center gap-3 bg-white/15 border border-white/30 rounded-xl px-5 py-3">
+              <Phone className="w-5 h-5 animate-pulse-slow" />
+              <div>
+                <p className="font-semibold font-body">{t('emergency.cr_label')}</p>
+                <p className="text-2xl font-bold font-display">911</p>
+              </div>
+            </div>
+            <div className="inline-flex items-center gap-3 bg-white/15 border border-white/30 rounded-xl px-5 py-3">
+              <Phone className="w-5 h-5" />
+              <div>
+                <p className="font-semibold font-body">🇺🇸 United States</p>
+                <p className="text-2xl font-bold font-display">911</p>
+              </div>
+            </div>
+            <div className="inline-flex items-center gap-3 bg-white/15 border border-white/30 rounded-xl px-5 py-3">
+              <Phone className="w-5 h-5" />
+              <div>
+                <p className="font-semibold font-body">🇨🇦 Canada</p>
+                <p className="text-2xl font-bold font-display">911</p>
+              </div>
+            </div>
+            <div className="inline-flex items-center gap-3 bg-white/15 border border-white/30 rounded-xl px-5 py-3">
+              <Phone className="w-5 h-5" />
+              <div>
+                <p className="font-semibold font-body">🇪🇺 European Union</p>
+                <p className="text-2xl font-bold font-display">112</p>
+              </div>
             </div>
           </div>
         </div>
