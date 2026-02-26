@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { X, Globe } from 'lucide-react';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 export function GlobalHealthBanner() {
   const [visible, setVisible] = useState(true);
   const [dismissed, setDismissed] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
-    // Re-show banner every 10 minutes
     if (dismissed) {
       const timer = setTimeout(() => {
         setVisible(true);
@@ -23,12 +24,8 @@ export function GlobalHealthBanner() {
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-start gap-3">
         <Globe className="w-4 h-4 mt-0.5 shrink-0 opacity-80" />
         <div className="flex-1 text-sm">
-          <p className="font-medium">
-            For official guidance and further information, please contact your local health authority or a licensed healthcare professional.
-          </p>
-          <p className="opacity-80 text-xs mt-0.5">
-            Para más información oficial y orientación, contacte a su organismo de salud local o a un profesional de la salud autorizado.
-          </p>
+          <p className="font-medium">{t('banner.official')}</p>
+          <p className="opacity-80 text-xs mt-0.5">{t('banner.official_es')}</p>
         </div>
         <button
           onClick={() => { setVisible(false); setDismissed(true); }}
