@@ -1,6 +1,7 @@
 import { Layout } from '@/components/Layout';
 import { SEO } from '@/components/SEO';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, Phone } from 'lucide-react';
+import { globalEmergencyContacts } from '@/data/emergency-contacts';
 
 const LegalDisclaimer = () => {
   return (
@@ -58,7 +59,21 @@ const LegalDisclaimer = () => {
 
           <section>
             <h2 className="font-display text-xl font-semibold text-foreground">Emergency Situations</h2>
-            <p>If you or someone you know is experiencing a medical emergency, <strong>call your local emergency number immediately</strong>. Do not rely on this platform for emergency guidance. In Costa Rica, call <strong>9-1-1</strong>.</p>
+            <p>If you or someone you know is experiencing a medical emergency, <strong>call your local emergency number immediately</strong>. Do not rely on this platform for emergency guidance.</p>
+            <div className="mt-4 rounded-xl border border-destructive/20 bg-destructive/5 p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Phone className="w-4 h-4 text-destructive" />
+                <h3 className="font-display font-semibold text-foreground text-sm">Global Emergency Numbers</h3>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                {globalEmergencyContacts.map(({ country, emoji, number }) => (
+                  <div key={country} className="flex items-center justify-between gap-2 text-sm py-1 px-2 rounded-md bg-background/50">
+                    <span className="text-foreground/80 font-body">{emoji} {country}</span>
+                    <span className="font-bold text-foreground font-body shrink-0">{number}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </section>
 
           <section>
@@ -68,7 +83,7 @@ const LegalDisclaimer = () => {
 
           <section>
             <h2 className="font-display text-xl font-semibold text-foreground">Contact</h2>
-            <p>For legal inquiries, visit <a href="https://qubesight.lat" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">qubesight.lat</a>.</p>
+            <p>For legal inquiries, mail us to: <a href="mailto:legal@gosafe.lat" className="text-primary hover:underline">legal@gosafe.lat</a>.</p>
           </section>
         </div>
       </div>
