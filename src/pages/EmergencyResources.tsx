@@ -2,8 +2,8 @@ import { Layout } from '@/components/Layout';
 import { SEO } from '@/components/SEO';
 import { AlertCircle, Phone, Heart, Brain, Thermometer, Activity, Shield } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
-
-const contacts = [
+import { globalEmergencyContacts } from '@/data/emergency-contacts';
+const additionalContacts = [
   {
     country: 'Costa Rica',
     services: [
@@ -14,12 +14,12 @@ const contacts = [
     ],
   },
   {
-    country: 'International (Selected)',
+    country: 'Mental Health & Substance Use (International)',
     services: [
-      { name: 'USA — Emergency Services', number: '911' },
-      { name: 'USA — SAMHSA Helpline (Mental Health & Substance Use)', number: '1-800-662-4357' },
-      { name: 'UK — Emergency Services', number: '999' },
-      { name: 'EU General Emergency', number: '112' },
+      { name: 'USA — SAMHSA Helpline', number: '1-800-662-4357' },
+      { name: 'USA — National Suicide Prevention', number: '988' },
+      { name: 'USA — Poison Control', number: '1-800-222-1222' },
+      { name: 'UK — Samaritans', number: '116 123' },
       { name: 'WHO Global Health Directory', number: 'www.who.int/contacts' },
     ],
   },
@@ -184,14 +184,35 @@ export default function EmergencyResources() {
           </div>
         </div>
 
-        {/* Contact Information */}
+        {/* Global Emergency Numbers */}
         <div>
           <h2 className="font-display font-bold text-foreground text-2xl mb-2">{t('emergency.contacts_title')}</h2>
           <p className="text-muted-foreground font-body text-sm mb-6">
             {t('emergency.contacts_desc')}
           </p>
+
+          {/* Global grid */}
+          <div className="card-elevated p-5 mb-5">
+            <div className="flex items-center gap-2 mb-4">
+              <Phone className="w-4 h-4 text-primary" />
+              <h3 className="font-display font-semibold text-foreground text-lg">Global Emergency Numbers</h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
+              {globalEmergencyContacts.map(({ country, emoji, number, capital }) => (
+                <div key={country} className="flex items-center justify-between gap-2 text-sm py-2 px-3 rounded-lg bg-muted/50">
+                  <div>
+                    <span className="text-foreground/90 font-body font-medium">{emoji} {country}</span>
+                    {capital && <span className="text-muted-foreground text-xs ml-1">({capital})</span>}
+                  </div>
+                  <span className="font-bold text-foreground font-body shrink-0">{number}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Specialized contacts */}
           <div className="grid md:grid-cols-2 gap-5">
-            {contacts.map(({ country, services }) => (
+            {additionalContacts.map(({ country, services }) => (
               <div key={country} className="card-elevated p-5 space-y-3">
                 <h3 className="font-display font-semibold text-foreground text-lg border-b border-border pb-2">{country}</h3>
                 <div className="space-y-2.5">
