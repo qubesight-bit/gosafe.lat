@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Layout } from '@/components/Layout';
 import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
@@ -12,6 +12,14 @@ export default function FAQ() {
   const [query, setQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const { t } = useLanguage();
+
+  useEffect(() => {
+    if (window.location.hash === '#transparency') {
+      setTimeout(() => {
+        document.getElementById('transparency')?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+  }, []);
 
   const filtered = useMemo(() => {
     let items = myths;
@@ -112,7 +120,7 @@ export default function FAQ() {
         )}
 
         {/* Data Transparency Section */}
-        <div className="mt-16 space-y-8">
+        <div id="transparency" className="mt-16 space-y-8">
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-accent-muted text-accent-foreground px-4 py-1.5 rounded-full text-sm font-body font-medium mb-4">
               <Database className="w-4 h-4" />
