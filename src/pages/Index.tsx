@@ -80,7 +80,7 @@ const Index = () => {
         <div className="absolute inset-0 section-hero opacity-88" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 py-20 md:py-28">
           <div className="max-w-2xl">
-            <img src={gosafeLogo} alt="GoSafe.lat logo" className="w-16 h-16 object-contain mb-4" />
+            <img src={gosafeLogo} alt="GoSafe.lat logo" className="w-28 h-28 object-contain mb-6 drop-shadow-lg" />
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-foreground/15 border border-primary-foreground/25 text-primary-foreground text-xs font-medium mb-6 font-body">
               <Shield className="w-3.5 h-3.5" />
               {t('index.badge')}
