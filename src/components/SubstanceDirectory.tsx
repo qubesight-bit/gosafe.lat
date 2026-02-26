@@ -112,14 +112,75 @@ function DurationPanel({ substance, onClose }: { substance: DirectorySubstance; 
     }
   }, [substance.name]);
 
-  const phases = [
-    { key: 'onset', label: 'Onset' },
-    { key: 'comeup', label: 'Come up' },
-    { key: 'peak', label: 'Peak' },
-    { key: 'offset', label: 'Offset' },
-    { key: 'total', label: 'Total' },
-    { key: 'afterglow', label: 'Afterglow' },
+  // Timeline bar phases (excluding total which is shown separately)
+  const barPhases = [
+    { key: 'onset', label: 'Onset', color: 'bg-blue-400' },
+    { key: 'comeup', label: 'Come up', color: 'bg-sky-400' },
+    { key: 'peak', label: 'Peak', color: 'bg-primary' },
+    { key: 'offset', label: 'Offset', color: 'bg-amber-400' },
+    { key: 'afterglow', label: 'Afterglow', color: 'bg-muted-foreground/30' },
   ] as const;
+
+  /** Parse a duration string like "1 - 2 hours" or "30 - 60 minutes" to minutes midpoint */
+  function parseDurationToMinutes(val: string | null): number | null {
+    if (!val) return null;
+    const s = val.toLowerCase();
+    let multiplier = 1;
+    if (s.includes('hour')) multiplier = 60;
+    else if (s.includes('day')) multiplier = 1440;
+    const nums = s.match(/[\d.]+/g);
+    if (!nums || nums.length === 0) return null;
+    const values = nums.map(Number);
+    return (values.reduce((a, b) => a + b, 0) / values.length) * multiplier;
+  }
+
+  function DurationBar({ roa }: { roa: DurationData }) {
+    const segments = barPhases
+      .map(p => ({ ...p, raw: roa[p.key], minutes: parseDurationToMinutes(roa[p.key]) }))
+      .filter(p => p.minutes != null && p.minutes > 0) as Array<{ key: string; label: string; color: string; raw: string; minutes: number }>;
+
+    if (segments.length === 0) return null;
+    const totalMin = segments.reduce((s, p) => s + p.minutes, 0);
+
+    return (
+      <div>
+        <div className="flex h-6 rounded-lg overflow-hidden border border-border/40">
+          {segments.map(seg => {
+            const pct = Math.max((seg.minutes / totalMin) * 100, 4);
+            return (
+              <Tooltip key={seg.key}>
+                <TooltipTrigger asChild>
+                  <div
+                    className={`${seg.color} flex items-center justify-center text-[9px] font-semibold text-white/90 cursor-default transition-all hover:brightness-110`}
+                    style={{ width: `${pct}%` }}
+                  >
+                    {pct > 12 ? seg.label : ''}
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="text-xs">
+                  <p className="font-semibold">{seg.label}</p>
+                  <p className="text-popover-foreground/80">{seg.raw}</p>
+                </TooltipContent>
+              </Tooltip>
+            );
+          })}
+        </div>
+        <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1.5">
+          {segments.map(seg => (
+            <div key={seg.key} className="flex items-center gap-1 text-[10px] text-muted-foreground">
+              <span className={`w-2 h-2 rounded-full ${seg.color} shrink-0`} />
+              <span>{seg.label}: {seg.raw}</span>
+            </div>
+          ))}
+        </div>
+        {roa.total && (
+          <p className="text-[10px] text-muted-foreground mt-1">
+            Total: <span className="font-medium text-foreground">{roa.total}</span>
+          </p>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="mt-2 bg-background border border-border rounded-xl p-4 shadow-lg animate-fade-in max-w-md">
@@ -145,27 +206,18 @@ function DurationPanel({ substance, onClose }: { substance: DirectorySubstance; 
       )}
 
       {data && data.durations.length > 0 && (
-        <div className="space-y-3">
-          {data.durations.map((roa) => (
-            <div key={roa.route}>
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
-                {roa.route}
-              </p>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                {phases.map(({ key, label }) => {
-                  const value = roa[key];
-                  if (!value) return null;
-                  return (
-                    <div key={key} className="flex items-center justify-between text-xs">
-                      <span className="text-muted-foreground">{label}</span>
-                      <span className="font-medium text-foreground">{value}</span>
-                    </div>
-                  );
-                })}
+        <TooltipProvider delayDuration={150}>
+          <div className="space-y-3">
+            {data.durations.map((roa) => (
+              <div key={roa.route}>
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
+                  {roa.route}
+                </p>
+                <DurationBar roa={roa} />
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </TooltipProvider>
       )}
 
       {data && data.durations.length === 0 && (
