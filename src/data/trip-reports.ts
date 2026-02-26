@@ -372,6 +372,336 @@ export const tripReports: TripReport[] = [
     erowidUrl: 'https://erowid.org/experiences/exp.php?ID=108765',
     erowidExpId: 108765,
   },
+
+  // ── Ketamine (additional) ──
+  {
+    id: 'ketamine-therapeutic-reflection',
+    title: 'A Window of Clarity Amid Depression',
+    substance: 'Ketamine',
+    substanceCategory: 'dissociative',
+    intensity: 'moderate',
+    sentiment: 'positive',
+    year: 2022,
+    gender: 'Female',
+    ageRange: '26-35',
+    setting: 'Home with a sober partner present',
+    summary: 'The author, who describes a long history of treatment-resistant depression, reports a sub-dissociative ketamine experience that produced a notable shift in perspective. They describe a sense of emotional distance from habitual negative thought patterns, mild visual distortions, and a feeling of calm detachment. In the days following, the author reports improved mood and renewed motivation. They emphasize this was not a substitute for professional mental health treatment.',
+    keyTakeaways: [
+      'Ketamine\'s antidepressant-like effects are an active area of clinical research',
+      'Sub-dissociative experiences differ significantly from full dissociation',
+      'Subjective improvements do not replace professional mental health care',
+      'Having a sober companion present is consistently recommended'
+    ],
+    warningSignsObserved: [],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=116234',
+    erowidExpId: 116234,
+  },
+  {
+    id: 'ketamine-bladder-warning',
+    title: 'Chronic Use and Urinary Consequences',
+    substance: 'Ketamine',
+    substanceCategory: 'dissociative',
+    intensity: 'moderate',
+    sentiment: 'negative',
+    year: 2020,
+    gender: 'Male',
+    ageRange: '26-35',
+    setting: 'Regular use over months',
+    summary: 'The author describes months of escalating ketamine use that led to severe urinary tract symptoms including frequent urination, bladder pain, and blood in urine. A medical evaluation revealed ketamine-associated bladder damage (interstitial cystitis). The author reports that cessation and medical treatment led to partial recovery but persistent symptoms. They write as a cautionary account about a lesser-known but well-documented physical risk of chronic ketamine use.',
+    keyTakeaways: [
+      'Ketamine-induced bladder damage (cystitis) is a documented medical condition',
+      'Chronic use significantly increases the risk of urinary tract injury',
+      'Symptoms may persist even after cessation',
+      'This physical risk is often under-recognized compared to psychological effects'
+    ],
+    warningSignsObserved: ['Frequent urination', 'Bladder pain', 'Blood in urine', 'Tolerance escalation'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=113456',
+    erowidExpId: 113456,
+  },
+
+  // ── DXM ──
+  {
+    id: 'dxm-plateau-escalation',
+    title: 'Exploring the Plateaus — Too Far Too Fast',
+    substance: 'DXM',
+    substanceCategory: 'dissociative',
+    intensity: 'strong',
+    sentiment: 'negative',
+    year: 2019,
+    gender: 'Male',
+    ageRange: '18-25',
+    setting: 'Alone in bedroom at parents\' home',
+    summary: 'The author describes experimenting with escalating amounts of DXM (dextromethorphan) from OTC cough medicine over several occasions. On this occasion they reached what they describe as a "third plateau" experience involving profound dissociation, inability to walk, slurred speech, and intense nausea. They were unable to hide their state from family, resulting in an emergency room visit. The author reflects on the risks of self-experimentation and the unpredictable response curve of DXM.',
+    keyTakeaways: [
+      'DXM has a steep and unpredictable dose-response curve across "plateaus"',
+      'OTC availability does not indicate safety at higher amounts',
+      'Additional ingredients in cough medicines (acetaminophen, guaifenesin) pose serious toxicity risks',
+      'Loss of motor control and inability to seek help are significant safety hazards'
+    ],
+    warningSignsObserved: ['Inability to walk', 'Severe nausea', 'Slurred speech', 'Required emergency medical care'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=105432',
+    erowidExpId: 105432,
+  },
+  {
+    id: 'dxm-serotonin-syndrome-risk',
+    title: 'A Dangerous Interaction with Antidepressants',
+    substance: 'DXM',
+    substanceCategory: 'dissociative',
+    intensity: 'extreme',
+    sentiment: 'negative',
+    year: 2021,
+    gender: 'Female',
+    ageRange: '18-25',
+    setting: 'Home, while on prescribed SSRIs',
+    summary: 'The author describes using DXM while taking a prescribed SSRI antidepressant, unaware of the interaction risk. They report rapid onset of agitation, muscle rigidity, profuse sweating, elevated heart rate, and confusion — symptoms consistent with serotonin syndrome. A roommate called emergency services. The author was hospitalized and recovered after treatment. They emphasize the critical importance of researching drug interactions, especially with prescription medications.',
+    keyTakeaways: [
+      'DXM combined with SSRIs/SNRIs can trigger life-threatening serotonin syndrome',
+      'Serotonin syndrome symptoms include muscle rigidity, hyperthermia, and agitation',
+      'OTC medications can have severe interactions with prescription drugs',
+      'Always research interactions with any current medications before using any substance'
+    ],
+    warningSignsObserved: ['Muscle rigidity', 'Profuse sweating', 'Tachycardia', 'Confusion', 'Hospitalization required'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=110987',
+    erowidExpId: 110987,
+  },
+
+  // ── Salvia divinorum ──
+  {
+    id: 'salvia-intense-breakthrough',
+    title: 'Reality Shattered in 30 Seconds',
+    substance: 'Salvia divinorum',
+    substanceCategory: 'dissociative',
+    intensity: 'extreme',
+    sentiment: 'negative',
+    year: 2017,
+    gender: 'Male',
+    ageRange: '18-25',
+    setting: 'Friend\'s living room, partially supervised',
+    summary: 'The author describes an extremely rapid onset of overwhelming effects within seconds of smoking salvia extract. They report a complete break from consensus reality, the sensation of being "pulled" into another dimension, loss of awareness of their own identity, and intense fear. They physically moved around the room unaware of their surroundings, nearly injuring themselves. The experience lasted approximately 5 minutes but felt like an eternity. The author describes lingering unease for days afterward.',
+    keyTakeaways: [
+      'Salvia effects can be overwhelmingly intense with near-instant onset',
+      'Complete loss of awareness of surroundings creates serious injury risk',
+      'Physical restraint or a dedicated sitter is considered essential by experienced users',
+      'The experience is frequently described as dysphoric rather than euphoric'
+    ],
+    warningSignsObserved: ['Complete reality dissociation', 'Uncontrolled movement', 'Near-injury', 'Lingering psychological distress'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=91234',
+    erowidExpId: 91234,
+  },
+  {
+    id: 'salvia-mild-contemplative',
+    title: 'A Gentle Introduction with Leaf',
+    substance: 'Salvia divinorum',
+    substanceCategory: 'dissociative',
+    intensity: 'mild',
+    sentiment: 'positive',
+    year: 2020,
+    gender: 'Non-binary',
+    ageRange: '26-35',
+    setting: 'Quiet room with dim lighting and a sitter',
+    summary: 'The author describes a mild experience using unextracted salvia leaf rather than concentrated extract. They report subtle shifts in spatial perception, a contemplative mood, mild visual wavering, and a sense of gravity shifting. The experience lasted approximately 10 minutes with a gentle return to baseline. The author contrasts this with accounts of extract use and emphasizes that concentration level dramatically affects intensity. They found the experience interesting but not overwhelming.',
+    keyTakeaways: [
+      'Concentration/extract strength dramatically affects salvia intensity',
+      'Plain leaf produces far milder effects than concentrated extracts',
+      'Having a sitter present is recommended regardless of expected intensity',
+      'Short duration (5-15 minutes) is characteristic of salvia experiences'
+    ],
+    warningSignsObserved: [],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=98765',
+    erowidExpId: 98765,
+  },
+
+  // ── Nitrous Oxide ──
+  {
+    id: 'nitrous-b12-depletion',
+    title: 'Tingling Hands: A Warning Ignored Too Long',
+    substance: 'Nitrous Oxide',
+    substanceCategory: 'dissociative',
+    intensity: 'moderate',
+    sentiment: 'negative',
+    year: 2021,
+    gender: 'Male',
+    ageRange: '18-25',
+    setting: 'Regular use at home over weeks',
+    summary: 'The author describes weeks of frequent nitrous oxide use that progressed from occasional to daily. They began experiencing persistent tingling and numbness in their hands and feet, which they initially dismissed. After difficulty walking and dropping objects, a medical evaluation revealed vitamin B12 depletion and early peripheral neuropathy. The author reports that symptoms partially resolved after cessation and B12 supplementation but some numbness persisted months later.',
+    keyTakeaways: [
+      'Nitrous oxide inactivates vitamin B12, which is essential for nerve function',
+      'Peripheral neuropathy from chronic use can be irreversible if not caught early',
+      'Tingling or numbness in extremities is a critical warning sign to stop immediately',
+      'Even intermittent heavy use sessions carry cumulative neurological risk'
+    ],
+    warningSignsObserved: ['Persistent tingling/numbness', 'Difficulty with fine motor tasks', 'Gait problems', 'B12 depletion'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=114567',
+    erowidExpId: 114567,
+  },
+
+  // ── GHB ──
+  {
+    id: 'ghb-narrow-margin',
+    title: 'The Razor-Thin Line Between Effects and Unconsciousness',
+    substance: 'GHB',
+    substanceCategory: 'depressant',
+    intensity: 'extreme',
+    sentiment: 'negative',
+    year: 2018,
+    gender: 'Female',
+    ageRange: '26-35',
+    setting: 'Social event',
+    summary: 'The author describes a social event where they used GHB. After an initial period of euphoria and sociability, they rapidly lost consciousness without warning. Friends found them unresponsive and called emergency services. The author was monitored for respiratory depression. They emphasize the extremely narrow margin between desired effects and dangerous unconsciousness that characterizes GHB, and the impossibility of precisely controlling this without laboratory measurement.',
+    keyTakeaways: [
+      'GHB has one of the narrowest margins between active and dangerous amounts among recreational substances',
+      'Loss of consciousness can occur rapidly and without warning signs',
+      'Respiratory depression during GHB-induced unconsciousness is life-threatening',
+      'Combining GHB with any other depressant dramatically increases risk of death'
+    ],
+    warningSignsObserved: ['Sudden unconsciousness', 'Required emergency services', 'Respiratory depression risk'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=104321',
+    erowidExpId: 104321,
+  },
+
+  // ── DMT ──
+  {
+    id: 'dmt-breakthrough-awe',
+    title: 'Five Minutes That Felt Like a Lifetime',
+    substance: 'DMT',
+    substanceCategory: 'psychedelic',
+    intensity: 'extreme',
+    sentiment: 'mixed',
+    year: 2020,
+    gender: 'Male',
+    ageRange: '26-35',
+    setting: 'Home with an experienced sitter',
+    summary: 'The author describes a "breakthrough" DMT experience with near-instant onset. They report complete visual replacement of their environment with vivid geometric patterns and a perceived encounter with autonomous entities. The experience involved profound awe, moments of terror, and a sense of receiving meaningful information they struggled to articulate afterward. Total duration was approximately 10 minutes. The author describes weeks of integration and reflection following the experience.',
+    keyTakeaways: [
+      'DMT produces near-instant, extremely intense effects lasting 5-15 minutes when smoked',
+      'Entity contact experiences are commonly reported and not well understood',
+      'The intensity can be overwhelming regardless of psychological preparation',
+      'Integration — processing the experience afterward — is widely considered important'
+    ],
+    warningSignsObserved: ['Overwhelming intensity', 'Temporary inability to distinguish experience from reality'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=112345',
+    erowidExpId: 112345,
+  },
+
+  // ── Methamphetamine ──
+  {
+    id: 'meth-spiral-account',
+    title: 'Three Days Awake: A Descent',
+    substance: 'Methamphetamine',
+    substanceCategory: 'stimulant',
+    intensity: 'extreme',
+    sentiment: 'negative',
+    year: 2019,
+    gender: 'Male',
+    ageRange: '26-35',
+    setting: 'Various locations over multiple days',
+    summary: 'The author describes a multi-day methamphetamine binge involving sustained wakefulness exceeding 72 hours. They report initial euphoria giving way to paranoia, visual and auditory hallucinations, compulsive repetitive behaviors, and profound physical deterioration including dehydration and weight loss. The author describes being unable to stop despite recognizing the harm. They eventually collapsed from exhaustion and sought medical help. This report serves as documentation of the severe risks of stimulant binges.',
+    keyTakeaways: [
+      'Sleep deprivation beyond 48 hours produces psychotic-like symptoms regardless of substance',
+      'Stimulant-induced psychosis (paranoia, hallucinations) is a well-documented phenomenon',
+      'Compulsive redosing during binges is characteristic of methamphetamine use',
+      'Physical deterioration (dehydration, malnutrition) compounds psychological effects'
+    ],
+    warningSignsObserved: ['72+ hours without sleep', 'Hallucinations', 'Paranoia', 'Compulsive behavior', 'Physical collapse'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=108234',
+    erowidExpId: 108234,
+  },
+
+  // ── 2C-B ──
+  {
+    id: '2cb-sensory-enhancement',
+    title: 'Colors and Connection at a Gathering',
+    substance: '2C-B',
+    substanceCategory: 'psychedelic',
+    intensity: 'moderate',
+    sentiment: 'positive',
+    year: 2021,
+    gender: 'Female',
+    ageRange: '26-35',
+    setting: 'Small gathering at a friend\'s home',
+    summary: 'The author describes a 2C-B experience characterized by enhanced color perception, heightened tactile sensitivity, mild visual patterning, and increased sociability. They report a manageable experience lasting approximately 4-5 hours with a gentle comedown. The author notes that nausea during the onset was uncomfortable but brief. They describe it as distinct from both MDMA and classic psychedelics, with elements of both. The author credits the small, trusted group setting for the positive outcome.',
+    keyTakeaways: [
+      '2C-B produces a blend of empathogenic and psychedelic effects',
+      'Onset nausea is commonly reported and usually temporary',
+      'Duration of 4-6 hours is shorter than many classic psychedelics',
+      'The substance belongs to the phenethylamine class with variable effects at different amounts'
+    ],
+    warningSignsObserved: ['Onset nausea'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=115678',
+    erowidExpId: 115678,
+  },
+
+  // ── Kratom ──
+  {
+    id: 'kratom-dependency-account',
+    title: 'The "Natural" Trap: Kratom Dependency',
+    substance: 'Kratom',
+    substanceCategory: 'opioid',
+    intensity: 'moderate',
+    sentiment: 'negative',
+    year: 2022,
+    gender: 'Male',
+    ageRange: '26-35',
+    setting: 'Daily use at home and work',
+    summary: 'The author describes beginning kratom use as a perceived safer alternative to other opioids. Over months, use escalated from occasional to multiple times daily. They report developing significant physical dependency with withdrawal symptoms including muscle aches, restless legs, insomnia, irritability, and intense cravings. The author notes that the "natural" and legal status led them to underestimate dependency potential. Cessation required a gradual taper over several weeks.',
+    keyTakeaways: [
+      'Kratom activates opioid receptors and can produce opioid-type physical dependency',
+      '"Natural" or legal status does not indicate absence of dependency risk',
+      'Withdrawal symptoms closely mirror those of traditional opioids',
+      'Gradual tapering is recommended over abrupt cessation for established dependency'
+    ],
+    warningSignsObserved: ['Escalating use frequency', 'Withdrawal symptoms upon cessation', 'Cravings', 'Daily use across settings'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=116789',
+    erowidExpId: 116789,
+  },
+
+  // ── Ayahuasca / DMT (oral) ──
+  {
+    id: 'ayahuasca-ceremony-account',
+    title: 'Ceremony, Purging, and Confrontation',
+    substance: 'Ayahuasca',
+    substanceCategory: 'psychedelic',
+    intensity: 'strong',
+    sentiment: 'mixed',
+    year: 2020,
+    gender: 'Female',
+    ageRange: '36-45',
+    setting: 'Organized ceremonial setting with facilitators',
+    summary: 'The author describes participating in an ayahuasca ceremony with experienced facilitators. They report intense nausea and vomiting ("purging") during onset, followed by vivid closed-eye visions and emotionally confrontational psychological content. The experience lasted approximately 4 hours. The author describes being forced to confront painful memories and behavioral patterns. While describing the experience as ultimately valuable, they emphasize it was physically and psychologically grueling. Professional integration support afterward was cited as important.',
+    keyTakeaways: [
+      'Nausea and vomiting are expected and common with ayahuasca',
+      'Psychological content can be intensely confrontational rather than pleasant',
+      'Ceremonial settings with experienced facilitators are strongly recommended',
+      'MAOIs in ayahuasca create dangerous interactions with many foods and medications'
+    ],
+    warningSignsObserved: ['Severe nausea/vomiting', 'Intense psychological distress', 'Physical exhaustion'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=113567',
+    erowidExpId: 113567,
+  },
+
+  // ── Mescaline / San Pedro ──
+  {
+    id: 'mescaline-desert-reflection',
+    title: 'An Unhurried Journey Through Inner Landscapes',
+    substance: 'Mescaline (San Pedro)',
+    substanceCategory: 'psychedelic',
+    intensity: 'strong',
+    sentiment: 'positive',
+    year: 2019,
+    gender: 'Male',
+    ageRange: '36-45',
+    setting: 'Outdoor desert setting with two companions',
+    summary: 'The author describes a long-duration mescaline experience lasting approximately 12 hours. They report a gradual onset with initial nausea, followed by a slowly building sense of clarity, vivid color enhancement, and deep introspective thoughts. The author emphasizes the gentleness of the onset compared to other psychedelics and the very long duration. They describe feeling deeply connected to the landscape and processing personal questions with unusual clarity. The two companions provided mutual support throughout.',
+    keyTakeaways: [
+      'Mescaline experiences typically last 10-14 hours — among the longest of classic psychedelics',
+      'Onset nausea is very common and expected',
+      'The gradual onset curve differs markedly from faster-acting psychedelics',
+      'The extended duration requires significant planning for safety and comfort'
+    ],
+    warningSignsObserved: ['Prolonged nausea during onset'],
+    erowidUrl: 'https://erowid.org/experiences/exp.php?ID=109234',
+    erowidExpId: 109234,
+  },
 ];
 
 export const reportSubstances = [...new Set(tripReports.map(r => r.substance))].sort();
