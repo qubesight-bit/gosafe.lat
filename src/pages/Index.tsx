@@ -95,48 +95,48 @@ const Index = () => {
             <div className="space-y-4">
               {/* Rx / Pharmaceutical */}
               <div>
-                <span className="text-primary-foreground/60 text-[10px] font-semibold uppercase tracking-widest font-body mb-2 block">💊 Rx &amp; Pharmaceutical</span>
+                <span className="text-primary-foreground/60 text-[10px] font-semibold uppercase tracking-widest font-body mb-2 block">{t('index.category_rx')}</span>
                 <div className="flex flex-wrap gap-2.5">
                   <Link
                     to="/interactions"
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-foreground text-primary font-semibold rounded-lg hover:bg-primary-foreground/90 transition-all duration-200 shadow-elevated font-body text-sm"
                   >
                     <Pill className="w-4 h-4" />
-                    Medication Interactions
+                    {t('index.cta_interactions')}
                   </Link>
                   <Link
                     to="/symptom-checker"
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-foreground text-primary font-semibold rounded-lg hover:bg-primary-foreground/90 transition-all duration-200 shadow-elevated font-body text-sm"
                   >
                     <Stethoscope className="w-4 h-4" />
-                    Symptom Checker
+                    {t('index.cta_symptoms')}
                   </Link>
                 </div>
               </div>
               {/* Substances / Semi-legal & Illegal */}
               <div>
-                <span className="text-primary-foreground/60 text-[10px] font-semibold uppercase tracking-widest font-body mb-2 block">🧪 Substances &amp; Harm Reduction</span>
+                <span className="text-primary-foreground/60 text-[10px] font-semibold uppercase tracking-widest font-body mb-2 block">{t('index.category_substances')}</span>
                 <div className="flex flex-wrap gap-2.5">
                   <Link
                     to="/substances"
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-foreground/15 border border-primary-foreground/30 text-primary-foreground font-semibold rounded-lg hover:bg-primary-foreground/25 transition-all duration-200 font-body text-sm"
                   >
                     <BookOpen className="w-4 h-4" />
-                    Substance Education
+                    {t('index.cta_substances')}
                   </Link>
                   <Link
                     to="/combinations"
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-foreground/15 border border-primary-foreground/30 text-primary-foreground font-semibold rounded-lg hover:bg-primary-foreground/25 transition-all duration-200 font-body text-sm"
                   >
                     <Beaker className="w-4 h-4" />
-                    Combination Checker
+                    {t('index.cta_combinations')}
                   </Link>
                   <Link
                     to="/matrix"
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-foreground/15 border border-primary-foreground/30 text-primary-foreground font-semibold rounded-lg hover:bg-primary-foreground/25 transition-all duration-200 font-body text-sm"
                   >
                     <FlaskConical className="w-4 h-4" />
-                    Interaction Matrix
+                    {t('index.cta_matrix')}
                   </Link>
                 </div>
               </div>
