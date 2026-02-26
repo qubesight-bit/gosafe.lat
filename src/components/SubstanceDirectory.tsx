@@ -1,7 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { substanceDirectory, getPsychonautWikiUrl, totalDirectorySubstances, type DirectorySubstance } from '@/data/substance-directory';
 import { ExternalLink, ChevronDown, ChevronRight, Search, BookOpen, Clock, Loader2, Timer, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+
+// Simple in-memory cache for duration data
+const durationCache = new Map<string, { data: SubstanceDurationResult | null; error: string | null }>();
 
 interface DurationData {
   route: string;
@@ -22,8 +25,20 @@ function DurationPanel({ substance, onClose }: { substance: DirectorySubstance; 
   const [data, setData] = useState<SubstanceDurationResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const fetchedRef = useRef(false);
 
-  useState(() => {
+  useEffect(() => {
+    if (fetchedRef.current) return;
+    fetchedRef.current = true;
+
+    const cached = durationCache.get(substance.name);
+    if (cached) {
+      setData(cached.data);
+      setError(cached.error);
+      setLoading(false);
+      return;
+    }
+
     (async () => {
       try {
         const { data: result, error: fnError } = await supabase.functions.invoke('psychonautwiki-duration', {
@@ -32,17 +47,22 @@ function DurationPanel({ substance, onClose }: { substance: DirectorySubstance; 
         if (fnError) throw fnError;
         if (result?.success && result.data) {
           setData(result.data);
+          durationCache.set(substance.name, { data: result.data, error: null });
         } else {
-          setError('No duration data available for this substance.');
+          const msg = 'No duration data available for this substance.';
+          setError(msg);
+          durationCache.set(substance.name, { data: null, error: msg });
         }
       } catch (e) {
         console.error('Duration fetch error:', e);
-        setError('Could not load duration data.');
+        const msg = 'Could not load duration data.';
+        setError(msg);
+        durationCache.set(substance.name, { data: null, error: msg });
       } finally {
         setLoading(false);
       }
     })();
-  });
+  }, [substance.name]);
 
   const phases = [
     { key: 'onset', label: 'Onset' },
