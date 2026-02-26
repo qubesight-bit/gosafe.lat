@@ -3,6 +3,7 @@ import { substanceDirectory, getPsychonautWikiUrl, totalDirectorySubstances, typ
 import { ExternalLink, ChevronDown, ChevronRight, Search, BookOpen, Clock, Loader2, Timer, X, AlertTriangle, ShieldAlert, ShieldCheck, Shield } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { type TripSitCombo } from '@/hooks/use-tripsit-api';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 // Simple in-memory cache for duration data
 const durationCache = new Map<string, { data: SubstanceDurationResult | null; error: string | null }>();
@@ -185,31 +186,40 @@ function DurationPanel({ substance, onClose }: { substance: DirectorySubstance; 
             <ShieldAlert className="w-3.5 h-3.5 text-primary" />
             Known Interactions
           </h5>
-          <div className="flex flex-wrap gap-1.5">
-            {Object.entries(combos)
-              .sort(([, a], [, b]) => {
-                const order: Record<string, number> = { dangerous: 0, unsafe: 1, caution: 2 };
-                const aO = Object.keys(order).find(k => (a.status || '').toLowerCase().includes(k));
-                const bO = Object.keys(order).find(k => (b.status || '').toLowerCase().includes(k));
-                return (order[aO || ''] ?? 9) - (order[bO || ''] ?? 9);
-              })
-              .map(([name, combo]) => {
-                const config = getComboConfig(combo.status || '');
-                const Icon = config.icon;
-                return (
-                  <span
-                    key={name}
-                    title={combo.note || config.label}
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium border ${config.className}`}
-                  >
-                    <Icon className="w-3 h-3" />
-                    {name}
-                  </span>
-                );
-              })}
-          </div>
+          <TooltipProvider delayDuration={200}>
+            <div className="flex flex-wrap gap-1.5">
+              {Object.entries(combos)
+                .sort(([, a], [, b]) => {
+                  const order: Record<string, number> = { dangerous: 0, unsafe: 1, caution: 2 };
+                  const aO = Object.keys(order).find(k => (a.status || '').toLowerCase().includes(k));
+                  const bO = Object.keys(order).find(k => (b.status || '').toLowerCase().includes(k));
+                  return (order[aO || ''] ?? 9) - (order[bO || ''] ?? 9);
+                })
+                .map(([name, combo]) => {
+                  const config = getComboConfig(combo.status || '');
+                  const Icon = config.icon;
+                  const note = combo.note || config.label;
+                  return (
+                    <Tooltip key={name}>
+                      <TooltipTrigger asChild>
+                        <span
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium border cursor-default ${config.className}`}
+                        >
+                          <Icon className="w-3 h-3" />
+                          {name}
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-xs text-xs">
+                        <p className="font-semibold mb-0.5">{config.label}: {name}</p>
+                        <p className="text-popover-foreground/80">{note}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                })}
+            </div>
+          </TooltipProvider>
           <p className="text-[10px] text-muted-foreground mt-1.5">
-            Source: TripSit — community-sourced, not peer-reviewed. Hover for notes.
+            Source: TripSit — community-sourced, not peer-reviewed. Hover/tap chips for details.
           </p>
         </div>
       )}
