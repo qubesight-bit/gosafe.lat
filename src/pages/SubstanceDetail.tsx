@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Layout } from '@/components/Layout';
+import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
 import { SourceSection } from '@/components/SourceCard';
 import { substances, categoryColors, dependencyColors } from '@/data/substances';
@@ -63,6 +64,11 @@ export default function SubstanceDetail() {
 
   return (
     <Layout>
+      <SEO
+        title={substance.name}
+        description={`Educational information on ${substance.name} — classification, risk profile, dependency potential, and cited sources.`}
+        path={`/substances/${substance.id}`}
+      />
       {/* Header */}
       <section className="section-hero text-primary-foreground py-10 md:py-14">
         <div className="max-w-4xl mx-auto px-4">

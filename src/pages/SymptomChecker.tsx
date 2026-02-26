@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { Layout } from '@/components/Layout';
+import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
 import { useIsabelApi, type AgeGroup, type Region, type Diagnosis, type DiagnosisResult, type KnowledgeGroup } from '@/hooks/use-isabel-api';
 import { Button } from '@/components/ui/button';
@@ -194,6 +195,11 @@ const SymptomChecker = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Symptom Checker"
+        description="Enter symptoms for educational differential diagnosis, triage scoring, and links to trusted medical knowledge. Powered by Isabel Healthcare."
+        path="/symptom-checker"
+      />
       <section className="max-w-4xl mx-auto px-4 py-10">
         {/* Header */}
         <div className="text-center mb-8">

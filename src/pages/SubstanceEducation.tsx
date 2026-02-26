@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
+import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
 import { substances, categoryColors, dependencyColors } from '@/data/substances';
 import { BookOpen, Search, ChevronRight } from 'lucide-react';
@@ -40,6 +41,11 @@ export default function SubstanceEducation() {
 
   return (
     <Layout>
+      <SEO
+        title="Substance Education Library"
+        description="Source-cited public health education on psychoactive substances — classifications, risk profiles, and harm prevention awareness."
+        path="/substances"
+      />
       {/* Header */}
       <section className="section-hero text-primary-foreground py-12 md:py-16">
         <div className="max-w-5xl mx-auto px-4">
