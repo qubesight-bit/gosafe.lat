@@ -59,6 +59,7 @@ export const en: Record<string, string> = {
   'index.category_rx': '💊 Rx & Pharmaceutical',
   'index.category_substances': '🧪 Substances & Harm Reduction',
   'index.disclaimer_banner': 'Educational purposes only. This platform does not provide medical advice, diagnosis, prescriptions, or treatment guidance. Always consult a licensed healthcare professional for medical decisions.',
+  'index.disclaimer_medical': 'Never disregard professional medical advice or delay seeking it because of something you have read on this platform.',
   'index.tools_title': 'Public Health Tools',
   'index.tools_subtitle': 'Educational resources grounded in cited, institutional health data.',
   'index.feature_interactions_title': 'Medication Interaction Awareness',

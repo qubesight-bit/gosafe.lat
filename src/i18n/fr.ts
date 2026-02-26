@@ -50,6 +50,7 @@ export const fr: Record<string, string> = {
   'index.category_rx': '💊 Rx & Pharmaceutique',
   'index.category_substances': '🧪 Substances & Réduction des Risques',
   'index.disclaimer_banner': 'À des fins éducatives uniquement. Cette plateforme ne fournit pas de conseils médicaux, de diagnostic, de prescriptions ou d\'orientation thérapeutique.',
+  'index.disclaimer_medical': 'Ne négligez jamais un avis médical professionnel et ne retardez pas sa recherche en raison de quelque chose que vous avez lu sur cette plateforme.',
   'index.tools_title': 'Outils de Santé Publique',
   'index.tools_subtitle': 'Ressources éducatives basées sur des données institutionnelles de santé citées.',
   'index.feature_interactions_title': 'Sensibilisation aux Interactions',
