@@ -361,6 +361,20 @@ export const en: Record<string, string> = {
   'warn.respiratory': 'Respiratory Warning Signs',
   'warn.psychiatric': 'Psychiatric Emergency Signs',
 
+  // Reports
+  'reports.badge': 'Educational Summaries — Anecdotal',
+  'reports.title': 'Experience Reports & Substance Directory',
+  'reports.subtitle': 'Curated educational summaries of first-person experience reports from ',
+  'reports.tab_directory': 'Substance Directory',
+  'reports.tab_reports': 'Experience Reports',
+  'reports.search_placeholder': 'Search reports by title, substance, or keyword…',
+  'reports.showing': 'Showing',
+  'reports.of': 'of',
+  'reports.reports': 'reports',
+  'reports.no_match': 'No reports match your filters.',
+  'reports.source_title': 'Source:',
+  'reports.source_desc': 'These summaries are curated for educational value and focus on safety takeaways and medical risks.',
+
   // Source cards
   'source.title': 'Sources & References',
 };
