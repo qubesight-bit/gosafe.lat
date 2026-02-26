@@ -30,6 +30,7 @@ function ReportCard({ report }: { report: TripReport }) {
   const sentiment = sentimentConfig[report.sentiment];
   const SentimentIcon = sentiment.icon;
   const isFentanylRelated = report.substance.toLowerCase().includes('fentanyl');
+  const isMisidentifiedSubstance = /nbome|sold as|wasn't|contamina/i.test(report.title + report.substance + report.summary);
 
   return (
     <article className="bg-card rounded-2xl border border-border/60 overflow-hidden hover:shadow-md transition-shadow duration-300">
@@ -134,6 +135,43 @@ function ReportCard({ report }: { report: TripReport }) {
                     >
                       <ExternalLink className="w-3 h-3" />
                       Get Fentanyl Test Strips
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Reagent testing resource banner for misidentified substance reports */}
+          {isMisidentifiedSubstance && !isFentanylRelated && (
+            <div className="bg-accent/10 border-2 border-accent/30 rounded-xl p-4">
+              <div className="flex items-start gap-3">
+                <Shield className="w-5 h-5 text-accent-foreground mt-0.5 shrink-0" />
+                <div className="space-y-2">
+                  <h4 className="text-sm font-bold text-foreground">
+                    Test Before You Ingest
+                  </h4>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Reagent test kits (Marquis, Mecke, Ehrlich) can help identify unknown substances and detect dangerous substitutions like NBOMe sold as LSD. Ehrlich reagent reacts with LSD/indoles but not NBOMe compounds. Testing takes minutes and can be life-saving.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <a
+                      href="https://dancesafe.org/testing-kit-instructions/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      Get Reagent Test Kits — DanceSafe.org
+                    </a>
+                    <a
+                      href="https://dancesafe.org/drug-checking/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-primary/30 text-primary hover:bg-primary/10 transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      Drug Checking Services
                     </a>
                   </div>
                 </div>
