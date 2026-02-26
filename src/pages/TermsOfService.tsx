@@ -79,7 +79,7 @@ const TermsOfService = () => {
 
           <section>
             <h2 className="font-display text-xl font-semibold text-foreground">11. Contact</h2>
-            <p>For questions about these terms, visit <a href="https://qubesight.lat" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">qubesight.lat</a>.</p>
+            <p>For questions about these terms, mail us to: <a href="mailto:legal@gosafe.lat" className="text-primary hover:underline">legal@gosafe.lat</a>.</p>
           </section>
         </div>
       </div>

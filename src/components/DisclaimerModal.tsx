@@ -26,6 +26,7 @@ const sources = [
 export function DisclaimerModal() {
   const [open, setOpen] = useState(false);
   const [accepted, setAccepted] = useState(false);
+  const [tosAccepted, setTosAccepted] = useState(false);
 
   useEffect(() => {
     const alreadyAccepted = sessionStorage.getItem(DISCLAIMER_KEY);
@@ -92,7 +93,7 @@ export function DisclaimerModal() {
           </div>
 
           {/* Acceptance */}
-          <div className="rounded-xl border-2 border-primary/20 bg-primary/[0.03] p-4 transition-colors has-[:checked]:border-primary/50 has-[:checked]:bg-primary/[0.06]">
+          <div className="rounded-xl border-2 border-primary/20 bg-primary/[0.03] p-4 transition-colors has-[:checked]:border-primary/50 has-[:checked]:bg-primary/[0.06] space-y-3">
             <div className="flex items-start gap-3">
               <Checkbox
                 id="disclaimer-accept"
@@ -107,6 +108,23 @@ export function DisclaimerModal() {
                 I understand this platform is for <strong className="text-foreground">educational and informational purposes only</strong> and is not a replacement for professional medical advice, diagnosis, or treatment.
               </label>
             </div>
+            <div className="flex items-start gap-3">
+              <Checkbox
+                id="tos-accept"
+                checked={tosAccepted}
+                onCheckedChange={(checked) => setTosAccepted(checked === true)}
+                className="mt-0.5"
+              />
+              <label
+                htmlFor="tos-accept"
+                className="text-[13px] font-body text-foreground/90 leading-relaxed cursor-pointer select-none"
+              >
+                I have read and agree to the{' '}
+                <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-semibold">
+                  Terms of Service
+                </a>.
+              </label>
+            </div>
           </div>
         </div>
 
@@ -114,7 +132,7 @@ export function DisclaimerModal() {
         <DialogFooter className="px-5 pb-5 pt-0 sm:justify-center">
           <Button
             onClick={handleContinue}
-            disabled={!accepted}
+            disabled={!accepted || !tosAccepted}
             size="lg"
             className="w-full gap-2 rounded-xl font-semibold text-sm shadow-lg disabled:opacity-40"
           >
