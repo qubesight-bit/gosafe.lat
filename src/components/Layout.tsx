@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { GlobalHealthBanner } from './GlobalHealthBanner';
 import { Navigation } from './Navigation';
 import { DonateButton } from './DonateButton';
@@ -52,7 +53,7 @@ export function Layout({ children }: LayoutProps) {
             <p className="text-center text-xs text-muted-foreground font-body leading-relaxed max-w-2xl mx-auto">
               Made and built by <a href="https://qubesight.lat" target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground hover:text-primary transition-colors underline underline-offset-2">QubeSight</a> for the people — GoSafe.lat is open-source and free to use for pharmacological education and harm reduction, helping prevent overdoses and dangerous pharmaceutical interactions.
             </p>
-            <div className="flex flex-wrap gap-4 items-center justify-between text-xs text-muted-foreground">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 items-center justify-between text-xs text-muted-foreground">
               <div className="flex items-center gap-3">
                 <p>{t('footer.copyright')}</p>
                 <a
@@ -64,8 +65,15 @@ export function Layout({ children }: LayoutProps) {
                   MIT License
                 </a>
               </div>
-              <p>{t('footer.not_medical')}</p>
+              <div className="flex flex-wrap items-center gap-3 text-xs">
+                <Link to="/privacy" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
+                <span className="text-border">·</span>
+                <Link to="/terms" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
+                <span className="text-border">·</span>
+                <Link to="/legal" className="text-muted-foreground hover:text-primary transition-colors">Legal Disclaimer</Link>
+              </div>
             </div>
+            <p className="text-xs text-muted-foreground">{t('footer.not_medical')}</p>
           </div>
         </div>
       </footer>
