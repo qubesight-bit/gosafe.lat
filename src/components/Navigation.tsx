@@ -49,6 +49,7 @@ export function Navigation() {
     { to: '/substances', label: t('nav.substances'), icon: BookOpen, description: 'Full substance education library' },
     { to: '/combinations', label: t('nav.combos'), icon: Combine, description: 'Check substance pair safety' },
     { to: '/matrix', label: t('nav.matrix'), icon: Grid3X3, description: '18×18 polydrug interaction grid' },
+    { to: '/symptom-checker', label: t('nav.symptoms'), icon: Stethoscope, description: 'Identify adverse reactions' },
     { to: '/reports', label: t('nav.reports'), icon: FileText, description: 'Community experience reports' },
   ];
 
