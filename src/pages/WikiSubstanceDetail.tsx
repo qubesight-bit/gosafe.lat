@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { MATRIX_SUBSTANCES } from '@/data/combo-matrix';
 import {
   ArrowLeft, Brain, ExternalLink, Loader2, Timer, Shield, ShieldAlert, ShieldCheck,
-  AlertTriangle, BookOpen, Beaker, Pill, Clock, X, Grid3X3, GitCompareArrows, ChevronRight,
+  AlertTriangle, AlertCircle, BookOpen, Beaker, Pill, Clock, X, Grid3X3, GitCompareArrows, ChevronRight, Phone,
 } from 'lucide-react';
 import {
   substanceDirectory,
@@ -543,6 +543,24 @@ export default function WikiSubstanceDetail() {
         </div>
 
         <Disclaimer />
+      </div>
+
+      {/* Floating emergency button */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
+        <a
+          href="tel:911"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-destructive text-destructive-foreground shadow-lg hover:brightness-110 transition-all font-body text-sm font-semibold"
+        >
+          <Phone className="w-4 h-4" />
+          Call 911
+        </a>
+        <Link
+          to="/emergency"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-card border border-destructive/40 text-destructive shadow-lg hover:bg-destructive/10 transition-all font-body text-sm font-semibold"
+        >
+          <AlertCircle className="w-4 h-4" />
+          Emergency Resources
+        </Link>
       </div>
     </Layout>
   );
