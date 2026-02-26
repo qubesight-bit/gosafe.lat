@@ -29,6 +29,7 @@ function ReportCard({ report }: { report: TripReport }) {
   const intensity = intensityConfig[report.intensity];
   const sentiment = sentimentConfig[report.sentiment];
   const SentimentIcon = sentiment.icon;
+  const isFentanylRelated = report.substance.toLowerCase().includes('fentanyl');
 
   return (
     <article className="bg-card rounded-2xl border border-border/60 overflow-hidden hover:shadow-md transition-shadow duration-300">
@@ -99,6 +100,43 @@ function ReportCard({ report }: { report: TripReport }) {
                     {w}
                   </span>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* Naloxone resource banner for fentanyl-related reports */}
+          {isFentanylRelated && (
+            <div className="bg-primary/5 border-2 border-primary/30 rounded-xl p-4">
+              <div className="flex items-start gap-3">
+                <Heart className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                <div className="space-y-2">
+                  <h4 className="text-sm font-bold text-foreground">
+                    Naloxone (Narcan) Saves Lives
+                  </h4>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Naloxone is a medication that can rapidly reverse an opioid overdose. It's available without a prescription in many areas and should be carried by anyone who may encounter opioid exposure — even unintentionally.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <a
+                      href="https://nextdistro.org/get-naloxone"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      Get Free Naloxone — NextDistro.org
+                    </a>
+                    <a
+                      href="https://nextdistro.org/get-fentanyl-test-strips"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-primary/30 text-primary hover:bg-primary/10 transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      Get Fentanyl Test Strips
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           )}
