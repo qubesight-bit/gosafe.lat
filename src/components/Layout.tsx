@@ -1,12 +1,15 @@
 import { ReactNode } from 'react';
 import { GlobalHealthBanner } from './GlobalHealthBanner';
 import { Navigation } from './Navigation';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export function Layout({ children }: LayoutProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen flex flex-col">
       <GlobalHealthBanner />
@@ -20,28 +23,28 @@ export function Layout({ children }: LayoutProps) {
             <div>
               <h4 className="font-display font-semibold text-foreground mb-2">GoSafe.lat</h4>
               <p className="text-muted-foreground text-sm font-body leading-relaxed">
-                Public health education platform focused on medication interaction awareness and harm prevention. Educational only — not a substitute for medical care.
+                {t('footer.desc')}
               </p>
             </div>
             <div>
-              <h4 className="font-semibold text-foreground mb-2 text-sm uppercase tracking-wide">Information</h4>
+              <h4 className="font-semibold text-foreground mb-2 text-sm uppercase tracking-wide">{t('footer.info_title')}</h4>
               <ul className="space-y-1.5 text-sm text-muted-foreground">
-                <li>Content for educational purposes only</li>
-                <li>Sources cited on all pages</li>
-                <li>Aligned with WHO & IAFA guidelines</li>
+                <li>{t('footer.info_1')}</li>
+                <li>{t('footer.info_2')}</li>
+                <li>{t('footer.info_3')}</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-foreground mb-2 text-sm uppercase tracking-wide">Emergency</h4>
+              <h4 className="font-semibold text-foreground mb-2 text-sm uppercase tracking-wide">{t('footer.emergency_title')}</h4>
               <p className="text-muted-foreground text-sm">
-                If you or someone you know needs immediate help, call your local emergency services immediately.
+                {t('footer.emergency_text')}
               </p>
-              <p className="text-primary font-semibold mt-1 text-sm">Costa Rica: 911</p>
+              <p className="text-primary font-semibold mt-1 text-sm">{t('footer.cr_emergency')}</p>
             </div>
           </div>
           <div className="border-t border-border pt-4 flex flex-wrap gap-4 items-center justify-between text-xs text-muted-foreground">
             <div className="flex items-center gap-3">
-              <p>© 2024 GoSafe.lat — Public Health Education Platform</p>
+              <p>{t('footer.copyright')}</p>
               <a
                 href="https://opensource.org/licenses/MIT"
                 target="_blank"
@@ -51,7 +54,7 @@ export function Layout({ children }: LayoutProps) {
                 MIT License
               </a>
             </div>
-            <p>Not medical advice · For educational purposes only · Consult a healthcare professional</p>
+            <p>{t('footer.not_medical')}</p>
           </div>
         </div>
       </footer>

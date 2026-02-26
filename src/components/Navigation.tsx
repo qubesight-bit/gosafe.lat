@@ -1,21 +1,23 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { Menu, X, Pill, BookOpen, AlertCircle, Home, Shield, Stethoscope, Combine, Grid3X3, HelpCircle } from 'lucide-react';
-
-const navItems = [
-  { to: '/', label: 'Home', icon: Home },
-  { to: '/interactions', label: 'Interactions', icon: Pill },
-  { to: '/combinations', label: 'Combos', icon: Combine },
-  { to: '/matrix', label: 'Matrix', icon: Grid3X3 },
-  { to: '/substances', label: 'Substances', icon: BookOpen },
-  { to: '/faq', label: 'FAQ', icon: HelpCircle },
-  { to: '/symptom-checker', label: 'Symptoms', icon: Stethoscope },
-  { to: '/emergency', label: 'Emergency', icon: AlertCircle },
-];
+import { Menu, X, Pill, BookOpen, AlertCircle, Home, Shield, Stethoscope, Combine, Grid3X3, HelpCircle, Languages } from 'lucide-react';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 export function Navigation() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { lang, setLang, t } = useLanguage();
+
+  const navItems = [
+    { to: '/', label: t('nav.home'), icon: Home },
+    { to: '/interactions', label: t('nav.interactions'), icon: Pill },
+    { to: '/combinations', label: t('nav.combos'), icon: Combine },
+    { to: '/matrix', label: t('nav.matrix'), icon: Grid3X3 },
+    { to: '/substances', label: t('nav.substances'), icon: BookOpen },
+    { to: '/faq', label: t('nav.faq'), icon: HelpCircle },
+    { to: '/symptom-checker', label: t('nav.symptoms'), icon: Stethoscope },
+    { to: '/emergency', label: t('nav.emergency'), icon: AlertCircle },
+  ];
 
   return (
     <nav className="bg-card border-b border-border sticky top-0 z-40 shadow-sm">
@@ -55,16 +57,35 @@ export function Navigation() {
                 </Link>
               );
             })}
+
+            {/* Language toggle */}
+            <button
+              onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium font-body text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200 ml-1 border border-border"
+              aria-label="Toggle language"
+            >
+              <Languages className="w-4 h-4" />
+              {lang === 'en' ? 'ES' : 'EN'}
+            </button>
           </div>
 
           {/* Mobile toggle */}
-          <button
-            className="md:hidden p-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle navigation"
-          >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
+              className="p-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors border border-border text-xs font-bold font-body"
+              aria-label="Toggle language"
+            >
+              {lang === 'en' ? 'ES' : 'EN'}
+            </button>
+            <button
+              className="p-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle navigation"
+            >
+              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile nav */}
