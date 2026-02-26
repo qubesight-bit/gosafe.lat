@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { SEO } from '@/components/SEO';
-import { Pill, BookOpen, AlertCircle, Shield, CheckCircle, Globe, FlaskConical, MapPin, ExternalLink, Stethoscope } from 'lucide-react';
+import { Pill, BookOpen, AlertCircle, Shield, CheckCircle, Globe, FlaskConical, MapPin, ExternalLink, Stethoscope, Beaker } from 'lucide-react';
 import heroImage from '@/assets/hero-health.jpg';
 import gosafeLogo from '@/assets/gosafe-logo.png';
 import { useLanguage } from '@/i18n/LanguageContext';
@@ -92,21 +92,47 @@ const Index = () => {
             <p className="text-primary-foreground/85 text-lg md:text-xl font-body leading-relaxed mb-8 max-w-xl">
               {t('index.subtitle')}
             </p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                to="/interactions"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary-foreground text-primary font-semibold rounded-lg hover:bg-primary-foreground/90 transition-all duration-200 shadow-elevated font-body text-sm"
-              >
-                <Pill className="w-4 h-4" />
-                {t('index.cta_interactions')}
-              </Link>
-              <Link
-                to="/substances"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary-foreground/15 border border-primary-foreground/30 text-primary-foreground font-semibold rounded-lg hover:bg-primary-foreground/25 transition-all duration-200 font-body text-sm"
-              >
-                <BookOpen className="w-4 h-4" />
-                {t('index.cta_substances')}
-              </Link>
+            <div className="space-y-4">
+              {/* Rx / Pharmaceutical */}
+              <div>
+                <span className="text-primary-foreground/60 text-[10px] font-semibold uppercase tracking-widest font-body mb-2 block">💊 Rx &amp; Pharmaceutical</span>
+                <div className="flex flex-wrap gap-2.5">
+                  <Link
+                    to="/interactions"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-foreground text-primary font-semibold rounded-lg hover:bg-primary-foreground/90 transition-all duration-200 shadow-elevated font-body text-sm"
+                  >
+                    <Pill className="w-4 h-4" />
+                    Medication Interactions
+                  </Link>
+                  <Link
+                    to="/symptom-checker"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-foreground text-primary font-semibold rounded-lg hover:bg-primary-foreground/90 transition-all duration-200 shadow-elevated font-body text-sm"
+                  >
+                    <Stethoscope className="w-4 h-4" />
+                    Symptom Checker
+                  </Link>
+                </div>
+              </div>
+              {/* Substances / Semi-legal & Illegal */}
+              <div>
+                <span className="text-primary-foreground/60 text-[10px] font-semibold uppercase tracking-widest font-body mb-2 block">🧪 Substances &amp; Harm Reduction</span>
+                <div className="flex flex-wrap gap-2.5">
+                  <Link
+                    to="/substances"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-foreground/15 border border-primary-foreground/30 text-primary-foreground font-semibold rounded-lg hover:bg-primary-foreground/25 transition-all duration-200 font-body text-sm"
+                  >
+                    <BookOpen className="w-4 h-4" />
+                    Substance Education
+                  </Link>
+                  <Link
+                    to="/combinations"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-foreground/15 border border-primary-foreground/30 text-primary-foreground font-semibold rounded-lg hover:bg-primary-foreground/25 transition-all duration-200 font-body text-sm"
+                  >
+                    <Beaker className="w-4 h-4" />
+                    Combination Checker
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
