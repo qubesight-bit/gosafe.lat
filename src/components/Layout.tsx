@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { GlobalHealthBanner } from './GlobalHealthBanner';
 import { Navigation } from './Navigation';
+import { DonateButton } from './DonateButton';
 import { useLanguage } from '@/i18n/LanguageContext';
 
 interface LayoutProps {
@@ -42,19 +43,24 @@ export function Layout({ children }: LayoutProps) {
               <p className="text-primary font-semibold mt-1 text-sm">{t('footer.cr_emergency')}</p>
             </div>
           </div>
-          <div className="border-t border-border pt-4 flex flex-wrap gap-4 items-center justify-between text-xs text-muted-foreground">
-            <div className="flex items-center gap-3">
-              <p>{t('footer.copyright')}</p>
-              <a
-                href="https://opensource.org/licenses/MIT"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-medium"
-              >
-                MIT License
-              </a>
+          <div className="border-t border-border pt-4 space-y-4">
+            <div className="flex justify-center">
+              <DonateButton />
             </div>
-            <p>{t('footer.not_medical')}</p>
+            <div className="flex flex-wrap gap-4 items-center justify-between text-xs text-muted-foreground">
+              <div className="flex items-center gap-3">
+                <p>{t('footer.copyright')}</p>
+                <a
+                  href="https://opensource.org/licenses/MIT"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-medium"
+                >
+                  MIT License
+                </a>
+              </div>
+              <p>{t('footer.not_medical')}</p>
+            </div>
           </div>
         </div>
       </footer>
