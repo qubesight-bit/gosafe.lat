@@ -131,6 +131,13 @@ const Index = () => {
                     <Beaker className="w-4 h-4" />
                     Combination Checker
                   </Link>
+                  <Link
+                    to="/matrix"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-foreground/15 border border-primary-foreground/30 text-primary-foreground font-semibold rounded-lg hover:bg-primary-foreground/25 transition-all duration-200 font-body text-sm"
+                  >
+                    <FlaskConical className="w-4 h-4" />
+                    Interaction Matrix
+                  </Link>
                 </div>
               </div>
             </div>
