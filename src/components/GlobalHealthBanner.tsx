@@ -25,7 +25,6 @@ export function GlobalHealthBanner() {
         <Globe className="w-4 h-4 mt-0.5 shrink-0 opacity-80" />
         <div className="flex-1 text-sm">
           <p className="font-medium">{t('banner.official')}</p>
-          <p className="opacity-80 text-xs mt-0.5">{t('banner.official_es')}</p>
         </div>
         <button
           onClick={() => { setVisible(false); setDismissed(true); }}

@@ -3,9 +3,9 @@ import { useState, useRef, useEffect } from 'react';
 import {
   Menu, X, Pill, BookOpen, AlertCircle, Home, Shield, Stethoscope,
   Combine, Grid3X3, HelpCircle, Languages, ChevronDown, FileText,
-  Beaker, Heart, ShieldAlert,
+  Beaker, Heart, ShieldAlert, Check,
 } from 'lucide-react';
-import { useLanguage } from '@/i18n/LanguageContext';
+import { useLanguage, LANGUAGES } from '@/i18n/LanguageContext';
 
 interface NavItem {
   to: string;
@@ -18,13 +18,18 @@ export function Navigation() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const langRef = useRef<HTMLDivElement>(null);
   const { lang, setLang, t } = useLanguage();
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setMegaOpen(false);
+      }
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setLangOpen(false);
       }
     };
     document.addEventListener('mousedown', handler);
@@ -34,38 +39,33 @@ export function Navigation() {
   useEffect(() => {
     setMegaOpen(false);
     setMobileOpen(false);
+    setLangOpen(false);
   }, [location.pathname]);
 
   const isActive = (to: string) => to === '/' ? location.pathname === '/' : location.pathname.startsWith(to);
 
-  // ── Section: Rx & Clinical ──
+  const currentLang = LANGUAGES.find(l => l.code === lang)!;
+
   const rxNav: NavItem[] = [
-    { to: '/interactions', label: t('nav.interactions'), icon: Pill, description: 'Medication interaction lookup' },
-    { to: '/symptom-checker', label: t('nav.symptoms'), icon: Stethoscope, description: 'Assess symptoms safely' },
+    { to: '/interactions', label: t('nav.interactions'), icon: Pill, description: t('nav.desc_interactions') },
+    { to: '/symptom-checker', label: t('nav.symptoms'), icon: Stethoscope, description: t('nav.desc_symptoms') },
   ];
 
-  // ── Section: Harm Reduction ──
   const harmNav: NavItem[] = [
-    { to: '/substances', label: t('nav.substances'), icon: BookOpen, description: 'Full substance education library' },
-    { to: '/combinations', label: t('nav.combos'), icon: Combine, description: 'Check substance pair safety' },
-    { to: '/matrix', label: t('nav.matrix'), icon: Grid3X3, description: '18×18 polydrug interaction grid' },
-    { to: '/symptom-checker', label: t('nav.symptoms'), icon: Stethoscope, description: 'Identify adverse reactions' },
-    { to: '/reports', label: t('nav.reports'), icon: FileText, description: 'Community experience reports' },
+    { to: '/substances', label: t('nav.substances'), icon: BookOpen, description: t('nav.desc_substances') },
+    { to: '/combinations', label: t('nav.combos'), icon: Combine, description: t('nav.desc_combos') },
+    { to: '/matrix', label: t('nav.matrix'), icon: Grid3X3, description: t('nav.desc_matrix') },
+    { to: '/symptom-checker', label: t('nav.symptoms'), icon: Stethoscope, description: t('nav.desc_symptoms_hr') },
+    { to: '/reports', label: t('nav.reports'), icon: FileText, description: t('nav.desc_reports') },
   ];
 
-  // ── Section: Info ──
   const infoNav: NavItem[] = [
-    { to: '/faq', label: t('nav.faq'), icon: HelpCircle, description: 'Common questions answered' },
-    { to: '/emergency', label: t('nav.emergency'), icon: AlertCircle, description: 'Crisis contacts & naloxone' },
+    { to: '/faq', label: t('nav.faq'), icon: HelpCircle, description: t('nav.desc_faq') },
+    { to: '/emergency', label: t('nav.emergency'), icon: AlertCircle, description: t('nav.desc_emergency') },
   ];
 
   const allToolItems = [...rxNav, ...harmNav, ...infoNav];
   const anyToolActive = allToolItems.some(i => isActive(i.to));
-
-  const allMobileNav: NavItem[] = [
-    { to: '/', label: t('nav.home'), icon: Home },
-    ...allToolItems,
-  ];
 
   function NavSection({ title, icon: SectionIcon, items }: { title: string; icon: React.ComponentType<{ className?: string }>; items: NavItem[] }) {
     return (
@@ -76,7 +76,7 @@ export function Navigation() {
         </div>
         {items.map(({ to, label, icon: Icon, description }) => (
           <Link
-            key={to}
+            key={`${to}-${description}`}
             to={to}
             className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-150 font-body group ${
               isActive(to)
@@ -115,14 +115,13 @@ export function Navigation() {
                 GoSafe.lat
               </span>
               <span className="text-[9px] text-muted-foreground/70 uppercase tracking-[0.2em] font-body leading-none">
-                Harm Reduction
+                {t('nav.tagline')}
               </span>
             </div>
           </Link>
 
           {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-0.5">
-            {/* Home */}
             <Link
               to="/"
               className={`relative flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-medium transition-all duration-200 font-body ${
@@ -147,7 +146,7 @@ export function Navigation() {
                 }`}
               >
                 <Beaker className="w-4 h-4" />
-                Tools & Resources
+                {t('nav.tools')}
                 <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${megaOpen ? 'rotate-180' : ''}`} />
                 {anyToolActive && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full bg-primary" />}
               </button>
@@ -155,19 +154,17 @@ export function Navigation() {
               {megaOpen && (
                 <div className="absolute top-full right-0 mt-2 w-[420px] rounded-2xl border border-border/60 bg-popover/95 backdrop-blur-xl shadow-2xl shadow-foreground/5 p-4 animate-fade-in">
                   <div className="grid grid-cols-2 gap-4">
-                    {/* Left column */}
                     <div className="space-y-4">
-                      <NavSection title="Rx & Clinical" icon={Heart} items={rxNav} />
-                      <NavSection title="Info & Help" icon={HelpCircle} items={infoNav} />
+                      <NavSection title={t('nav.section_rx')} icon={Heart} items={rxNav} />
+                      <NavSection title={t('nav.section_info')} icon={HelpCircle} items={infoNav} />
                     </div>
-                    {/* Right column */}
                     <div>
-                      <NavSection title="Harm Reduction" icon={ShieldAlert} items={harmNav} />
+                      <NavSection title={t('nav.section_harm')} icon={ShieldAlert} items={harmNav} />
                     </div>
                   </div>
                   <div className="mt-3 pt-3 border-t border-border/40">
                     <p className="text-[10px] text-muted-foreground/60 font-body text-center">
-                      Educational resource · Not medical advice
+                      {t('nav.educational_note')}
                     </p>
                   </div>
                 </div>
@@ -189,15 +186,37 @@ export function Navigation() {
 
             <div className="w-px h-6 bg-border/60 mx-2" />
 
-            {/* Language toggle */}
-            <button
-              onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-bold font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-200 border border-border/50"
-              aria-label="Toggle language"
-            >
-              <Languages className="w-3.5 h-3.5" />
-              {lang === 'en' ? 'ES' : 'EN'}
-            </button>
+            {/* Language dropdown */}
+            <div ref={langRef} className="relative">
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-bold font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-200 border border-border/50"
+                aria-label="Select language"
+              >
+                <Languages className="w-3.5 h-3.5" />
+                <span>{currentLang.flag} {currentLang.code.toUpperCase()}</span>
+                <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${langOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {langOpen && (
+                <div className="absolute top-full right-0 mt-1.5 w-44 rounded-xl border border-border/60 bg-popover/95 backdrop-blur-xl shadow-xl p-1.5 animate-fade-in z-50">
+                  {LANGUAGES.map(l => (
+                    <button
+                      key={l.code}
+                      onClick={() => { setLang(l.code); setLangOpen(false); }}
+                      className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-body transition-colors ${
+                        lang === l.code
+                          ? 'text-primary bg-primary/8 font-semibold'
+                          : 'text-foreground/80 hover:bg-muted/50'
+                      }`}
+                    >
+                      <span className="text-base">{l.flag}</span>
+                      <span className="flex-1 text-left">{l.label}</span>
+                      {lang === l.code && <Check className="w-3.5 h-3.5 text-primary" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Mobile controls */}
@@ -209,13 +228,36 @@ export function Navigation() {
             >
               <AlertCircle className="w-5 h-5" />
             </Link>
-            <button
-              onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
-              className="p-2 rounded-xl text-muted-foreground hover:bg-muted/50 transition-colors border border-border/50 text-[11px] font-bold font-body"
-              aria-label="Toggle language"
-            >
-              {lang === 'en' ? 'ES' : 'EN'}
-            </button>
+            {/* Mobile language dropdown */}
+            <div ref={langRef} className="relative">
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="p-2 rounded-xl text-muted-foreground hover:bg-muted/50 transition-colors border border-border/50 text-[11px] font-bold font-body flex items-center gap-1"
+                aria-label="Select language"
+              >
+                {currentLang.flag}
+                <ChevronDown className="w-2.5 h-2.5" />
+              </button>
+              {langOpen && (
+                <div className="absolute top-full right-0 mt-1.5 w-40 rounded-xl border border-border/60 bg-popover/95 backdrop-blur-xl shadow-xl p-1.5 animate-fade-in z-50">
+                  {LANGUAGES.map(l => (
+                    <button
+                      key={l.code}
+                      onClick={() => { setLang(l.code); setLangOpen(false); }}
+                      className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-body transition-colors ${
+                        lang === l.code
+                          ? 'text-primary bg-primary/8 font-semibold'
+                          : 'text-foreground/80 hover:bg-muted/50'
+                      }`}
+                    >
+                      <span>{l.flag}</span>
+                      <span className="flex-1 text-left">{l.label}</span>
+                      {lang === l.code && <Check className="w-3 h-3 text-primary" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             <button
               className="p-2 rounded-xl text-muted-foreground hover:bg-muted/50 transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -229,7 +271,6 @@ export function Navigation() {
         {/* Mobile nav */}
         {mobileOpen && (
           <div className="lg:hidden border-t border-border/40 py-4 animate-fade-in space-y-5">
-            {/* Home */}
             <Link
               to="/"
               onClick={() => setMobileOpen(false)}
@@ -248,7 +289,7 @@ export function Navigation() {
                 <div>
                   <div className="flex items-center gap-2 px-3 mb-2">
                     <Heart className="w-3.5 h-3.5 text-muted-foreground/50" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 font-body">Rx & Clinical</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 font-body">{t('nav.section_rx')}</span>
                   </div>
                   {rxNav.map(({ to, label, icon: Icon }) => (
                     <Link
@@ -270,11 +311,11 @@ export function Navigation() {
                 <div>
                   <div className="flex items-center gap-2 px-3 mb-2">
                     <ShieldAlert className="w-3.5 h-3.5 text-muted-foreground/50" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 font-body">Harm Reduction</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 font-body">{t('nav.section_harm')}</span>
                   </div>
-                  {harmNav.map(({ to, label, icon: Icon }) => (
+                  {harmNav.map(({ to, label, icon: Icon, description }) => (
                     <Link
-                      key={to}
+                      key={`${to}-${description}`}
                       to={to}
                       onClick={() => setMobileOpen(false)}
                       className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all font-body ${
@@ -292,7 +333,7 @@ export function Navigation() {
                 <div>
                   <div className="flex items-center gap-2 px-3 mb-2">
                     <HelpCircle className="w-3.5 h-3.5 text-muted-foreground/50" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 font-body">Info & Help</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 font-body">{t('nav.section_info')}</span>
                   </div>
                   {infoNav.map(({ to, label, icon: Icon }) => (
                     <Link
