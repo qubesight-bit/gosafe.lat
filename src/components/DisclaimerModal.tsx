@@ -42,19 +42,19 @@ export function DisclaimerModal() {
   return (
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent
-        className="sm:max-w-[460px] p-0 [&>button]:hidden border-0 shadow-2xl max-h-[90vh] overflow-hidden rounded-2xl"
+        className="sm:max-w-[460px] p-0 [&>button]:hidden border-0 shadow-2xl max-h-[85vh] overflow-y-auto rounded-2xl"
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
         {/* Top branded header */}
-        <div className="relative bg-gradient-to-br from-primary to-primary/80 px-6 pt-10 pb-10 text-center overflow-hidden">
+        <div className="relative bg-gradient-to-br from-primary to-primary/80 px-6 pt-6 pb-6 text-center overflow-hidden">
           <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-primary-foreground/5 pointer-events-none" />
           <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-primary-foreground/5 pointer-events-none" />
           <div className="relative z-10">
-            <div className="inline-flex p-3.5 rounded-2xl bg-primary-foreground/15 backdrop-blur-sm border border-primary-foreground/20 mb-5 shadow-lg">
-              <img src={gosafeLogo} alt="GoSafe.lat logo" className="w-16 h-16 object-contain" />
+            <div className="inline-flex p-2.5 rounded-xl bg-primary-foreground/15 backdrop-blur-sm border border-primary-foreground/20 mb-3 shadow-lg">
+              <img src={gosafeLogo} alt="GoSafe.lat logo" className="w-12 h-12 object-contain" />
             </div>
-            <h2 className="font-display text-xl font-bold text-primary-foreground mb-1.5">
+            <h2 className="font-display text-lg font-bold text-primary-foreground mb-1">
               Educational Purposes Only
             </h2>
             <p className="text-primary-foreground/75 text-sm font-body leading-relaxed max-w-xs mx-auto">
@@ -64,7 +64,7 @@ export function DisclaimerModal() {
         </div>
 
         {/* Content area */}
-        <div className="px-6 py-5 space-y-4 overflow-y-auto max-h-[50vh]">
+        <div className="px-5 py-4 space-y-3">
           {/* Consult notice */}
           <p className="text-center text-muted-foreground text-xs font-body leading-relaxed">
             Always consult a licensed healthcare professional for medical decisions.
@@ -111,7 +111,7 @@ export function DisclaimerModal() {
         </div>
 
         {/* Footer */}
-        <DialogFooter className="px-6 pb-6 pt-0 sm:justify-center">
+        <DialogFooter className="px-5 pb-5 pt-0 sm:justify-center">
           <Button
             onClick={handleContinue}
             disabled={!accepted}
