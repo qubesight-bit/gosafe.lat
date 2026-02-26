@@ -3,9 +3,6 @@ import { Shield, ExternalLink } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -45,66 +42,81 @@ export function DisclaimerModal() {
   return (
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent
-        className="sm:max-w-lg [&>button]:hidden max-h-[90vh] overflow-y-auto"
+        className="sm:max-w-[460px] p-0 [&>button]:hidden overflow-hidden border-0 shadow-2xl max-h-[92vh]"
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
-        <DialogHeader className="text-center sm:text-center">
-          <div className="flex justify-center mb-4">
-            <img src={gosafeLogo} alt="GoSafe.lat logo" className="w-20 h-20 object-contain" />
+        {/* Top branded header */}
+        <div className="relative bg-gradient-to-br from-primary to-primary/80 px-6 pt-8 pb-10 text-center overflow-hidden">
+          <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-primary-foreground/5 pointer-events-none" />
+          <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-primary-foreground/5 pointer-events-none" />
+          <div className="relative z-10">
+            <div className="inline-flex p-3 rounded-2xl bg-primary-foreground/15 backdrop-blur-sm border border-primary-foreground/20 mb-4 shadow-lg">
+              <img src={gosafeLogo} alt="GoSafe.lat logo" className="w-14 h-14 object-contain" />
+            </div>
+            <h2 className="font-display text-xl font-bold text-primary-foreground mb-1.5">
+              Educational Purposes Only
+            </h2>
+            <p className="text-primary-foreground/75 text-sm font-body leading-relaxed max-w-xs mx-auto">
+              This platform does not provide medical advice, diagnosis, prescriptions, or treatment guidance.
+            </p>
           </div>
-          <DialogTitle className="font-display text-xl">
-            Educational Purposes Only
-          </DialogTitle>
-          <DialogDescription className="text-sm leading-relaxed mt-2">
-            This platform does not provide medical advice, diagnosis, prescriptions, or treatment guidance. Always consult a licensed healthcare professional for medical decisions.
-          </DialogDescription>
-        </DialogHeader>
+        </div>
 
-        {/* Sources section */}
-        <div className="border border-border rounded-lg p-4 my-2 bg-muted/20">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2.5 font-body">
-            All information is based exclusively on reputable governmental &amp; academic sources
+        {/* Content area */}
+        <div className="px-6 py-5 space-y-4 overflow-y-auto max-h-[50vh]">
+          {/* Consult notice */}
+          <p className="text-center text-muted-foreground text-xs font-body leading-relaxed">
+            Always consult a licensed healthcare professional for medical decisions.
           </p>
-          <div className="flex flex-wrap gap-1.5">
-            {sources.map(({ name, url }) => (
-              <a
-                key={name}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors font-body"
+
+          {/* Sources */}
+          <div className="rounded-xl bg-muted/40 border border-border/60 p-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground mb-3 font-body">
+              Verified Sources We Use
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {sources.map(({ name, url }) => (
+                <a
+                  key={name}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-background border border-border/80 text-foreground text-[11px] font-medium hover:border-primary/40 hover:text-primary transition-all duration-200 font-body shadow-sm"
+                >
+                  {name}
+                  <ExternalLink className="w-2.5 h-2.5 opacity-40" />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Acceptance */}
+          <div className="rounded-xl border-2 border-primary/20 bg-primary/[0.03] p-4 transition-colors has-[:checked]:border-primary/50 has-[:checked]:bg-primary/[0.06]">
+            <div className="flex items-start gap-3">
+              <Checkbox
+                id="disclaimer-accept"
+                checked={accepted}
+                onCheckedChange={(checked) => setAccepted(checked === true)}
+                className="mt-0.5"
+              />
+              <label
+                htmlFor="disclaimer-accept"
+                className="text-[13px] font-body text-foreground/90 leading-relaxed cursor-pointer select-none"
               >
-                {name}
-                <ExternalLink className="w-2.5 h-2.5 opacity-60" />
-              </a>
-            ))}
+                I understand this platform is for <strong className="text-foreground">educational and informational purposes only</strong> and is not a replacement for professional medical advice, diagnosis, or treatment.
+              </label>
+            </div>
           </div>
         </div>
 
-        {/* Acceptance checkbox */}
-        <div className="border border-border rounded-lg p-4 my-1 bg-muted/30">
-          <div className="flex items-start gap-3">
-            <Checkbox
-              id="disclaimer-accept"
-              checked={accepted}
-              onCheckedChange={(checked) => setAccepted(checked === true)}
-              className="mt-0.5"
-            />
-            <label
-              htmlFor="disclaimer-accept"
-              className="text-sm font-body text-foreground leading-relaxed cursor-pointer select-none"
-            >
-              I understand that this platform is for <strong>educational and informational purposes only</strong> and is not a replacement for professional medical advice, diagnosis, or treatment.
-            </label>
-          </div>
-        </div>
-
-        <DialogFooter className="sm:justify-center">
+        {/* Footer */}
+        <DialogFooter className="px-6 pb-6 pt-0 sm:justify-center">
           <Button
             onClick={handleContinue}
             disabled={!accepted}
-            className="w-full sm:w-auto gap-2"
+            size="lg"
+            className="w-full gap-2 rounded-xl font-semibold text-sm shadow-lg disabled:opacity-40"
           >
             <Shield className="w-4 h-4" />
             Continue to GoSafe.lat
