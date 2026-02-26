@@ -89,7 +89,53 @@ serve(async (req) => {
       return new Response(data, { headers: jsonHeaders });
     }
 
-    return new Response(JSON.stringify({ error: "Unknown action. Use: interaction, drug, all_drug_names, all_categories" }), {
+    if (action === "combo_matrix") {
+      const { drugs } = params as { drugs: string[] };
+      if (!drugs || !Array.isArray(drugs) || drugs.length === 0) {
+        return new Response(JSON.stringify({ error: "drugs array is required" }), {
+          status: 400, headers: jsonHeaders,
+        });
+      }
+
+      // Fetch drugs sequentially with small delay to avoid rate limiting
+      const fetched: Array<{ name: string; key: string; combos: Record<string, { status: string; note?: string }> }> = [];
+      
+      for (const name of drugs) {
+        try {
+          const url = `${TRIPSIT_BASE}/getDrug/${encodeURIComponent(name)}`;
+          const resp = await fetch(url);
+          const data = await resp.json();
+          const entry = data?.data?.[0];
+          if (entry && !entry.err && entry.combos) {
+            fetched.push({
+              name: entry.pretty_name || entry.name || name,
+              key: (entry.name || name).toLowerCase(),
+              combos: entry.combos,
+            });
+          }
+        } catch {
+          // Skip failed fetches
+        }
+      }
+
+      const matrix: Record<string, Record<string, { status: string; note?: string }>> = {};
+      const drugNames: Array<{ key: string; name: string }> = [];
+
+      for (const drug of fetched) {
+        drugNames.push({ key: drug.key, name: drug.name });
+        matrix[drug.key] = {};
+        for (const [comboKey, combo] of Object.entries(drug.combos)) {
+          matrix[drug.key][comboKey.toLowerCase()] = {
+            status: combo.status || '',
+            note: combo.note || undefined,
+          };
+        }
+      }
+
+      return new Response(JSON.stringify({ drugNames, matrix }), { headers: jsonHeaders });
+    }
+
+    return new Response(JSON.stringify({ error: "Unknown action. Use: interaction, drug, all_drug_names, all_categories, combo_matrix" }), {
       status: 400, headers: jsonHeaders,
     });
   } catch (err) {
