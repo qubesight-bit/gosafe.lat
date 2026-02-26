@@ -24,6 +24,8 @@ export const es: Record<string, string> = {
   'nav.desc_reports': 'Reportes de experiencias comunitarias',
   'nav.desc_faq': 'Preguntas frecuentes respondidas',
   'nav.desc_emergency': 'Contactos de crisis y naloxona',
+  'nav.transparency': 'Transparencia de Datos',
+  'nav.desc_transparency': 'APIs y fuentes de datos que usamos',
 
   // Global banner
   'banner.official': 'Para más información oficial y orientación, contacte a su organismo de salud local o a un profesional de la salud autorizado.',
