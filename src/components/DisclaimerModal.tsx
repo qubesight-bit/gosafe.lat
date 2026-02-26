@@ -58,7 +58,7 @@ export function DisclaimerModal() {
               Educational Purposes Only
             </h2>
             <p className="text-primary-foreground/75 text-sm font-body leading-relaxed max-w-xs mx-auto">
-              This platform does not provide medical advice, diagnosis, prescriptions, or treatment guidance.
+              This platform does not provide medical advice, diagnosis, prescriptions, or treatment guidance. All information is based exclusively on reputable governmental &amp; academic sources.
             </p>
           </div>
         </div>
