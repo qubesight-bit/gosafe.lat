@@ -9,6 +9,7 @@ import type { InteractionResult } from '@/data/interactions';
 import { lookupRxNavInteraction } from '@/lib/rxnav';
 import type { NormalizedInteraction } from '@/lib/rxnav';
 import { useTripSitApi, mapTripSitStatus } from '@/hooks/use-tripsit-api';
+import { useLanguage } from '@/i18n/LanguageContext';
 import { Pill, Search, AlertCircle, ChevronDown, Info, Loader2, Database, Globe, Lightbulb, ExternalLink } from 'lucide-react';
 
 const commonDrugs = [
@@ -33,6 +34,7 @@ export default function MedicationInteractions() {
   const [loading, setLoading] = useState(false);
   const [searchedTerms, setSearchedTerms] = useState({ d1: '', d2: '' });
   const tripSitApi = useTripSitApi();
+  const { t } = useLanguage();
 
   const handleSearch = async () => {
     if (!drug1.trim() || !drug2.trim()) return;
@@ -160,8 +162,8 @@ export default function MedicationInteractions() {
   return (
     <Layout>
       <SEO
-        title="Medication Interaction Checker"
-        description="Search educational information on medication interactions, severity levels, and mechanisms from NIH, NLM RxNav, and academic sources."
+        title={t('interactions.title')}
+        description={t('interactions.subtitle')}
         path="/interactions"
       />
       {/* Header */}
@@ -171,18 +173,17 @@ export default function MedicationInteractions() {
             <div className="w-10 h-10 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
               <Pill className="w-5 h-5" />
             </div>
-            <span className="text-primary-foreground/80 text-sm font-body uppercase tracking-wide font-medium">Educational Tool</span>
+            <span className="text-primary-foreground/80 text-sm font-body uppercase tracking-wide font-medium">{t('interactions.badge')}</span>
           </div>
           <h1 className="font-display text-3xl md:text-4xl font-bold mb-3">
-            Medication Interaction Awareness
+            {t('interactions.title')}
           </h1>
           <p className="text-primary-foreground/85 font-body text-lg max-w-2xl leading-relaxed">
-            Search for educational information on reported medication interactions — powered by the NIH/NLM RxNav live database and an expanded static reference covering psychoactive substances.
+            {t('interactions.subtitle')}
           </p>
-          {/* Source badge */}
           <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-foreground/15 border border-primary-foreground/20 text-primary-foreground/80 text-xs font-body">
             <Globe className="w-3.5 h-3.5" />
-            Powered by NIH/NLM RxNav API — U.S. National Library of Medicine
+            {t('interactions.powered_by')}
           </div>
         </div>
       </section>
@@ -193,9 +194,9 @@ export default function MedicationInteractions() {
         {/* Search tool */}
         <div className="card-elevated p-6 md:p-8 space-y-6">
           <div>
-            <h2 className="font-display font-semibold text-foreground text-xl mb-1">Search Interactions</h2>
+            <h2 className="font-display font-semibold text-foreground text-xl mb-1">{t('interactions.search_title')}</h2>
             <p className="text-muted-foreground text-sm font-body">
-              Enter two medication or substance names. Pharmaceutical interactions are queried live from the NIH/NLM RxNav database. Substances not in RxNorm (e.g. illicit drugs, supplements) are looked up in our expanded static reference.
+              {t('interactions.search_desc')}
             </p>
           </div>
 
@@ -205,20 +206,20 @@ export default function MedicationInteractions() {
               onChange={setDrug1}
               onKeyDown={handleKeyDown}
               placeholder="e.g. Warfarin"
-              label="First Medication / Substance"
+              label={t('interactions.label_first')}
             />
             <SubstanceAutocomplete
               value={drug2}
               onChange={setDrug2}
               onKeyDown={handleKeyDown}
               placeholder="e.g. Aspirin"
-              label="Second Medication / Substance"
+              label={t('interactions.label_second')}
             />
           </div>
 
           {/* Suggestions */}
           <div>
-            <p className="text-xs text-muted-foreground mb-2 font-body">Common examples:</p>
+            <p className="text-xs text-muted-foreground mb-2 font-body">{t('interactions.examples')}</p>
             <div className="flex flex-wrap gap-2">
               {commonDrugs.map(d => (
                 <button
@@ -239,9 +240,9 @@ export default function MedicationInteractions() {
               className="flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed font-body text-sm shadow-primary"
             >
               {loading ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Querying NIH Database…</>
+                <><Loader2 className="w-4 h-4 animate-spin" /> {t('interactions.searching')}</>
               ) : (
-                <><Search className="w-4 h-4" /> Search Educational Database</>
+                <><Search className="w-4 h-4" /> {t('interactions.search_btn')}</>
               )}
             </button>
             {searched && (
@@ -249,7 +250,7 @@ export default function MedicationInteractions() {
                 onClick={resetSearch}
                 className="px-4 py-2.5 border border-border text-muted-foreground rounded-lg hover:bg-muted transition-colors font-body text-sm"
               >
-                Clear
+                {t('interactions.clear')}
               </button>
             )}
           </div>
@@ -261,24 +262,24 @@ export default function MedicationInteractions() {
             <div className="flex items-start gap-3">
               <Info className="w-5 h-5 text-primary mt-0.5 shrink-0" />
               <div>
-                <h3 className="font-display font-semibold text-foreground mb-1">No interaction found in educational databases</h3>
+                <h3 className="font-display font-semibold text-foreground mb-1">{t('interactions.not_found_title')}</h3>
                 <p className="text-muted-foreground text-sm font-body leading-relaxed">
-                  Neither the <strong>NIH/NLM RxNav live database</strong> nor our <strong>expanded static reference</strong> has a documented interaction between{' '}
+                  {t('interactions.not_found_desc_1')}{' '}
                   <strong>"{searchedTerms.d1}"</strong> and <strong>"{searchedTerms.d2}"</strong>.
                 </p>
                 <p className="text-muted-foreground text-sm font-body mt-2">
-                  This may mean one or both names are not recognized in RxNorm, or no interaction has been formally documented. It does <em>not</em> confirm the combination is safe.
+                  {t('interactions.not_found_desc_2')}
                 </p>
                 <ul className="mt-3 space-y-1 text-sm font-body text-muted-foreground list-disc list-inside">
-                  <li>Try searching by generic name (e.g. "acetaminophen" instead of "Tylenol")</li>
-                  <li>Try common alternate names or spellings</li>
-                  <li>Consult a licensed pharmacist for comprehensive screening</li>
+                  <li>{t('interactions.not_found_tip_1')}</li>
+                  <li>{t('interactions.not_found_tip_2')}</li>
+                  <li>{t('interactions.not_found_tip_3')}</li>
                 </ul>
               </div>
             </div>
             <div className="disclaimer-box px-4 py-3">
               <p className="text-amber-800 text-sm font-body">
-                <strong>Important:</strong> Absence of a result in this tool should never be interpreted as confirmation that a combination is safe. Always consult a healthcare professional.
+                <strong>{t('interactions.not_found_important')}</strong>
               </p>
             </div>
           </div>
@@ -295,7 +296,7 @@ export default function MedicationInteractions() {
                   </h3>
                   <div className="flex items-center gap-1.5 text-muted-foreground text-xs font-body">
                     {displayData.sourceIcon}
-                    <span>Source: {displayData.sourceLabel}</span>
+                    <span>{t('interactions.source_label')} {displayData.sourceLabel}</span>
                   </div>
                 </div>
                 <SeverityBadge severity={displayData.severity} />
@@ -308,7 +309,7 @@ export default function MedicationInteractions() {
               </div>
 
               <div>
-                <h4 className="font-semibold text-foreground mb-2 text-sm uppercase tracking-wide font-body">Interaction Mechanism (Educational Overview)</h4>
+                <h4 className="font-semibold text-foreground mb-2 text-sm uppercase tracking-wide font-body">{t('interactions.mechanism_title')}</h4>
                 <p className="text-foreground/80 text-sm font-body leading-relaxed">{displayData.mechanism}</p>
               </div>
 
@@ -319,7 +320,7 @@ export default function MedicationInteractions() {
                     <div className="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
                       <Lightbulb className="w-4 h-4 text-primary" />
                     </div>
-                    <h4 className="font-semibold text-primary text-sm font-body">In Plain Terms</h4>
+                    <h4 className="font-semibold text-primary text-sm font-body">{t('interactions.plain_terms')}</h4>
                   </div>
                   <p className="text-foreground/85 text-sm font-body leading-relaxed pl-9">
                     {displayData.plainEnglish}
@@ -328,14 +329,14 @@ export default function MedicationInteractions() {
               )}
 
               <div className="bg-muted/50 border border-border rounded-lg p-4">
-                <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mb-1 font-body">Professional Referral Note</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mb-1 font-body">{t('interactions.referral_title')}</p>
                 <p className="text-sm font-body leading-relaxed text-foreground/80">{displayData.clinicalNote}</p>
               </div>
 
               <div className="disclaimer-box px-4 py-3 flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                 <p className="text-amber-800 text-sm font-body">
-                  <strong>This tool is for educational purposes only and does not replace professional medical advice.</strong> Do not modify, start, or stop any medication without consulting a licensed healthcare professional.
+                  <strong>{t('interactions.tool_disclaimer')}</strong>
                 </p>
               </div>
             </div>
@@ -348,10 +349,10 @@ export default function MedicationInteractions() {
         {!searched && !loading && (
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <h3 className="font-display font-semibold text-foreground">Sample Documented Interactions</h3>
+              <h3 className="font-display font-semibold text-foreground">{t('interactions.sample_title')}</h3>
               <ChevronDown className="w-4 h-4 text-muted-foreground" />
             </div>
-            <p className="text-muted-foreground text-sm font-body">Click any example to auto-fill the search tool.</p>
+            <p className="text-muted-foreground text-sm font-body">{t('interactions.sample_desc')}</p>
             <div className="grid sm:grid-cols-2 gap-3">
               {knownInteractions.slice(0, 6).map((interaction) => {
                 const config = severityConfig[interaction.severity];

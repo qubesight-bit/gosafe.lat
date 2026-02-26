@@ -6,6 +6,7 @@ import { SubstanceAutocomplete, useCachedDrugNames } from '@/components/Substanc
 import { NotFoundSuggestions } from '@/components/NotFoundSuggestions';
 import { useTripSitApi, mapTripSitStatus } from '@/hooks/use-tripsit-api';
 import type { TripSitInteraction } from '@/hooks/use-tripsit-api';
+import { useLanguage } from '@/i18n/LanguageContext';
 import { Shield, Search, Loader2, AlertTriangle, CheckCircle2, Info, ExternalLink } from 'lucide-react';
 
 const examplePairs = [
@@ -20,6 +21,7 @@ const examplePairs = [
 
 export default function CombinationChecker() {
   const [drugA, setDrugA] = useState('');
+  const { t } = useLanguage();
   const [drugB, setDrugB] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<TripSitInteraction | null>(null);
@@ -83,29 +85,20 @@ export default function CombinationChecker() {
 
   return (
     <Layout>
-      <SEO
-        title="Combination Checker"
-        description="Check reported interaction safety between two substances using the TripSit community database. Educational harm reduction tool."
-        path="/combinations"
-      />
-      {/* Header */}
+      <SEO title={t('combos.title')} description={t('combos.subtitle')} path="/combinations" />
       <section className="section-hero text-primary-foreground py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
               <Shield className="w-5 h-5" />
             </div>
-            <span className="text-primary-foreground/80 text-sm font-body uppercase tracking-wide font-medium">Harm Reduction Tool</span>
+            <span className="text-primary-foreground/80 text-sm font-body uppercase tracking-wide font-medium">{t('combos.badge')}</span>
           </div>
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-3">
-            Combination Safety Checker
-          </h1>
-          <p className="text-primary-foreground/85 font-body text-lg max-w-2xl leading-relaxed">
-            Check reported interaction safety between two substances — powered by the TripSit community database. For educational awareness only.
-          </p>
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-3">{t('combos.title')}</h1>
+          <p className="text-primary-foreground/85 font-body text-lg max-w-2xl leading-relaxed">{t('combos.subtitle')}</p>
           <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-foreground/15 border border-primary-foreground/20 text-primary-foreground/80 text-xs font-body">
             <ExternalLink className="w-3.5 h-3.5" />
-            Source: TripSit.me Community Database
+            {t('combos.source_badge')}
           </div>
         </div>
       </section>
@@ -116,10 +109,8 @@ export default function CombinationChecker() {
         {/* Search */}
         <div className="card-elevated p-6 md:p-8 space-y-6">
           <div>
-            <h2 className="font-display font-semibold text-foreground text-xl mb-1">Check Combination</h2>
-            <p className="text-muted-foreground text-sm font-body">
-              Enter two substance names to check their reported interaction status. This uses TripSit's community-maintained combination database.
-            </p>
+            <h2 className="font-display font-semibold text-foreground text-xl mb-1">{t('combos.check_title')}</h2>
+            <p className="text-muted-foreground text-sm font-body">{t('combos.check_desc')}</p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
@@ -128,20 +119,20 @@ export default function CombinationChecker() {
               onChange={setDrugA}
               onKeyDown={handleKeyDown}
               placeholder="e.g. Cannabis"
-              label="First Substance"
+              label={t('combos.label_first')}
             />
             <SubstanceAutocomplete
               value={drugB}
               onChange={setDrugB}
               onKeyDown={handleKeyDown}
               placeholder="e.g. MDMA"
-              label="Second Substance"
+              label={t('combos.label_second')}
             />
           </div>
 
           {/* Example combos */}
           <div>
-            <p className="text-xs text-muted-foreground mb-2 font-body">Try an example:</p>
+            <p className="text-xs text-muted-foreground mb-2 font-body">{t('combos.try_example')}</p>
             <div className="flex flex-wrap gap-2">
               {examplePairs.map(([a, b]) => (
                 <button
@@ -162,9 +153,9 @@ export default function CombinationChecker() {
               className="flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed font-body text-sm shadow-primary"
             >
               {loading ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Checking…</>
+                <><Loader2 className="w-4 h-4 animate-spin" /> {t('combos.checking')}</>
               ) : (
-                <><Search className="w-4 h-4" /> Check Combination</>
+                <><Search className="w-4 h-4" /> {t('combos.check_btn')}</>
               )}
             </button>
             {searched && (
