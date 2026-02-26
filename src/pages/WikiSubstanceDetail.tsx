@@ -459,6 +459,44 @@ export default function WikiSubstanceDetail() {
           </div>
         )}
 
+        {/* Harm Reduction Tips */}
+        <div className="card-elevated p-6 space-y-4 border-l-4 border-l-primary">
+          <h2 className="font-display font-semibold text-foreground text-xl flex items-center gap-2">
+            <Shield className="w-5 h-5 text-primary" /> Harm Reduction Awareness
+          </h2>
+          <p className="text-xs text-muted-foreground font-body italic">
+            General safety principles from public health organizations. This is not guidance for use.
+          </p>
+          <ul className="space-y-2.5">
+            {[
+              { tip: 'Never use alone', detail: 'Having a sober, trusted person present can be life-saving in an emergency.' },
+              { tip: 'Test substances when possible', detail: 'Reagent testing kits and drug checking services can identify dangerous adulterants.' },
+              { tip: 'Start low, go slow', detail: 'Individual responses vary widely. Lower amounts reduce the risk of adverse reactions.' },
+              { tip: 'Know the signs of emergency', detail: 'Difficulty breathing, chest pain, seizures, loss of consciousness, or extreme confusion require immediate emergency services (911).' },
+              { tip: 'Avoid mixing substances', detail: 'Polydrug combinations increase risk unpredictably. Check interaction data before combining anything.' },
+              { tip: 'Stay hydrated, but don\'t overhydrate', detail: 'Drink water in moderation — both dehydration and overhydration can be dangerous.' },
+              { tip: 'Plan your environment', detail: 'Physical safety, temperature, and emotional setting all influence outcomes and risk.' },
+              { tip: 'Carry naloxone if opioids are involved', detail: 'Naloxone can reverse opioid overdose. It is available without prescription in many areas.' },
+            ].map(({ tip, detail }) => (
+              <li key={tip} className="flex items-start gap-2.5 text-sm font-body">
+                <ShieldCheck className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                <div>
+                  <span className="font-semibold text-foreground">{tip}.</span>{' '}
+                  <span className="text-muted-foreground">{detail}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div className="pt-3 border-t border-border/40 flex flex-wrap gap-3">
+            <Link to="/emergency" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline font-body">
+              <AlertTriangle className="w-4 h-4" /> Emergency Resources
+            </Link>
+            <a href="https://nextdistro.org/locator" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline font-body">
+              <ExternalLink className="w-4 h-4" /> Find Naloxone Near You
+            </a>
+          </div>
+        </div>
+
         {/* Cross-reference tools */}
         <div className="grid sm:grid-cols-2 gap-4">
           <Link
