@@ -1,57 +1,18 @@
-import { useEffect, useRef } from 'react';
-
-declare global {
-  interface Window {
-    PayPal?: {
-      Donation: {
-        Button: (config: Record<string, unknown>) => { render: (selector: string) => void };
-      };
-    };
-  }
-}
-
 export function DonateButton() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const rendered = useRef(false);
-
-  useEffect(() => {
-    if (rendered.current) return;
-
-    const renderButton = () => {
-      if (window.PayPal && containerRef.current && !rendered.current) {
-        rendered.current = true;
-        window.PayPal.Donation.Button({
-          env: 'production',
-          hosted_button_id: '6KSYYL7XT7K9Y',
-          image: {
-            src: 'https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif',
-            alt: 'Donate with PayPal button',
-            title: 'PayPal - The safer, easier way to pay online!',
-          },
-        }).render('#donate-button');
-      }
-    };
-
-    if (window.PayPal) {
-      renderButton();
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = 'https://www.paypalobjects.com/donate/sdk/donate-sdk.js';
-    script.charset = 'UTF-8';
-    script.async = true;
-    script.onload = renderButton;
-    document.body.appendChild(script);
-
-    return () => {
-      // Don't remove script on unmount to avoid reloading
-    };
-  }, []);
-
   return (
     <div className="flex flex-col items-center gap-2">
-      <div id="donate-button" ref={containerRef} />
+      <form action="https://www.paypal.com/donate" method="post" target="_top">
+        <input type="hidden" name="hosted_button_id" value="6KSYYL7XT7K9Y" />
+        <input
+          type="image"
+          src="https://pics.paypal.com/00/s/NDc0Y2ZlOTEtMTBiMi00NWM5LTllNWMtZjU0NjNiZjU1YjJh/file.PNG"
+          name="submit"
+          title="PayPal - The safer, easier way to pay online!"
+          alt="Donate with PayPal button"
+          className="cursor-pointer"
+        />
+        <img alt="" src="https://www.paypal.com/en_CR/i/scr/pixel.gif" width="1" height="1" />
+      </form>
     </div>
   );
 }
