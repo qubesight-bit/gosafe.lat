@@ -1,6 +1,14 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
 
-export type Lang = 'en' | 'es';
+export type Lang = 'en' | 'es' | 'pt' | 'fr' | 'de';
+
+export const LANGUAGES: { code: Lang; label: string; flag: string }[] = [
+  { code: 'en', label: 'English', flag: '🇬🇧' },
+  { code: 'es', label: 'Español', flag: '🇪🇸' },
+  { code: 'pt', label: 'Português', flag: '🇧🇷' },
+  { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+];
 
 interface LanguageContextType {
   lang: Lang;
@@ -16,24 +24,29 @@ export function useLanguage() {
   return ctx;
 }
 
-// Lazy-load translations
 import { en } from './en';
 import { es } from './es';
+import { pt } from './pt';
+import { fr } from './fr';
+import { de } from './de';
 
-const dictionaries: Record<Lang, Record<string, string>> = { en, es };
+const dictionaries: Record<Lang, Record<string, string>> = { en, es, pt, fr, de };
+
+const VALID_LANGS = new Set<string>(LANGUAGES.map(l => l.code));
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(() => {
     const stored = localStorage.getItem('gosafe-lang');
-    if (stored === 'es' || stored === 'en') return stored;
-    // Auto-detect from browser
+    if (stored && VALID_LANGS.has(stored)) return stored as Lang;
     const browserLang = navigator.language.slice(0, 2);
-    return browserLang === 'es' ? 'es' : 'en';
+    if (VALID_LANGS.has(browserLang)) return browserLang as Lang;
+    return 'en';
   });
 
   const setLang = useCallback((newLang: Lang) => {
     setLangState(newLang);
     localStorage.setItem('gosafe-lang', newLang);
+    document.documentElement.lang = newLang;
   }, []);
 
   const t = useCallback((key: string): string => {
