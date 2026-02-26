@@ -6,6 +6,7 @@ import {
   Beaker, Heart, ShieldAlert, Check,
 } from 'lucide-react';
 import { useLanguage, LANGUAGES } from '@/i18n/LanguageContext';
+import gosafeLogo from '@/assets/gosafe-logo.png';
 
 interface NavItem {
   to: string;
@@ -106,10 +107,8 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group shrink-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-md shadow-primary/20 group-hover:shadow-lg group-hover:shadow-primary/30 transition-shadow duration-300">
-              <Shield className="w-[18px] h-[18px] text-primary-foreground" />
-            </div>
+          <Link to="/" className="flex items-center gap-2.5 group shrink-0">
+            <img src={gosafeLogo} alt="GoSafe.lat logo" className="w-10 h-10 object-contain" />
             <div className="flex flex-col">
               <span className="font-display font-bold text-foreground text-[17px] leading-tight tracking-tight">
                 GoSafe.lat
