@@ -7,6 +7,7 @@ import { SourceSection } from '@/components/SourceCard';
 import { substances, categoryColors, dependencyColors } from '@/data/substances';
 import { useTripSitApi, mapTripSitStatus } from '@/hooks/use-tripsit-api';
 import type { TripSitDrug } from '@/hooks/use-tripsit-api';
+import { useLanguage } from '@/i18n/LanguageContext';
 import {
   AlertTriangle, AlertCircle, ArrowLeft, Brain, Heart, Clock, Zap, Scale, Shield, ExternalLink, Loader2
 } from 'lucide-react';
@@ -30,6 +31,7 @@ export default function SubstanceDetail() {
   const tripSitApi = useTripSitApi();
   const [tripSitData, setTripSitData] = useState<TripSitDrug | null>(null);
   const [tripSitLoading, setTripSitLoading] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!substance) return;
@@ -44,9 +46,9 @@ export default function SubstanceDetail() {
     return (
       <Layout>
         <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-          <h1 className="font-display text-2xl font-bold text-foreground mb-3">Substance not found</h1>
-          <p className="text-muted-foreground font-body mb-6">This substance is not in the educational database.</p>
-          <Link to="/substances" className="text-primary hover:underline font-body">← Back to Library</Link>
+          <h1 className="font-display text-2xl font-bold text-foreground mb-3">{t('detail.not_found')}</h1>
+          <p className="text-muted-foreground font-body mb-6">{t('detail.not_found_desc')}</p>
+          <Link to="/substances" className="text-primary hover:underline font-body">{t('detail.back')}</Link>
         </div>
       </Layout>
     );
@@ -76,7 +78,7 @@ export default function SubstanceDetail() {
             to="/substances"
             className="inline-flex items-center gap-1.5 text-primary-foreground/70 hover:text-primary-foreground text-sm font-body mb-5 transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Library
+            <ArrowLeft className="w-4 h-4" /> {t('detail.back')}
           </Link>
           <div className="flex flex-wrap items-start gap-3 mb-3">
             <h1 className="font-display text-3xl md:text-4xl font-bold">{substance.name}</h1>
@@ -85,7 +87,7 @@ export default function SubstanceDetail() {
             </span>
           </div>
           <p className="text-primary-foreground/75 text-sm font-body">
-            Also known as: {substance.commonNames.join(', ')}
+            {t('detail.also_known')} {substance.commonNames.join(', ')}
           </p>
         </div>
       </section>
@@ -96,11 +98,11 @@ export default function SubstanceDetail() {
         {/* General Effects */}
         <div className="card-elevated p-6 space-y-3">
           <h2 className="font-display font-semibold text-foreground text-xl flex items-center gap-2">
-            <Brain className="w-5 h-5 text-primary" /> General Effects Overview
+            <Brain className="w-5 h-5 text-primary" /> {t('detail.general_effects')}
           </h2>
           <p className="text-foreground/80 text-sm font-body leading-relaxed">{substance.generalEffects}</p>
           <p className="text-xs text-muted-foreground font-body italic">
-            Individual effects vary significantly based on biology, health status, and environmental context. This is educational context only.
+            {t('detail.effects_note')}
           </p>
         </div>
 

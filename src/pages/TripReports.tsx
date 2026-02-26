@@ -212,6 +212,7 @@ const TripReports = () => {
   const [substanceFilter, setSubstanceFilter] = useState('all');
   const [intensityFilter, setIntensityFilter] = useState('all');
   const [sentimentFilter, setSentimentFilter] = useState('all');
+  const { t } = useLanguage();
 
   const filtered = useMemo(() => {
     return tripReports.filter(r => {
@@ -234,8 +235,8 @@ const TripReports = () => {
   return (
     <Layout>
       <SEO
-        title="Trip Reports — Educational Experience Summaries | GoSafe.lat"
-        description="Browse curated educational summaries of substance experience reports from Erowid's Experience Vault. Anecdotal community data for harm reduction awareness."
+        title={t('reports.title')}
+        description={t('reports.subtitle')}
       />
 
       <div className="max-w-6xl mx-auto px-4 py-10">
@@ -243,13 +244,13 @@ const TripReports = () => {
         <div className="text-center mb-8">
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-semibold border border-amber-200 mb-4">
             <BookOpen className="w-3.5 h-3.5" />
-            Anecdotal · Community-Sourced
+            {t('reports.badge')}
           </span>
           <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-3">
-            Experience Report Summaries
+            {t('reports.title')}
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto font-body leading-relaxed">
-            Educational summaries of experience reports from{' '}
+            {t('reports.subtitle')}
             <a href="https://erowid.org/experiences/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
               Erowid's Experience Vault
             </a>
@@ -270,7 +271,7 @@ const TripReports = () => {
             }`}
           >
             <Library className="w-4 h-4" />
-            Substance Directory
+            {t('reports.tab_directory')}
           </button>
           <button
             onClick={() => setActiveTab('reports')}
@@ -281,7 +282,7 @@ const TripReports = () => {
             }`}
           >
             <FileText className="w-4 h-4" />
-            Curated Summaries
+            {t('reports.tab_reports')}
           </button>
         </div>
 
@@ -297,7 +298,7 @@ const TripReports = () => {
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search reports by keyword..."
+                  placeholder={t('reports.search_placeholder')}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm font-body focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                 />
               </div>
@@ -340,14 +341,14 @@ const TripReports = () => {
               </div>
 
               <p className="text-xs text-muted-foreground">
-                Showing {filtered.length} of {tripReports.length} reports — educational summaries only
+                {t('reports.showing')} {filtered.length} {t('reports.of')} {tripReports.length} {t('reports.reports')}
               </p>
             </div>
 
             {/* Report grid */}
             {filtered.length === 0 ? (
               <div className="text-center py-16 text-muted-foreground">
-                <p className="font-body">No reports match your filters. Try adjusting your search.</p>
+                <p className="font-body">{t('reports.no_match')}</p>
               </div>
             ) : (
               <div className="grid md:grid-cols-2 gap-5">
@@ -363,13 +364,13 @@ const TripReports = () => {
                 <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
                 <div className="text-sm text-muted-foreground font-body space-y-2">
                   <p>
-                    <strong className="text-foreground">Data source:</strong>{' '}
+                    <strong className="text-foreground">{t('reports.source_title')}</strong>{' '}
                     <a href="https://erowid.org" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Erowid.org</a>{' '}
                     Experience Vault — a community-maintained harm reduction resource.
                     All report content is <strong>anecdotal</strong> and represents individual experiences that may not be representative.
                   </p>
                   <p>
-                    These summaries are provided for <strong>educational harm reduction awareness only</strong>.
+                    {t('reports.source_desc')}
                     They do not include dosage, preparation, or route of administration information.
                     Individual reactions vary enormously based on health, genetics, environment, and other factors.
                     <strong> Always consult a healthcare professional.</strong>
@@ -388,10 +389,10 @@ const TripReports = () => {
           <div className="bg-primary/5 px-5 py-4 border-b border-border/40">
             <h2 className="font-display font-semibold text-foreground text-lg flex items-center gap-2">
               <Heart className="w-5 h-5 text-primary" />
-              Harm Reduction Resources
+              {t('reports.resources_title')}
             </h2>
             <p className="text-xs text-muted-foreground mt-1">
-              Trusted organizations providing free tools, education, and life-saving supplies
+              {t('reports.resources_subtitle')}
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border/40">

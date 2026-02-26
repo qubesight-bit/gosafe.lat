@@ -19,10 +19,11 @@ import {
   Phone, Clock, Building2, CheckCircle2
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-
+import { useLanguage } from '@/i18n/LanguageContext';
 const SymptomChecker = () => {
   const api = useIsabelApi();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   // Metadata
   const [ageGroups, setAgeGroups] = useState<AgeGroup[]>([]);
@@ -195,36 +196,27 @@ const SymptomChecker = () => {
 
   return (
     <Layout>
-      <SEO
-        title="Symptom Checker"
-        description="Enter symptoms for educational differential diagnosis, triage scoring, and links to trusted medical knowledge. Powered by Isabel Healthcare."
-        path="/symptom-checker"
-      />
+      <SEO title={t('symptoms.title')} description={t('symptoms.subtitle')} path="/symptom-checker" />
       <section className="max-w-4xl mx-auto px-4 py-10">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
             <Stethoscope className="w-7 h-7 text-primary" />
           </div>
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-3">
-            Symptom Checker
-          </h1>
-          <p className="text-muted-foreground font-body max-w-xl mx-auto">
-            Enter your symptoms for educational differential diagnosis information, triage scoring, and links to trusted medical knowledge.
-          </p>
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-3">{t('symptoms.title')}</h1>
+          <p className="text-muted-foreground font-body max-w-xl mx-auto">{t('symptoms.subtitle')}</p>
         </div>
 
         {/* Disclaimer */}
         <div className="disclaimer-box p-4 flex items-start gap-3 mb-4">
           <AlertCircle className="w-5 h-5 text-accent mt-0.5 shrink-0" />
           <p className="text-sm font-body text-foreground/80">
-            <strong className="font-semibold">Educational purposes only.</strong> This tool does not provide medical advice, diagnosis, or treatment recommendations. Always consult a licensed healthcare professional.
+            <strong className="font-semibold">{t('symptoms.disclaimer_1')}</strong>
           </p>
         </div>
         <div className="disclaimer-box p-4 flex items-start gap-3 mb-8 border-amber-500/30 bg-amber-500/5">
           <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
           <p className="text-sm font-body text-foreground/80">
-            <strong className="font-semibold">Not a medical device.</strong> Isabel Symptom Checker does not indicate a specific degree of likelihood or a definitive diagnosis for any condition. By showing a broad list of suggested conditions without specific ranking of probability, the system remains an informational tool rather than a diagnostic one.
+            <strong className="font-semibold">{t('symptoms.disclaimer_2')}</strong>
           </p>
         </div>
 
@@ -232,9 +224,9 @@ const SymptomChecker = () => {
         <div className="card-elevated p-6 mb-6">
           <Label className="font-display text-lg font-semibold text-foreground mb-3 block">
             <Search className="w-4 h-4 inline mr-2 text-primary" />
-            Symptoms
+            {t('symptoms.label_symptoms')}
           </Label>
-          <p className="text-sm text-muted-foreground mb-3">Type symptoms and select from suggestions, or press Enter to add.</p>
+          <p className="text-sm text-muted-foreground mb-3">{t('symptoms.symptoms_help')}</p>
 
           {/* Tags */}
           {symptoms.length > 0 && (
@@ -262,7 +254,7 @@ const SymptomChecker = () => {
                   addSymptom(symptomInput);
                 }
               }}
-              placeholder="e.g. headache, fever, nausea..."
+              placeholder={t('symptoms.input_placeholder')}
               className="font-body"
             />
             {showSuggestions && suggestions.length > 0 && (
@@ -287,7 +279,7 @@ const SymptomChecker = () => {
         {/* Demographics */}
         <div className="card-elevated p-6 mb-6">
           <Label className="font-display text-lg font-semibold text-foreground mb-4 block">
-            Demographics
+            {t('symptoms.demographics')}
           </Label>
           <div className="grid sm:grid-cols-2 gap-4">
             {/* DOB */}
@@ -297,7 +289,7 @@ const SymptomChecker = () => {
                 <PopoverTrigger asChild>
                   <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !dob && "text-muted-foreground")}>
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {dob ? format(dob, "PPP") : "Select date"}
+                    {dob ? format(dob, "PPP") : t('symptoms.select_date')}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
@@ -318,12 +310,12 @@ const SymptomChecker = () => {
 
             {/* Sex */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-foreground">Sex *</Label>
+              <Label className="text-sm font-medium text-foreground">{t('symptoms.sex')}</Label>
               <Select value={sex} onValueChange={setSex}>
                 <SelectTrigger><SelectValue placeholder="Select sex" /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="m">Male</SelectItem>
-                  <SelectItem value="f">Female</SelectItem>
+                  <SelectItem value="m">{t('symptoms.male')}</SelectItem>
+                  <SelectItem value="f">{t('symptoms.female')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -331,12 +323,12 @@ const SymptomChecker = () => {
             {/* Pregnancy (conditional) */}
             {showPregnancy && (
               <div className="space-y-2">
-                <Label className="text-sm font-medium text-foreground">Pregnancy Status</Label>
+                <Label className="text-sm font-medium text-foreground">{t('symptoms.pregnancy')}</Label>
                 <Select value={pregnant} onValueChange={setPregnant}>
                   <SelectTrigger><SelectValue placeholder="Not specified" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="n">Not pregnant</SelectItem>
-                    <SelectItem value="y">Pregnant</SelectItem>
+                    <SelectItem value="n">{t('symptoms.not_pregnant')}</SelectItem>
+                    <SelectItem value="y">{t('symptoms.pregnant')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -344,7 +336,7 @@ const SymptomChecker = () => {
 
             {/* Region */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-foreground">Region (optional)</Label>
+              <Label className="text-sm font-medium text-foreground">{t('symptoms.region')}</Label>
               <Select value={region} onValueChange={setRegion}>
                 <SelectTrigger><SelectValue placeholder="Select region" /></SelectTrigger>
                 <SelectContent>
@@ -357,12 +349,12 @@ const SymptomChecker = () => {
 
             {/* Sort Flag */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-foreground">Sort Results By</Label>
+              <Label className="text-sm font-medium text-foreground">{t('symptoms.sort_by')}</Label>
               <Select value={sortFlag} onValueChange={setSortFlag}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="sortbyRW_advanced">Most Relevant</SelectItem>
-                  <SelectItem value="red_flag">Don't Miss Diagnoses</SelectItem>
+                  <SelectItem value="sortbyRW_advanced">{t('symptoms.most_relevant')}</SelectItem>
+                  <SelectItem value="red_flag">{t('symptoms.dont_miss')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -379,12 +371,12 @@ const SymptomChecker = () => {
           {diagnosing ? (
             <>
               <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-              Analyzing symptoms...
+              {t('symptoms.analyzing')}
             </>
           ) : (
             <>
               <Search className="w-5 h-5 mr-2" />
-              Get Differential Diagnosis
+              {t('symptoms.get_diagnosis')}
             </>
           )}
         </Button>
@@ -426,7 +418,7 @@ const SymptomChecker = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <h2 className="font-display text-xl font-semibold text-foreground flex items-center gap-2">
                     <Stethoscope className="w-5 h-5 text-primary" />
-                    Differential Diagnoses ({diagnoses.length} results)
+                    {t('symptoms.differential')} ({diagnoses.length} {t('symptoms.results')})
                   </h2>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium border">
                     <Shield className="w-3 h-3" />

@@ -6,6 +6,7 @@ import { substances, categoryColors, dependencyColors } from '@/data/substances'
 import { substanceDirectory, type DirectorySubstance, type SubstanceCategory } from '@/data/substance-directory';
 import { BookOpen, Search, ChevronRight, ChevronDown, ExternalLink, Beaker } from 'lucide-react';
 import { useState, useMemo, useCallback } from 'react';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 const categoryLabels: Record<string, string> = {
   stimulant: 'Stimulant',
@@ -49,6 +50,7 @@ export default function SubstanceEducation() {
   const [query, setQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [expandedDirCategories, setExpandedDirCategories] = useState<Set<string>>(new Set());
+  const { t } = useLanguage();
 
   // Curated substances filtering
   const filteredCurated = substances.filter((s) => {
@@ -110,26 +112,17 @@ export default function SubstanceEducation() {
 
   return (
     <Layout>
-      <SEO
-        title="Substance Education Library"
-        description="Source-cited public health education on psychoactive substances — classifications, risk profiles, and harm prevention awareness."
-        path="/substances"
-      />
-      {/* Header */}
+      <SEO title={t('substances.title')} description={t('substances.subtitle')} path="/substances" />
       <section className="section-hero text-primary-foreground py-12 md:py-16">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
               <BookOpen className="w-5 h-5" />
             </div>
-            <span className="text-primary-foreground/80 text-sm font-body uppercase tracking-wide font-medium">Public Health Education</span>
+            <span className="text-primary-foreground/80 text-sm font-body uppercase tracking-wide font-medium">{t('substances.badge')}</span>
           </div>
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-3">
-            Substance Education Library
-          </h1>
-          <p className="text-primary-foreground/85 font-body text-lg max-w-2xl leading-relaxed">
-            Source-cited public health information on psychoactive substances — classifications, risk profiles, and harm prevention awareness. Not guidance for use.
-          </p>
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-3">{t('substances.title')}</h1>
+          <p className="text-primary-foreground/85 font-body text-lg max-w-2xl leading-relaxed">{t('substances.subtitle')}</p>
         </div>
       </section>
 
@@ -144,7 +137,7 @@ export default function SubstanceEducation() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search all substances by name..."
+              placeholder={t('substances.search_placeholder')}
               className="w-full pl-9 pr-4 py-2.5 border border-border rounded-lg bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring font-body text-sm"
             />
           </div>
@@ -169,9 +162,9 @@ export default function SubstanceEducation() {
         <p className="text-sm text-muted-foreground font-body">
           {categoryFilter !== 'curated' && filteredCurated.length > 0 && `${filteredCurated.length} curated`}
           {categoryFilter !== 'curated' && filteredCurated.length > 0 && dirSubstanceCount > 0 && ' + '}
-          {dirSubstanceCount > 0 && `${dirSubstanceCount} from PsychonautWiki`}
-          {filteredCurated.length === 0 && dirSubstanceCount === 0 && 'No matches'}
-          {' — educational data only'}
+          {dirSubstanceCount > 0 && `${dirSubstanceCount} ${t('substances.from_wiki')}`}
+          {filteredCurated.length === 0 && dirSubstanceCount === 0 && t('substances.no_match')}
+          {' '}{t('substances.educational_only')}
         </p>
 
         {/* Curated Substance Cards */}
@@ -180,7 +173,7 @@ export default function SubstanceEducation() {
             {categoryFilter === 'all' && (
               <h2 className="font-display font-semibold text-foreground text-lg mb-4 flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
-                Curated Substance Profiles
+                {t('substances.curated_title')}
               </h2>
             )}
             <div className="grid sm:grid-cols-2 gap-5">
@@ -239,10 +232,10 @@ export default function SubstanceEducation() {
           <div>
             <h2 className="font-display font-semibold text-foreground text-lg mb-1 flex items-center gap-2">
               <Beaker className="w-5 h-5 text-primary" />
-              PsychonautWiki Directory
+              {t('substances.wiki_title')}
             </h2>
             <p className="text-xs text-muted-foreground font-body mb-4">
-              Community-sourced data under CC BY-SA 4.0. Click any substance for effects, duration timeline, and interaction data.
+              {t('substances.wiki_desc')}
             </p>
 
             <div className="space-y-2">
@@ -297,7 +290,7 @@ export default function SubstanceEducation() {
         {filteredCurated.length === 0 && dirSubstanceCount === 0 && (
           <div className="text-center py-12">
             <BookOpen className="w-10 h-10 text-muted-foreground mx-auto mb-3 opacity-50" />
-            <p className="text-muted-foreground font-body">No substances match your search.</p>
+            <p className="text-muted-foreground font-body">{t('substances.no_match')}</p>
           </div>
         )}
 

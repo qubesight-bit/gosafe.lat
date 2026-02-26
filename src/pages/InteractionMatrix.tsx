@@ -3,6 +3,7 @@ import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
 import { MATRIX_SUBSTANCES, getCombo, type ComboStatus, type MatrixSubstance } from '@/data/combo-matrix';
 import { Grid3X3, Info } from 'lucide-react';
+import { useLanguage } from '@/i18n/LanguageContext';
 import {
   Tooltip,
   TooltipContent,
@@ -69,31 +70,22 @@ const statusConfig: Record<StatusKey, { label: string; bg: string; textColor: st
 };
 
 export default function InteractionMatrix() {
+  const { t } = useLanguage();
   const drugs = MATRIX_SUBSTANCES;
 
   return (
     <Layout>
-      <SEO
-        title="Interaction Matrix"
-        description="Visual polydrug interaction matrix showing combination safety at a glance. Based on TripSit community harm reduction data."
-        path="/matrix"
-      />
-
-      {/* Header */}
+      <SEO title={t('matrix.title')} description={t('matrix.subtitle')} path="/matrix" />
       <section className="section-hero text-primary-foreground py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
               <Grid3X3 className="w-5 h-5" />
             </div>
-            <span className="text-primary-foreground/80 text-sm font-body uppercase tracking-wide font-medium">Harm Reduction Tool</span>
+            <span className="text-primary-foreground/80 text-sm font-body uppercase tracking-wide font-medium">{t('matrix.badge')}</span>
           </div>
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-3">
-            Polydrug Interaction Matrix
-          </h1>
-          <p className="text-primary-foreground/85 font-body text-lg max-w-2xl leading-relaxed">
-            Visual overview of reported combination risks between common substances. Hover or tap any cell for details.
-          </p>
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-3">{t('matrix.title')}</h1>
+          <p className="text-primary-foreground/85 font-body text-lg max-w-2xl leading-relaxed">{t('matrix.subtitle')}</p>
         </div>
       </section>
 
@@ -102,7 +94,7 @@ export default function InteractionMatrix() {
 
         {/* Legend */}
         <div className="card-elevated p-5">
-          <h3 className="font-display font-semibold text-foreground text-sm mb-3 uppercase tracking-wide">Legend</h3>
+          <h3 className="font-display font-semibold text-foreground text-sm mb-3 uppercase tracking-wide">{t('matrix.legend')}</h3>
           <div className="flex flex-wrap gap-2">
             {Object.entries(statusConfig).map(([key, cfg]) => (
               <div key={key} className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${cfg.bg} ${cfg.textColor}`}>
@@ -110,7 +102,7 @@ export default function InteractionMatrix() {
               </div>
             ))}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-muted text-muted-foreground border border-border">
-              No Data
+              {t('matrix.no_data')}
             </div>
           </div>
         </div>
