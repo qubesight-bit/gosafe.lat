@@ -1,10 +1,31 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { substanceDirectory, getPsychonautWikiUrl, totalDirectorySubstances, type DirectorySubstance } from '@/data/substance-directory';
-import { ExternalLink, ChevronDown, ChevronRight, Search, BookOpen, Clock, Loader2, Timer, X } from 'lucide-react';
+import { ExternalLink, ChevronDown, ChevronRight, Search, BookOpen, Clock, Loader2, Timer, X, AlertTriangle, ShieldAlert, ShieldCheck, Shield } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { type TripSitCombo } from '@/hooks/use-tripsit-api';
 
 // Simple in-memory cache for duration data
 const durationCache = new Map<string, { data: SubstanceDurationResult | null; error: string | null }>();
+
+// Cache for TripSit combo data
+const comboCache = new Map<string, Record<string, TripSitCombo> | null>();
+
+const comboStatusConfig: Record<string, { label: string; className: string; icon: typeof Shield }> = {
+  dangerous: { label: 'Dangerous', className: 'bg-destructive/10 text-destructive border-destructive/20', icon: ShieldAlert },
+  unsafe: { label: 'Unsafe', className: 'bg-destructive/10 text-destructive border-destructive/20', icon: ShieldAlert },
+  caution: { label: 'Caution', className: 'bg-amber-100 text-amber-800 border-amber-200', icon: AlertTriangle },
+  'low risk & synergy': { label: 'Low Risk ↑', className: 'bg-emerald-100 text-emerald-800 border-emerald-200', icon: ShieldCheck },
+  'low risk & no synergy': { label: 'Low Risk', className: 'bg-muted text-muted-foreground border-border/40', icon: Shield },
+  'low risk & decrease': { label: 'Low Risk ↓', className: 'bg-blue-100 text-blue-800 border-blue-200', icon: Shield },
+};
+
+function getComboConfig(status: string) {
+  const s = status.toLowerCase();
+  for (const [key, config] of Object.entries(comboStatusConfig)) {
+    if (s.includes(key)) return config;
+  }
+  return { label: status, className: 'bg-muted text-muted-foreground border-border/40', icon: Shield };
+}
 
 interface DurationData {
   route: string;
@@ -23,7 +44,9 @@ interface SubstanceDurationResult {
 
 function DurationPanel({ substance, onClose }: { substance: DirectorySubstance; onClose: () => void }) {
   const [data, setData] = useState<SubstanceDurationResult | null>(null);
+  const [combos, setCombos] = useState<Record<string, TripSitCombo> | null>(null);
   const [loading, setLoading] = useState(true);
+  const [combosLoading, setCombosLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const fetchedRef = useRef(false);
 
@@ -31,37 +54,61 @@ function DurationPanel({ substance, onClose }: { substance: DirectorySubstance; 
     if (fetchedRef.current) return;
     fetchedRef.current = true;
 
-    const cached = durationCache.get(substance.name);
-    if (cached) {
-      setData(cached.data);
-      setError(cached.error);
+    // Fetch duration (cached)
+    const cachedDuration = durationCache.get(substance.name);
+    if (cachedDuration) {
+      setData(cachedDuration.data);
+      setError(cachedDuration.error);
       setLoading(false);
-      return;
-    }
-
-    (async () => {
-      try {
-        const { data: result, error: fnError } = await supabase.functions.invoke('psychonautwiki-duration', {
-          body: { substance: substance.name },
-        });
-        if (fnError) throw fnError;
-        if (result?.success && result.data) {
-          setData(result.data);
-          durationCache.set(substance.name, { data: result.data, error: null });
-        } else {
-          const msg = 'No duration data available for this substance.';
+    } else {
+      (async () => {
+        try {
+          const { data: result, error: fnError } = await supabase.functions.invoke('psychonautwiki-duration', {
+            body: { substance: substance.name },
+          });
+          if (fnError) throw fnError;
+          if (result?.success && result.data) {
+            setData(result.data);
+            durationCache.set(substance.name, { data: result.data, error: null });
+          } else {
+            const msg = 'No duration data available.';
+            setError(msg);
+            durationCache.set(substance.name, { data: null, error: msg });
+          }
+        } catch (e) {
+          console.error('Duration fetch error:', e);
+          const msg = 'Could not load duration data.';
           setError(msg);
           durationCache.set(substance.name, { data: null, error: msg });
+        } finally {
+          setLoading(false);
         }
-      } catch (e) {
-        console.error('Duration fetch error:', e);
-        const msg = 'Could not load duration data.';
-        setError(msg);
-        durationCache.set(substance.name, { data: null, error: msg });
-      } finally {
-        setLoading(false);
-      }
-    })();
+      })();
+    }
+
+    // Fetch combos (cached)
+    const cachedCombos = comboCache.get(substance.name);
+    if (cachedCombos !== undefined) {
+      setCombos(cachedCombos);
+      setCombosLoading(false);
+    } else {
+      (async () => {
+        try {
+          const { data: result, error: fnError } = await supabase.functions.invoke('tripsit-api', {
+            body: { action: 'drug', name: substance.name.toLowerCase() },
+          });
+          if (fnError) throw fnError;
+          const entry = result?.data?.[0];
+          const comboData = entry?.combos || null;
+          setCombos(comboData);
+          comboCache.set(substance.name, comboData);
+        } catch {
+          comboCache.set(substance.name, null);
+        } finally {
+          setCombosLoading(false);
+        }
+      })();
+    }
   }, [substance.name]);
 
   const phases = [
@@ -122,6 +169,49 @@ function DurationPanel({ substance, onClose }: { substance: DirectorySubstance; 
 
       {data && data.durations.length === 0 && (
         <p className="text-xs text-muted-foreground py-2">No duration data available.</p>
+      )}
+
+      {/* Interaction warnings from TripSit */}
+      {combosLoading && (
+        <div className="flex items-center gap-2 text-xs text-muted-foreground py-2 justify-center border-t border-border/40 mt-3 pt-3">
+          <Loader2 className="w-3 h-3 animate-spin" />
+          Loading interactions from TripSit…
+        </div>
+      )}
+
+      {!combosLoading && combos && Object.keys(combos).length > 0 && (
+        <div className="border-t border-border/40 mt-3 pt-3">
+          <h5 className="text-xs font-semibold text-foreground mb-2 flex items-center gap-1.5">
+            <ShieldAlert className="w-3.5 h-3.5 text-primary" />
+            Known Interactions
+          </h5>
+          <div className="flex flex-wrap gap-1.5">
+            {Object.entries(combos)
+              .sort(([, a], [, b]) => {
+                const order: Record<string, number> = { dangerous: 0, unsafe: 1, caution: 2 };
+                const aO = Object.keys(order).find(k => (a.status || '').toLowerCase().includes(k));
+                const bO = Object.keys(order).find(k => (b.status || '').toLowerCase().includes(k));
+                return (order[aO || ''] ?? 9) - (order[bO || ''] ?? 9);
+              })
+              .map(([name, combo]) => {
+                const config = getComboConfig(combo.status || '');
+                const Icon = config.icon;
+                return (
+                  <span
+                    key={name}
+                    title={combo.note || config.label}
+                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium border ${config.className}`}
+                  >
+                    <Icon className="w-3 h-3" />
+                    {name}
+                  </span>
+                );
+              })}
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-1.5">
+            Source: TripSit — community-sourced, not peer-reviewed. Hover for notes.
+          </p>
+        </div>
       )}
 
       <div className="mt-3 pt-2 border-t border-border/40 flex items-center justify-between">
