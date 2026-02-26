@@ -6,9 +6,10 @@ import { Disclaimer } from '@/components/Disclaimer';
 import { supabase } from '@/integrations/supabase/client';
 import { type TripSitCombo } from '@/hooks/use-tripsit-api';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { MATRIX_SUBSTANCES } from '@/data/combo-matrix';
 import {
   ArrowLeft, Brain, ExternalLink, Loader2, Timer, Shield, ShieldAlert, ShieldCheck,
-  AlertTriangle, BookOpen, Beaker, Pill, Clock, X,
+  AlertTriangle, BookOpen, Beaker, Pill, Clock, X, Grid3X3, GitCompareArrows, ChevronRight,
 } from 'lucide-react';
 import {
   substanceDirectory,
@@ -457,6 +458,36 @@ export default function WikiSubstanceDetail() {
             </TooltipProvider>
           </div>
         )}
+
+        {/* Cross-reference tools */}
+        <div className="grid sm:grid-cols-2 gap-4">
+          <Link
+            to={`/combinations`}
+            className="card-elevated card-hover p-5 flex items-center gap-3 group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+              <GitCompareArrows className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <p className="font-display font-semibold text-foreground text-sm group-hover:text-primary transition-colors">Combination Checker</p>
+              <p className="text-xs text-muted-foreground font-body">Check interactions between {substanceName} and other substances</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto shrink-0 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+          </Link>
+          <Link
+            to="/matrix"
+            className="card-elevated card-hover p-5 flex items-center gap-3 group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+              <Grid3X3 className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <p className="font-display font-semibold text-foreground text-sm group-hover:text-primary transition-colors">Interaction Matrix</p>
+              <p className="text-xs text-muted-foreground font-body">View the full 18×18 polydrug interaction grid</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto shrink-0 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+          </Link>
+        </div>
 
         {/* Source Attribution */}
         <div className="bg-muted/40 border border-border/60 rounded-xl p-5 flex items-start gap-3">
