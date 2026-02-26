@@ -8,6 +8,7 @@ import { useTripSitApi, mapTripSitStatus } from '@/hooks/use-tripsit-api';
 import type { TripSitDrug } from '@/hooks/use-tripsit-api';
 import { getPsychonautWikiUrl } from '@/data/substance-directory';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { useTranslate } from '@/hooks/use-translate';
 import {
   ArrowLeft, Beaker, Brain, Loader2, ExternalLink, Shield, AlertTriangle,
   Users, Phone, Heart, Droplets, MapPin, Pill, Clock
@@ -38,6 +39,7 @@ export default function WikiSubstanceDetail() {
   const { slug } = useParams<{ slug: string }>();
   const decodedSlug = decodeURIComponent(slug || '');
   const { t } = useLanguage();
+  const { translateBatch, tt } = useTranslate();
 
   const [substance, setSubstance] = useState<WikiSubstance | null>(null);
   const [loading, setLoading] = useState(true);
@@ -59,6 +61,15 @@ export default function WikiSubstanceDetail() {
         if (fnError) throw fnError;
         if (data?.success && data.data) {
           setSubstance(data.data);
+          // Translate effects, toxicity, classes, addiction potential
+          const texts = [
+            ...(data.data.effects || []),
+            ...(data.data.toxicity || []),
+            ...(data.data.chemicalClass || []),
+            ...(data.data.psychoactiveClass || []),
+            data.data.addictionPotential,
+          ].filter(Boolean);
+          if (texts.length > 0) translateBatch(texts);
         } else {
           setSubstance(null);
         }
@@ -162,7 +173,7 @@ export default function WikiSubstanceDetail() {
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1.5 font-body">{t('wiki.chemical_class')}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {substance.chemicalClass.map((c, i) => (
-                        <span key={i} className="px-2.5 py-1 text-xs border border-border rounded-full text-foreground font-body bg-muted/50">{c}</span>
+                        <span key={i} className="px-2.5 py-1 text-xs border border-border rounded-full text-foreground font-body bg-muted/50">{tt(c)}</span>
                       ))}
                     </div>
                   </div>
@@ -172,7 +183,7 @@ export default function WikiSubstanceDetail() {
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1.5 font-body">{t('wiki.psychoactive_class')}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {substance.psychoactiveClass.map((c, i) => (
-                        <span key={i} className="px-2.5 py-1 text-xs border border-border rounded-full text-foreground font-body bg-muted/50">{c}</span>
+                        <span key={i} className="px-2.5 py-1 text-xs border border-border rounded-full text-foreground font-body bg-muted/50">{tt(c)}</span>
                       ))}
                     </div>
                   </div>
@@ -189,7 +200,7 @@ export default function WikiSubstanceDetail() {
                 <div className="flex flex-wrap gap-2">
                   {substance.effects.map((effect, i) => (
                     <span key={i} className="px-2.5 py-1 text-xs border border-border rounded-full text-muted-foreground font-body bg-muted/50">
-                      {effect}
+                      {tt(effect)}
                     </span>
                   ))}
                 </div>
@@ -228,7 +239,7 @@ export default function WikiSubstanceDetail() {
               {substance.addictionPotential && (
                 <div>
                   <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1 font-body">{t('wiki.addiction_potential')}</p>
-                  <p className="text-sm text-foreground font-body">{substance.addictionPotential}</p>
+                  <p className="text-sm text-foreground font-body">{tt(substance.addictionPotential)}</p>
                 </div>
               )}
 
@@ -239,7 +250,7 @@ export default function WikiSubstanceDetail() {
                     {substance.toxicity.map((t_item, i) => (
                       <li key={i} className="text-sm text-foreground font-body flex items-start gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                        {t_item}
+                        {tt(t_item)}
                       </li>
                     ))}
                   </ul>

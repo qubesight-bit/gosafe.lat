@@ -7,6 +7,7 @@ import { NotFoundSuggestions } from '@/components/NotFoundSuggestions';
 import { useTripSitApi, mapTripSitStatus } from '@/hooks/use-tripsit-api';
 import type { TripSitInteraction } from '@/hooks/use-tripsit-api';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { useTranslate } from '@/hooks/use-translate';
 import { Shield, Search, Loader2, AlertTriangle, CheckCircle2, Info, ExternalLink } from 'lucide-react';
 
 const examplePairs = [
@@ -22,6 +23,7 @@ const examplePairs = [
 export default function CombinationChecker() {
   const [drugA, setDrugA] = useState('');
   const { t } = useLanguage();
+  const { translateBatch, tt } = useTranslate();
   const [drugB, setDrugB] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<TripSitInteraction | null>(null);
@@ -44,6 +46,14 @@ export default function CombinationChecker() {
       const data = await api.getInteraction(drugA.trim(), drugB.trim());
       if (data) {
         setResult(data);
+        // Translate API texts
+        const textsToTranslate = [
+          data.status,
+          ...(data.note ? [data.note] : []),
+          data.interactionCategoryA,
+          data.interactionCategoryB,
+        ].filter(Boolean);
+        if (textsToTranslate.length > 0) translateBatch(textsToTranslate);
       } else {
         setNotFound(true);
       }
@@ -205,8 +215,8 @@ export default function CombinationChecker() {
                 <div className="flex items-start gap-3">
                   {severityIcons[mapped.severity]}
                   <div>
-                    <p className="font-semibold text-sm mb-1">Status: {result.status}</p>
-                    <p className="text-sm leading-relaxed">{mapped.description}</p>
+                    <p className="font-semibold text-sm mb-1">Status: {tt(result.status)}</p>
+                    <p className="text-sm leading-relaxed">{tt(mapped.description)}</p>
                   </div>
                 </div>
               </div>
@@ -216,7 +226,7 @@ export default function CombinationChecker() {
                 <div className="bg-muted/50 border border-border rounded-lg p-4">
                   <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mb-1 font-body">Community Note</p>
                   <p className="text-sm font-body leading-relaxed text-foreground/80">
-                    {(result as unknown as { note?: string }).note}
+                    {tt((result as unknown as { note?: string }).note || '')}
                   </p>
                 </div>
               )}
@@ -225,11 +235,11 @@ export default function CombinationChecker() {
               <div className="grid sm:grid-cols-2 gap-3">
                 <div className="bg-muted/30 border border-border rounded-lg p-3">
                   <p className="text-xs text-muted-foreground font-body mb-0.5">Category A</p>
-                  <p className="text-sm font-medium text-foreground font-body capitalize">{result.interactionCategoryA}</p>
+                  <p className="text-sm font-medium text-foreground font-body capitalize">{tt(result.interactionCategoryA)}</p>
                 </div>
                 <div className="bg-muted/30 border border-border rounded-lg p-3">
                   <p className="text-xs text-muted-foreground font-body mb-0.5">Category B</p>
-                  <p className="text-sm font-medium text-foreground font-body capitalize">{result.interactionCategoryB}</p>
+                  <p className="text-sm font-medium text-foreground font-body capitalize">{tt(result.interactionCategoryB)}</p>
                 </div>
               </div>
 

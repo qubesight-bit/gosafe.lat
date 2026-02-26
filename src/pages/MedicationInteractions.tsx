@@ -10,6 +10,7 @@ import { lookupRxNavInteraction } from '@/lib/rxnav';
 import type { NormalizedInteraction } from '@/lib/rxnav';
 import { useTripSitApi, mapTripSitStatus } from '@/hooks/use-tripsit-api';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { useTranslate } from '@/hooks/use-translate';
 import { Pill, Search, AlertCircle, ChevronDown, Info, Loader2, Database, Globe, Lightbulb, ExternalLink } from 'lucide-react';
 
 const commonDrugs = [
@@ -35,6 +36,7 @@ export default function MedicationInteractions() {
   const [searchedTerms, setSearchedTerms] = useState({ d1: '', d2: '' });
   const tripSitApi = useTripSitApi();
   const { t } = useLanguage();
+  const { translateBatch, tt } = useTranslate();
 
   const handleSearch = async () => {
     if (!drug1.trim() || !drug2.trim()) return;
@@ -49,6 +51,7 @@ export default function MedicationInteractions() {
     const staticMatch = searchInteraction(terms.d1, terms.d2);
     if (staticMatch) {
       setResult({ type: 'static', data: staticMatch });
+      translateBatch([staticMatch.mechanism, staticMatch.clinicalNote, staticMatch.plainEnglish || ''].filter(Boolean));
       setSearched(true);
       setLoading(false);
       return;
@@ -59,6 +62,7 @@ export default function MedicationInteractions() {
       const rxResult = await lookupRxNavInteraction(terms.d1, terms.d2);
       if (rxResult !== 'not-in-rxnorm' && rxResult !== null) {
         setResult({ type: 'rxnav', data: rxResult });
+        translateBatch([rxResult.mechanism, rxResult.clinicalNote].filter(Boolean));
         setSearched(true);
         setLoading(false);
         return;
@@ -72,6 +76,7 @@ export default function MedicationInteractions() {
       const tsResult = await tripSitApi.getInteraction(terms.d1, terms.d2);
       if (tsResult) {
         const mapped = mapTripSitStatus(tsResult.status);
+        const note = (tsResult as unknown as { note?: string }).note;
         setResult({
           type: 'tripsit',
           data: {
@@ -81,9 +86,10 @@ export default function MedicationInteractions() {
             mechanism: mapped.description,
             clinicalNote: 'This data is from the TripSit community database (anecdotal). Always consult a healthcare professional.',
             label: mapped.label,
-            note: (tsResult as unknown as { note?: string }).note,
+            note,
           },
         });
+        translateBatch([mapped.description, note || ''].filter(Boolean));
         setSearched(true);
         setLoading(false);
         return;
@@ -310,7 +316,7 @@ export default function MedicationInteractions() {
 
               <div>
                 <h4 className="font-semibold text-foreground mb-2 text-sm uppercase tracking-wide font-body">{t('interactions.mechanism_title')}</h4>
-                <p className="text-foreground/80 text-sm font-body leading-relaxed">{displayData.mechanism}</p>
+                <p className="text-foreground/80 text-sm font-body leading-relaxed">{tt(displayData.mechanism)}</p>
               </div>
 
               {/* Plain English Explanation */}
@@ -323,14 +329,14 @@ export default function MedicationInteractions() {
                     <h4 className="font-semibold text-primary text-sm font-body">{t('interactions.plain_terms')}</h4>
                   </div>
                   <p className="text-foreground/85 text-sm font-body leading-relaxed pl-9">
-                    {displayData.plainEnglish}
+                    {tt(displayData.plainEnglish)}
                   </p>
                 </div>
               )}
 
               <div className="bg-muted/50 border border-border rounded-lg p-4">
                 <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mb-1 font-body">{t('interactions.referral_title')}</p>
-                <p className="text-sm font-body leading-relaxed text-foreground/80">{displayData.clinicalNote}</p>
+                <p className="text-sm font-body leading-relaxed text-foreground/80">{tt(displayData.clinicalNote)}</p>
               </div>
 
               <div className="disclaimer-box px-4 py-3 flex items-start gap-2">
