@@ -239,6 +239,9 @@ const Index = () => {
             <p className="text-primary-foreground/75 text-sm font-body leading-relaxed max-w-md">
               {t('index.naloxone_desc')}
             </p>
+            <p className="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-lg bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground/90 text-xs font-semibold font-body">
+              🇺🇸 {t('index.naloxone_us_only')}
+            </p>
           </div>
           <a
             href="https://nextdistro.org/naloxone#state-finder"
