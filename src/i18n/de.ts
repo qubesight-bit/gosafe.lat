@@ -220,5 +220,19 @@ export const de: Record<string, string> = {
   'warn.respiratory': 'Respiratorische Warnzeichen',
   'warn.psychiatric': 'Psychiatrische Notfallzeichen',
 
+  // Reports
+  'reports.badge': 'Bildungszusammenfassungen — Anekdotisch',
+  'reports.title': 'Erfahrungsberichte & Substanzverzeichnis',
+  'reports.subtitle': 'Kuratierte Bildungszusammenfassungen von Erfahrungsberichten aus erster Hand von ',
+  'reports.tab_directory': 'Substanzverzeichnis',
+  'reports.tab_reports': 'Erfahrungsberichte',
+  'reports.search_placeholder': 'Berichte nach Titel, Substanz oder Stichwort suchen…',
+  'reports.showing': 'Anzeige von',
+  'reports.of': 'von',
+  'reports.reports': 'Berichten',
+  'reports.no_match': 'Keine Berichte entsprechen Ihren Filtern.',
+  'reports.source_title': 'Quelle:',
+  'reports.source_desc': 'Diese Zusammenfassungen sind für ihren Bildungswert kuratiert und konzentrieren sich auf Sicherheitserkenntnisse und medizinische Risiken.',
+
   'source.title': 'Quellen & Referenzen',
 };

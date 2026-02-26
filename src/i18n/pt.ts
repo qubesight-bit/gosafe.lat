@@ -220,5 +220,19 @@ export const pt: Record<string, string> = {
   'warn.respiratory': 'Sinais de Alerta Respiratório',
   'warn.psychiatric': 'Sinais de Emergência Psiquiátrica',
 
+  // Reports
+  'reports.badge': 'Resumos Educacionais — Anedóticos',
+  'reports.title': 'Relatos de Experiências e Diretório de Substâncias',
+  'reports.subtitle': 'Resumos educacionais curados de relatos de experiências em primeira pessoa de ',
+  'reports.tab_directory': 'Diretório de Substâncias',
+  'reports.tab_reports': 'Relatos de Experiências',
+  'reports.search_placeholder': 'Pesquisar relatos por título, substância ou palavra-chave…',
+  'reports.showing': 'Mostrando',
+  'reports.of': 'de',
+  'reports.reports': 'relatos',
+  'reports.no_match': 'Nenhum relato corresponde aos seus filtros.',
+  'reports.source_title': 'Fonte:',
+  'reports.source_desc': 'Estes resumos são curados pelo valor educacional e focam em conclusões de segurança e riscos médicos.',
+
   'source.title': 'Fontes e Referências',
 };

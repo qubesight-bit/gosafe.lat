@@ -220,5 +220,19 @@ export const fr: Record<string, string> = {
   'warn.respiratory': 'Signes d\'Alerte Respiratoires',
   'warn.psychiatric': 'Signes d\'Urgence Psychiatrique',
 
+  // Reports
+  'reports.badge': 'Résumés Éducatifs — Anecdotiques',
+  'reports.title': 'Rapports d\'Expériences et Répertoire de Substances',
+  'reports.subtitle': 'Résumés éducatifs de rapports d\'expériences à la première personne de ',
+  'reports.tab_directory': 'Répertoire de Substances',
+  'reports.tab_reports': 'Rapports d\'Expériences',
+  'reports.search_placeholder': 'Rechercher par titre, substance ou mot-clé…',
+  'reports.showing': 'Affichage de',
+  'reports.of': 'sur',
+  'reports.reports': 'rapports',
+  'reports.no_match': 'Aucun rapport ne correspond à vos filtres.',
+  'reports.source_title': 'Source :',
+  'reports.source_desc': 'Ces résumés sont sélectionnés pour leur valeur éducative et se concentrent sur les enseignements de sécurité et les risques médicaux.',
+
   'source.title': 'Sources et Références',
 };
