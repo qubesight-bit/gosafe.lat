@@ -15,6 +15,7 @@ import SymptomChecker from "./pages/SymptomChecker";
 import CombinationChecker from "./pages/CombinationChecker";
 import InteractionMatrix from "./pages/InteractionMatrix";
 import FAQ from "./pages/FAQ";
+import TripReports from "./pages/TripReports";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/emergency" element={<EmergencyResources />} />
                 <Route path="/symptom-checker" element={<SymptomChecker />} />
+                <Route path="/reports" element={<TripReports />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

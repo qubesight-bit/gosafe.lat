@@ -6,6 +6,7 @@ export const en: Record<string, string> = {
   'nav.matrix': 'Matrix',
   'nav.substances': 'Substances',
   'nav.faq': 'FAQ',
+  'nav.reports': 'Reports',
   'nav.symptoms': 'Symptoms',
   'nav.emergency': 'Emergency',
 
