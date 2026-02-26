@@ -147,11 +147,19 @@ const Index = () => {
 
       {/* Disclaimer Banner */}
       <section className="bg-accent-muted border-b border-amber-200">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-start gap-3">
-          <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
-          <p className="text-amber-800 text-sm font-body">
-            <strong className="font-semibold">{t('index.disclaimer_banner')}</strong>
-          </p>
+        <div className="max-w-7xl mx-auto px-4 py-3 space-y-2">
+          <div className="flex items-start gap-3">
+            <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+            <p className="text-amber-800 text-sm font-body">
+              <strong className="font-semibold">{t('index.disclaimer_banner')}</strong>
+            </p>
+          </div>
+          <div className="flex items-start gap-3">
+            <Shield className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+            <p className="text-amber-800 text-sm font-body font-semibold">
+              {t('index.disclaimer_medical')}
+            </p>
+          </div>
         </div>
       </section>
 

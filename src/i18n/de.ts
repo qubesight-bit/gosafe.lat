@@ -50,6 +50,7 @@ export const de: Record<string, string> = {
   'index.category_rx': '💊 Rx & Pharmazeutisch',
   'index.category_substances': '🧪 Substanzen & Schadensminderung',
   'index.disclaimer_banner': 'Nur zu Bildungszwecken. Diese Plattform bietet keine medizinische Beratung, Diagnose, Verschreibungen oder Behandlungsempfehlungen.',
+  'index.disclaimer_medical': 'Ignorieren Sie niemals professionellen medizinischen Rat und verzögern Sie nicht dessen Einholung aufgrund von Inhalten auf dieser Plattform.',
   'index.tools_title': 'Werkzeuge der Öffentlichen Gesundheit',
   'index.tools_subtitle': 'Bildungsressourcen basierend auf zitierten institutionellen Gesundheitsdaten.',
   'index.feature_interactions_title': 'Bewusstsein für Wechselwirkungen',

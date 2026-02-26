@@ -59,6 +59,7 @@ export const es: Record<string, string> = {
   'index.category_rx': '💊 Rx y Farmacéuticos',
   'index.category_substances': '🧪 Sustancias y Reducción de Daños',
   'index.disclaimer_banner': 'Solo con fines educativos. Esta plataforma no proporciona consejo médico, diagnóstico, recetas ni orientación de tratamiento. Siempre consulte a un profesional de salud autorizado para decisiones médicas.',
+  'index.disclaimer_medical': 'Nunca ignore el consejo médico profesional ni retrase buscarlo por algo que haya leído en esta plataforma.',
   'index.tools_title': 'Herramientas de Salud Pública',
   'index.tools_subtitle': 'Recursos educativos basados en datos institucionales de salud citados.',
   'index.feature_interactions_title': 'Concientización sobre Interacciones',
