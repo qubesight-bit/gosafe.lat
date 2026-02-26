@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { Layout } from '@/components/Layout';
+import { useTranslate } from '@/hooks/use-translate';
 import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
 import { useIsabelApi, type AgeGroup, type Region, type Diagnosis, type DiagnosisResult, type KnowledgeGroup } from '@/hooks/use-isabel-api';
@@ -24,6 +25,7 @@ const SymptomChecker = () => {
   const api = useIsabelApi();
   const { toast } = useToast();
   const { t } = useLanguage();
+  const { translateBatch, tt } = useTranslate();
 
   // Metadata
   const [ageGroups, setAgeGroups] = useState<AgeGroup[]>([]);
@@ -131,6 +133,10 @@ const SymptomChecker = () => {
         flag: sortFlag,
       });
       setResult(data);
+      // Trigger translation for diagnosis names and specialties
+      const diags = data?.diagnoses_checklist?.diagnoses || [];
+      const textsToTranslate = diags.flatMap((dx: Diagnosis) => [dx.diagnosis_name, dx.specialty].filter(Boolean));
+      if (textsToTranslate.length > 0) translateBatch(textsToTranslate);
     } catch (e: unknown) {
       toast({ title: "Diagnosis error", description: e instanceof Error ? e.message : "Unknown error", variant: "destructive" });
     } finally {
@@ -444,8 +450,8 @@ const SymptomChecker = () => {
                           {i + 1}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-display text-lg font-semibold text-foreground">{dx.diagnosis_name}</h3>
-                          <p className="text-sm text-muted-foreground mt-0.5">{dx.specialty}</p>
+                          <h3 className="font-display text-lg font-semibold text-foreground">{tt(dx.diagnosis_name)}</h3>
+                          <p className="text-sm text-muted-foreground mt-0.5">{tt(dx.specialty)}</p>
                           
                           {/* Badges */}
                           <div className="flex flex-wrap gap-2 mt-2">
