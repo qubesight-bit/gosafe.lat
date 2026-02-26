@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import MedicationInteractions from "./pages/MedicationInteractions";
 import SubstanceEducation from "./pages/SubstanceEducation";
 import SubstanceDetail from "./pages/SubstanceDetail";
+import WikiSubstanceDetail from "./pages/WikiSubstanceDetail";
 import EmergencyResources from "./pages/EmergencyResources";
 import SymptomChecker from "./pages/SymptomChecker";
 import CombinationChecker from "./pages/CombinationChecker";
@@ -33,6 +34,7 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/interactions" element={<MedicationInteractions />} />
                 <Route path="/substances" element={<SubstanceEducation />} />
+                <Route path="/substances/wiki/:slug" element={<WikiSubstanceDetail />} />
                 <Route path="/substances/:id" element={<SubstanceDetail />} />
                 <Route path="/combinations" element={<CombinationChecker />} />
                 <Route path="/matrix" element={<InteractionMatrix />} />
