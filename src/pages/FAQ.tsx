@@ -3,7 +3,7 @@ import { Layout } from '@/components/Layout';
 import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
 import { myths, categoryLabels, type MythEntry } from '@/data/faq-myths';
-import { Search, XCircle, CheckCircle2, ExternalLink, Filter, MessageCircleQuestion } from 'lucide-react';
+import { Search, XCircle, CheckCircle2, ExternalLink, Filter, MessageCircleQuestion, Database, Globe, Server, ShieldCheck, Code, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 
 const categoryOrder = ['general', 'alcohol', 'cannabis', 'opioids', 'stimulants', 'psychedelics', 'combinations'];
@@ -110,6 +110,157 @@ export default function FAQ() {
             <p className="text-muted-foreground font-body">{t('faq.no_results')}</p>
           </div>
         )}
+
+        {/* Data Transparency Section */}
+        <div className="mt-16 space-y-8">
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 bg-accent-muted text-accent-foreground px-4 py-1.5 rounded-full text-sm font-body font-medium mb-4">
+              <Database className="w-4 h-4" />
+              {t('faq.transparency_badge')}
+            </div>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
+              {t('faq.transparency_title')}
+            </h2>
+            <p className="text-muted-foreground font-body max-w-2xl mx-auto text-sm leading-relaxed">
+              {t('faq.transparency_desc')}
+            </p>
+          </div>
+
+          {/* How It Works */}
+          <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+            <div className="flex items-center gap-2">
+              <Server className="w-5 h-5 text-primary" />
+              <h3 className="font-display font-semibold text-foreground text-lg">{t('faq.how_it_works')}</h3>
+            </div>
+            <p className="text-muted-foreground font-body text-sm leading-relaxed">
+              {t('faq.how_it_works_desc')}
+            </p>
+            <div className="flex flex-wrap items-center gap-2 text-sm font-body text-foreground/70">
+              <span className="bg-muted px-3 py-1.5 rounded-lg font-medium">{t('faq.step_user_query')}</span>
+              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+              <span className="bg-muted px-3 py-1.5 rounded-lg font-medium">{t('faq.step_secure_backend')}</span>
+              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+              <span className="bg-muted px-3 py-1.5 rounded-lg font-medium">{t('faq.step_api_query')}</span>
+              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+              <span className="bg-muted px-3 py-1.5 rounded-lg font-medium">{t('faq.step_verified_result')}</span>
+            </div>
+          </div>
+
+          {/* API & Data Source Cards */}
+          <div className="grid md:grid-cols-2 gap-5">
+            {/* RxNav / NIH */}
+            <div className="bg-card border border-border rounded-xl p-5 space-y-3">
+              <div className="flex items-center gap-2">
+                <Globe className="w-5 h-5 text-primary" />
+                <h4 className="font-display font-semibold text-foreground">NIH / NLM RxNav API</h4>
+              </div>
+              <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium font-body bg-primary/10 text-primary uppercase tracking-wide">
+                {t('faq.source_governmental')}
+              </span>
+              <p className="text-muted-foreground font-body text-sm leading-relaxed">
+                {t('faq.rxnav_desc')}
+              </p>
+              <a href="https://lhncbc.nlm.nih.gov/RxNav/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-body font-medium text-primary hover:underline">
+                <ExternalLink className="w-3 h-3" /> lhncbc.nlm.nih.gov/RxNav
+              </a>
+            </div>
+
+            {/* TripSit */}
+            <div className="bg-card border border-border rounded-xl p-5 space-y-3">
+              <div className="flex items-center gap-2">
+                <Globe className="w-5 h-5 text-primary" />
+                <h4 className="font-display font-semibold text-foreground">TripSit API</h4>
+              </div>
+              <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium font-body bg-accent-muted text-accent-foreground uppercase tracking-wide">
+                {t('faq.source_community')}
+              </span>
+              <p className="text-muted-foreground font-body text-sm leading-relaxed">
+                {t('faq.tripsit_desc')}
+              </p>
+              <a href="https://tripsit.me" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-body font-medium text-primary hover:underline">
+                <ExternalLink className="w-3 h-3" /> tripsit.me
+              </a>
+            </div>
+
+            {/* PsychonautWiki */}
+            <div className="bg-card border border-border rounded-xl p-5 space-y-3">
+              <div className="flex items-center gap-2">
+                <Globe className="w-5 h-5 text-primary" />
+                <h4 className="font-display font-semibold text-foreground">PsychonautWiki API</h4>
+              </div>
+              <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium font-body bg-accent-muted text-accent-foreground uppercase tracking-wide">
+                {t('faq.source_community')}
+              </span>
+              <p className="text-muted-foreground font-body text-sm leading-relaxed">
+                {t('faq.psychonautwiki_desc')}
+              </p>
+              <a href="https://psychonautwiki.org" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-body font-medium text-primary hover:underline">
+                <ExternalLink className="w-3 h-3" /> psychonautwiki.org
+              </a>
+            </div>
+
+            {/* Isabel Healthcare */}
+            <div className="bg-card border border-border rounded-xl p-5 space-y-3">
+              <div className="flex items-center gap-2">
+                <Globe className="w-5 h-5 text-primary" />
+                <h4 className="font-display font-semibold text-foreground">Isabel Healthcare API</h4>
+              </div>
+              <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium font-body bg-primary/10 text-primary uppercase tracking-wide">
+                {t('faq.source_clinical')}
+              </span>
+              <p className="text-muted-foreground font-body text-sm leading-relaxed">
+                {t('faq.isabel_desc')}
+              </p>
+              <a href="https://www.isabelhealthcare.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-body font-medium text-primary hover:underline">
+                <ExternalLink className="w-3 h-3" /> isabelhealthcare.com
+              </a>
+            </div>
+
+            {/* Internal Curated Database */}
+            <div className="bg-card border border-border rounded-xl p-5 space-y-3">
+              <div className="flex items-center gap-2">
+                <Database className="w-5 h-5 text-primary" />
+                <h4 className="font-display font-semibold text-foreground">{t('faq.curated_db_title')}</h4>
+              </div>
+              <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium font-body bg-primary/10 text-primary uppercase tracking-wide">
+                {t('faq.source_curated')}
+              </span>
+              <p className="text-muted-foreground font-body text-sm leading-relaxed">
+                {t('faq.curated_db_desc')}
+              </p>
+            </div>
+
+            {/* Lovable AI Translation */}
+            <div className="bg-card border border-border rounded-xl p-5 space-y-3">
+              <div className="flex items-center gap-2">
+                <Code className="w-5 h-5 text-primary" />
+                <h4 className="font-display font-semibold text-foreground">{t('faq.ai_translation_title')}</h4>
+              </div>
+              <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium font-body bg-muted text-muted-foreground uppercase tracking-wide">
+                {t('faq.source_ai')}
+              </span>
+              <p className="text-muted-foreground font-body text-sm leading-relaxed">
+                {t('faq.ai_translation_desc')}
+              </p>
+            </div>
+          </div>
+
+          {/* Security & Privacy Note */}
+          <div className="bg-card border border-border rounded-xl p-6 space-y-3">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-primary" />
+              <h3 className="font-display font-semibold text-foreground text-lg">{t('faq.security_title')}</h3>
+            </div>
+            <ul className="space-y-2">
+              {[t('faq.security_1'), t('faq.security_2'), t('faq.security_3'), t('faq.security_4')].map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground font-body">
+                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
         <div className="mt-12">
           <Disclaimer />
