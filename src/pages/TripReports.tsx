@@ -382,6 +382,74 @@ const TripReports = () => {
             </div>
           </>
         )}
+
+        {/* Harm Reduction Resources */}
+        <div className="mt-10 border border-border/60 rounded-2xl overflow-hidden">
+          <div className="bg-primary/5 px-5 py-4 border-b border-border/40">
+            <h2 className="font-display font-semibold text-foreground text-lg flex items-center gap-2">
+              <Heart className="w-5 h-5 text-primary" />
+              Harm Reduction Resources
+            </h2>
+            <p className="text-xs text-muted-foreground mt-1">
+              Trusted organizations providing free tools, education, and life-saving supplies
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border/40">
+            {[
+              {
+                name: 'DanceSafe',
+                url: 'https://dancesafe.org',
+                description: 'Reagent test kits, drug checking services, and harm reduction education at events.',
+                cta: 'Get Test Kits',
+                ctaUrl: 'https://dancesafe.org/testing-kit-instructions/',
+              },
+              {
+                name: 'NextDistro',
+                url: 'https://nextdistro.org',
+                description: 'Free mail-based naloxone (Narcan) distribution and fentanyl test strips across the US.',
+                cta: 'Get Free Naloxone',
+                ctaUrl: 'https://nextdistro.org/get-naloxone',
+              },
+              {
+                name: 'TripSit',
+                url: 'https://tripsit.me',
+                description: 'Real-time peer support chat, combination safety charts, and factsheets for hundreds of substances.',
+                cta: 'Chat Now',
+                ctaUrl: 'https://chat.tripsit.me',
+              },
+              {
+                name: 'Erowid',
+                url: 'https://erowid.org',
+                description: 'Comprehensive experience vault, substance information, and community-sourced harm reduction data since 1995.',
+                cta: 'Experience Vault',
+                ctaUrl: 'https://erowid.org/experiences/',
+              },
+            ].map((org) => (
+              <div key={org.name} className="bg-card p-4 flex flex-col gap-2">
+                <a
+                  href={org.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-display font-semibold text-foreground hover:text-primary transition-colors text-sm"
+                >
+                  {org.name}
+                </a>
+                <p className="text-xs text-muted-foreground leading-relaxed flex-1">
+                  {org.description}
+                </p>
+                <a
+                  href={org.ctaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline mt-auto"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  {org.cta}
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </Layout>
   );
