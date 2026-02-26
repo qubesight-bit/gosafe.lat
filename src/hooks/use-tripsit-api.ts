@@ -47,7 +47,12 @@ export function useTripSitApi() {
       // The API returns an array; first entry may have err=true
       const entry = res.data?.[0];
       if (!entry || entry.err) return null;
-      return entry as TripSitInteraction;
+      return {
+        status: entry.result || entry.status || '',
+        interactionCategoryA: entry.interactionCategoryA ?? '',
+        interactionCategoryB: entry.interactionCategoryB ?? '',
+        note: entry.note ?? entry.definition,
+      } as TripSitInteraction;
     },
 
     getDrug: async (name: string): Promise<TripSitDrug | null> => {
@@ -78,7 +83,7 @@ export function mapTripSitStatus(status: string): {
   label: string;
   description: string;
 } {
-  const s = status.toLowerCase();
+  const s = (status ?? '').toLowerCase();
   if (s.includes('dangerous')) return {
     severity: 'severe',
     label: 'Dangerous',
