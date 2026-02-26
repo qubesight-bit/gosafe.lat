@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Shield, AlertTriangle } from 'lucide-react';
+import { Shield, ExternalLink } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -10,8 +10,21 @@ import {
 } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
+import gosafeLogo from '@/assets/gosafe-logo.png';
 
 const DISCLAIMER_KEY = 'gosafe_disclaimer_accepted';
+
+const sources = [
+  { name: 'WHO', url: 'https://www.who.int' },
+  { name: 'NIH', url: 'https://www.nih.gov' },
+  { name: 'NIDA', url: 'https://nida.nih.gov' },
+  { name: 'CDC', url: 'https://www.cdc.gov' },
+  { name: 'EMA', url: 'https://www.ema.europa.eu' },
+  { name: 'IAFA CR', url: 'https://www.iafa.go.cr' },
+  { name: 'Isabel Healthcare', url: 'https://www.isabelhealthcare.com' },
+  { name: 'PsychonautWiki', url: 'https://psychonautwiki.org' },
+  { name: 'TripSit', url: 'https://tripsit.me' },
+];
 
 export function DisclaimerModal() {
   const [open, setOpen] = useState(false);
@@ -32,15 +45,13 @@ export function DisclaimerModal() {
   return (
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent
-        className="sm:max-w-md [&>button]:hidden"
+        className="sm:max-w-lg [&>button]:hidden max-h-[90vh] overflow-y-auto"
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
         <DialogHeader className="text-center sm:text-center">
-          <div className="flex justify-center mb-3">
-            <div className="w-14 h-14 rounded-full bg-accent-muted flex items-center justify-center">
-              <AlertTriangle className="w-7 h-7 text-amber-600" />
-            </div>
+          <div className="flex justify-center mb-4">
+            <img src={gosafeLogo} alt="GoSafe.lat logo" className="w-20 h-20 object-contain" />
           </div>
           <DialogTitle className="font-display text-xl">
             Educational Purposes Only
@@ -50,7 +61,29 @@ export function DisclaimerModal() {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="border border-border rounded-lg p-4 my-2 bg-muted/30">
+        {/* Sources section */}
+        <div className="border border-border rounded-lg p-4 my-2 bg-muted/20">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2.5 font-body">
+            All information is based exclusively on reputable governmental &amp; academic sources
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {sources.map(({ name, url }) => (
+              <a
+                key={name}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors font-body"
+              >
+                {name}
+                <ExternalLink className="w-2.5 h-2.5 opacity-60" />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Acceptance checkbox */}
+        <div className="border border-border rounded-lg p-4 my-1 bg-muted/30">
           <div className="flex items-start gap-3">
             <Checkbox
               id="disclaimer-accept"
