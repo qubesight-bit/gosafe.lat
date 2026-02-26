@@ -555,10 +555,10 @@ const SymptomChecker = () => {
                       <span className="text-sm font-body text-foreground">{q.label}</span>
                       <div className="flex gap-2 shrink-0">
                         <button
-                          onClick={() => setTriageAnswers(prev => ({ ...prev, [q.key]: "Y" }))}
+                          onClick={() => setTriageAnswers(prev => ({ ...prev, [q.key]: "1" }))}
                           className={cn(
                             "px-3 py-1 rounded-md text-xs font-semibold transition-colors border",
-                            triageAnswers[q.key] === "Y"
+                            triageAnswers[q.key] === "1"
                               ? "bg-destructive/10 border-destructive/30 text-destructive"
                               : "border-border text-muted-foreground hover:bg-muted"
                           )}
@@ -566,10 +566,10 @@ const SymptomChecker = () => {
                           Yes
                         </button>
                         <button
-                          onClick={() => setTriageAnswers(prev => ({ ...prev, [q.key]: "N" }))}
+                          onClick={() => setTriageAnswers(prev => ({ ...prev, [q.key]: "0" }))}
                           className={cn(
                             "px-3 py-1 rounded-md text-xs font-semibold transition-colors border",
-                            triageAnswers[q.key] === "N"
+                            triageAnswers[q.key] === "0"
                               ? "bg-primary/10 border-primary/30 text-primary"
                               : "border-border text-muted-foreground hover:bg-muted"
                           )}
@@ -599,26 +599,6 @@ const SymptomChecker = () => {
                   const score = (triageData as Record<string, Record<string, string>>)?.where_to_now?.triage_score || "";
                   const needsQuestions = score.toLowerCase().includes("please send");
                   
-                  // Determine urgency level from score text
-                  let urgency: "emergency" | "urgent" | "routine" | "info" = "info";
-                  let urgencyLabel = "Information";
-                  let urgencyDesc = score;
-                  const scoreLower = score.toLowerCase();
-                  
-                  if (scoreLower.includes("emergency") || scoreLower.includes("911") || scoreLower.includes("immediately")) {
-                    urgency = "emergency";
-                    urgencyLabel = "Emergency — Call 911";
-                    urgencyDesc = score;
-                  } else if (scoreLower.includes("urgent") || scoreLower.includes("soon") || scoreLower.includes("today")) {
-                    urgency = "urgent";
-                    urgencyLabel = "Urgent — See a Doctor Today";
-                    urgencyDesc = score;
-                  } else if (scoreLower.includes("routine") || scoreLower.includes("appointment") || scoreLower.includes("schedule")) {
-                    urgency = "routine";
-                    urgencyLabel = "Routine — Schedule an Appointment";
-                    urgencyDesc = score;
-                  }
-                  
                   if (needsQuestions) {
                     return (
                       <div className="p-4 rounded-lg bg-accent/10 border border-accent/20 flex items-start gap-3">
@@ -628,6 +608,22 @@ const SymptomChecker = () => {
                     );
                   }
 
+                  // Score is numeric: 0-100. Higher = more urgent
+                  const numScore = parseInt(score, 10);
+                  let urgency: "emergency" | "urgent" | "routine" | "info" = "info";
+                  let urgencyLabel = "Low Urgency — Self-Care / Monitor";
+                  
+                  if (numScore >= 70) {
+                    urgency = "emergency";
+                    urgencyLabel = "High Urgency — Seek Emergency Care";
+                  } else if (numScore >= 40) {
+                    urgency = "urgent";
+                    urgencyLabel = "Moderate Urgency — See a Doctor Soon";
+                  } else if (numScore >= 15) {
+                    urgency = "routine";
+                    urgencyLabel = "Routine — Schedule an Appointment";
+                  }
+                  
                   const colorMap = {
                     emergency: { bg: "bg-red-500/10", border: "border-red-500/30", text: "text-red-600", icon: Phone },
                     urgent: { bg: "bg-amber-500/10", border: "border-amber-500/30", text: "text-amber-600", icon: Clock },
@@ -645,9 +641,15 @@ const SymptomChecker = () => {
                         </div>
                         <div>
                           <h3 className={cn("font-display font-bold text-lg", style.text)}>{urgencyLabel}</h3>
+                          <p className="text-xs text-muted-foreground mt-0.5">Triage Score: {numScore}/100</p>
                         </div>
                       </div>
-                      <p className="text-sm text-foreground/80 font-body">{urgencyDesc}</p>
+                      <p className="text-sm text-foreground/80 font-body">
+                        {urgency === "emergency" && "Your symptoms suggest you should seek immediate medical attention. Call emergency services or go to the nearest emergency room."}
+                        {urgency === "urgent" && "Your symptoms indicate you should see a healthcare provider today or as soon as possible."}
+                        {urgency === "routine" && "Your symptoms suggest a routine visit. Schedule an appointment with your healthcare provider."}
+                        {urgency === "info" && "Your symptoms appear to be low urgency. Monitor your condition and consult a doctor if symptoms worsen."}
+                      </p>
                     </div>
                   );
                 })()}
