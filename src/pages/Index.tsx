@@ -81,9 +81,20 @@ const Index = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-4 py-20 md:py-28">
           <div className="max-w-2xl">
             
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-foreground/15 border border-primary-foreground/25 text-primary-foreground text-xs font-medium mb-6 font-body">
-              <Shield className="w-3.5 h-3.5" />
-              {t('index.badge')}
+            <div className="flex flex-wrap items-center gap-2 mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-foreground/15 border border-primary-foreground/25 text-primary-foreground text-xs font-medium font-body">
+                <Shield className="w-3.5 h-3.5" />
+                {t('index.badge')}
+              </div>
+              <a
+                href="https://github.com/qubesight-bit/gosafe.lat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-foreground/15 border border-primary-foreground/25 text-primary-foreground text-xs font-medium font-body hover:bg-primary-foreground/25 transition-colors"
+              >
+                <Globe className="w-3.5 h-3.5" />
+                Open Source · MIT
+              </a>
             </div>
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-5">
               {t('index.title_1')}<br />
