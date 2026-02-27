@@ -2,7 +2,7 @@ import { Layout } from '@/components/Layout';
 import { SEO } from '@/components/SEO';
 import { Disclaimer } from '@/components/Disclaimer';
 import { MATRIX_SUBSTANCES, getCombo, type ComboStatus, type MatrixSubstance } from '@/data/combo-matrix';
-import { Grid3X3, Info } from 'lucide-react';
+import { Grid3X3, Info, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import {
   Tooltip,
@@ -26,46 +26,46 @@ function normalizeStatus(raw: ComboStatus): StatusKey {
 
 const statusConfig: Record<StatusKey, { label: string; bg: string; textColor: string; description: string }> = {
   dangerous: {
-    label: 'Dangerous',
+    label: 'Documented High Risk',
     bg: 'bg-red-600',
     textColor: 'text-red-50',
-    description: 'Dangerous — serious health risks or life-threatening.',
+    description: 'Documented high risk — serious health risks reported. Evidence of severe harm.',
   },
   unsafe: {
-    label: 'Unsafe',
+    label: 'Documented Moderate Risk',
     bg: 'bg-orange-500',
     textColor: 'text-orange-50',
-    description: 'Unsafe — may cause significant harm.',
+    description: 'Documented moderate risk — may cause significant harm.',
   },
   serotonin_syndrome: {
-    label: 'Serotonin Syndrome',
+    label: 'Serotonin Syndrome Risk',
     bg: 'bg-red-800',
     textColor: 'text-red-50',
-    description: 'Risk of serotonin syndrome — potentially fatal emergency.',
+    description: 'Documented risk of serotonin syndrome — potentially fatal emergency.',
   },
   caution: {
-    label: 'Caution',
+    label: 'Caution Advised',
     bg: 'bg-amber-500',
     textColor: 'text-amber-50',
-    description: 'Exercise caution — effects may be unpredictable.',
+    description: 'Caution advised — unpredictable outcomes may occur.',
   },
   low_risk_decrease: {
-    label: 'Low Risk ↓',
-    bg: 'bg-sky-500',
-    textColor: 'text-sky-50',
-    description: 'Low risk — one may reduce the effects of the other.',
+    label: 'Limited Data — Decrease',
+    bg: 'bg-slate-400',
+    textColor: 'text-slate-50',
+    description: 'Limited data — one may reduce the effects of the other. Risk unknown.',
   },
   low_risk_no_synergy: {
-    label: 'Low Risk',
-    bg: 'bg-emerald-500',
-    textColor: 'text-emerald-50',
-    description: 'Low documented risk with no notable synergy.',
+    label: 'Limited Data',
+    bg: 'bg-slate-500',
+    textColor: 'text-slate-50',
+    description: 'Limited data available. Risk level not fully characterized.',
   },
   low_risk_synergy: {
-    label: 'Low Risk ↑',
-    bg: 'bg-green-600',
-    textColor: 'text-green-50',
-    description: 'Low risk with synergistic effects reported.',
+    label: 'Limited Data — Synergy',
+    bg: 'bg-slate-600',
+    textColor: 'text-slate-50',
+    description: 'Limited data with reported synergistic effects. Unpredictable outcomes may occur.',
   },
 };
 
@@ -91,6 +91,14 @@ export default function InteractionMatrix() {
 
       <div className="max-w-7xl mx-auto px-4 py-10 space-y-8">
         <Disclaimer />
+
+        {/* Non-dismissable sticky disclaimer */}
+        <div className="sticky top-16 z-30 bg-destructive/10 border-2 border-destructive/30 rounded-lg p-4 flex items-start gap-3 shadow-md">
+          <AlertTriangle className="w-5 h-5 text-destructive mt-0.5 shrink-0" />
+          <p className="text-destructive text-sm font-body font-semibold leading-relaxed">
+            {t('matrix.sticky_disclaimer')}
+          </p>
+        </div>
 
         {/* Legend */}
         <div className="card-elevated p-5">
@@ -178,7 +186,7 @@ export default function InteractionMatrix() {
                                     <p className="text-xs text-muted-foreground">{cfg.description}</p>
                                   </>
                                 ) : (
-                                  <p className="text-xs text-muted-foreground">No interaction data available.</p>
+                                  <p className="text-xs text-muted-foreground">Limited data — risk unknown.</p>
                                 )}
                                 {cell?.note && (
                                   <p className="text-xs text-foreground/70 italic border-t border-border pt-1 mt-1">{cell.note}</p>
@@ -203,11 +211,10 @@ export default function InteractionMatrix() {
             <p>
               <strong className="text-foreground">Data source:</strong> TripSit Community Database (
               <a href="https://combo.tripsit.me/" target="_blank" rel="noopener noreferrer" className="text-primary underline">combo.tripsit.me</a>
-              ) — community-sourced harm reduction data (anecdotal).
+              ) — community-sourced data (anecdotal).
             </p>
             <p>
-              This matrix is for educational purposes only. Absence of data does not mean a combination is safe.
-              Always consult a healthcare professional.
+              {t('matrix.source_note')}
             </p>
           </div>
         </div>
@@ -215,9 +222,7 @@ export default function InteractionMatrix() {
         {/* Bottom disclaimer */}
         <div className="disclaimer-box p-5">
           <p className="text-amber-800 text-sm font-body leading-relaxed">
-            <strong className="font-semibold">Important:</strong> This interaction matrix reflects community-reported data and may not capture all risks.
-            Individual reactions vary significantly based on health, medications, and other factors.
-            No dosage, route of administration, or preparation information is provided.
+            <strong className="font-semibold">Important:</strong> {t('matrix.bottom_disclaimer')}
           </p>
         </div>
       </div>

@@ -15,6 +15,7 @@ import EmergencyResources from "./pages/EmergencyResources";
 import SymptomChecker from "./pages/SymptomChecker";
 import CombinationChecker from "./pages/CombinationChecker";
 import InteractionMatrix from "./pages/InteractionMatrix";
+import PolicySafeguards from "./pages/PolicySafeguards";
 import FAQ from "./pages/FAQ";
 import TripReports from "./pages/TripReports";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -41,6 +42,7 @@ const App = () => (
                 <Route path="/substances/:id" element={<SubstanceDetail />} />
                 <Route path="/combinations" element={<CombinationChecker />} />
                 <Route path="/matrix" element={<InteractionMatrix />} />
+                <Route path="/policy" element={<PolicySafeguards />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/emergency" element={<EmergencyResources />} />
                 <Route path="/symptom-checker" element={<SymptomChecker />} />
