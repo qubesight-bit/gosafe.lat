@@ -190,12 +190,13 @@ export function Navigation() {
             <div ref={langRef} className="relative">
               <button
                 onClick={() => setLangOpen(!langOpen)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-bold font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-200 border border-border/50"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-bold font-body bg-primary/10 text-primary hover:bg-primary/20 transition-all duration-200 border border-primary/30 shadow-sm"
                 aria-label="Select language"
               >
-                <Languages className="w-3.5 h-3.5" />
-                <span>{currentLang.flag} {currentLang.code.toUpperCase()}</span>
-                <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${langOpen ? 'rotate-180' : ''}`} />
+                <Languages className="w-4 h-4" />
+                <span className="text-base leading-none">{currentLang.flag}</span>
+                <span>{currentLang.label}</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${langOpen ? 'rotate-180' : ''}`} />
               </button>
               {langOpen && (
                 <div className="absolute top-full right-0 mt-1.5 w-44 rounded-xl border border-border/60 bg-popover/95 backdrop-blur-xl shadow-xl p-1.5 animate-fade-in z-50">
@@ -232,11 +233,13 @@ export function Navigation() {
             <div ref={langRef} className="relative">
               <button
                 onClick={() => setLangOpen(!langOpen)}
-                className="p-2 rounded-xl text-muted-foreground hover:bg-muted/50 transition-colors border border-border/50 text-[11px] font-bold font-body flex items-center gap-1"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 transition-colors border border-primary/30 text-[12px] font-bold font-body"
                 aria-label="Select language"
               >
-                {currentLang.flag}
-                <ChevronDown className="w-2.5 h-2.5" />
+                <Languages className="w-4 h-4" />
+                <span className="text-base leading-none">{currentLang.flag}</span>
+                <span>{currentLang.code.toUpperCase()}</span>
+                <ChevronDown className="w-3 h-3" />
               </button>
               {langOpen && (
                 <div className="absolute top-full right-0 mt-1.5 w-40 rounded-xl border border-border/60 bg-popover/95 backdrop-blur-xl shadow-xl p-1.5 animate-fade-in z-50">
