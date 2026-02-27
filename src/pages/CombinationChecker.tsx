@@ -8,7 +8,7 @@ import { useTripSitApi, mapTripSitStatus } from '@/hooks/use-tripsit-api';
 import type { TripSitInteraction } from '@/hooks/use-tripsit-api';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useTranslate } from '@/hooks/use-translate';
-import { Shield, Search, Loader2, AlertTriangle, CheckCircle2, Info, ExternalLink } from 'lucide-react';
+import { Shield, Search, Loader2, AlertTriangle, Info, ExternalLink } from 'lucide-react';
 
 const examplePairs = [
   ['Cannabis', 'LSD'],
@@ -46,7 +46,6 @@ export default function CombinationChecker() {
       const data = await api.getInteraction(drugA.trim(), drugB.trim());
       if (data) {
         setResult(data);
-        // Translate API texts
         const textsToTranslate = [
           data.status,
           ...(data.note ? [data.note] : []),
@@ -79,16 +78,17 @@ export default function CombinationChecker() {
 
   const mapped = result ? mapTripSitStatus(result.status) : null;
 
+  // Neutral color tones instead of green/yellow/red safety tiers
   const severityStyles: Record<string, string> = {
-    none: 'bg-emerald-50 border-emerald-200 text-emerald-800',
-    mild: 'bg-sky-50 border-sky-200 text-sky-800',
-    moderate: 'bg-amber-50 border-amber-200 text-amber-800',
-    severe: 'bg-red-50 border-red-200 text-red-800',
+    none: 'bg-slate-50 border-slate-300 text-slate-800',
+    mild: 'bg-slate-50 border-slate-300 text-slate-800',
+    moderate: 'bg-amber-50 border-amber-300 text-amber-900',
+    severe: 'bg-red-50 border-red-300 text-red-900',
   };
 
   const severityIcons: Record<string, React.ReactNode> = {
-    none: <CheckCircle2 className="w-5 h-5 text-emerald-600" />,
-    mild: <Info className="w-5 h-5 text-sky-600" />,
+    none: <Info className="w-5 h-5 text-slate-600" />,
+    mild: <Info className="w-5 h-5 text-slate-600" />,
     moderate: <AlertTriangle className="w-5 h-5 text-amber-600" />,
     severe: <AlertTriangle className="w-5 h-5 text-red-600" />,
   };
@@ -215,7 +215,7 @@ export default function CombinationChecker() {
                 <div className="flex items-start gap-3">
                   {severityIcons[mapped.severity]}
                   <div>
-                    <p className="font-semibold text-sm mb-1">Status: {tt(result.status)}</p>
+                    <p className="font-semibold text-sm mb-1">{t('combos.status')} {tt(result.status)}</p>
                     <p className="text-sm leading-relaxed">{tt(mapped.description)}</p>
                   </div>
                 </div>
@@ -224,7 +224,7 @@ export default function CombinationChecker() {
               {/* Note from TripSit if available */}
               {(result as unknown as { note?: string }).note && (
                 <div className="bg-muted/50 border border-border rounded-lg p-4">
-                  <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mb-1 font-body">Community Note</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mb-1 font-body">{t('combos.community_note')}</p>
                   <p className="text-sm font-body leading-relaxed text-foreground/80">
                     {tt((result as unknown as { note?: string }).note || '')}
                   </p>
@@ -234,11 +234,11 @@ export default function CombinationChecker() {
               {/* Category info */}
               <div className="grid sm:grid-cols-2 gap-3">
                 <div className="bg-muted/30 border border-border rounded-lg p-3">
-                  <p className="text-xs text-muted-foreground font-body mb-0.5">Category A</p>
+                  <p className="text-xs text-muted-foreground font-body mb-0.5">{t('combos.category_a')}</p>
                   <p className="text-sm font-medium text-foreground font-body capitalize">{tt(result.interactionCategoryA)}</p>
                 </div>
                 <div className="bg-muted/30 border border-border rounded-lg p-3">
-                  <p className="text-xs text-muted-foreground font-body mb-0.5">Category B</p>
+                  <p className="text-xs text-muted-foreground font-body mb-0.5">{t('combos.category_b')}</p>
                   <p className="text-sm font-medium text-foreground font-body capitalize">{tt(result.interactionCategoryB)}</p>
                 </div>
               </div>
@@ -247,22 +247,28 @@ export default function CombinationChecker() {
               <div className="disclaimer-box px-4 py-3 flex items-start gap-2">
                 <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                 <p className="text-amber-800 text-sm font-body">
-                  <strong>This data is community-sourced and anecdotal.</strong> TripSit data is not medical advice.
-                  Absence of danger rating does not confirm safety. Always consult a healthcare professional.
+                  <strong>{t('combos.disclaimer')}</strong>
+                </p>
+              </div>
+
+              {/* Mandatory result footer */}
+              <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-3">
+                <p className="text-destructive text-xs font-body font-semibold">
+                  {t('combos.result_footer')}
                 </p>
               </div>
             </div>
 
             {/* Source attribution */}
             <div className="card-elevated p-4">
-              <h4 className="font-display font-semibold text-foreground text-sm mb-2">Source</h4>
+              <h4 className="font-display font-semibold text-foreground text-sm mb-2">{t('combos.source')}</h4>
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0">
                   <ExternalLink className="w-4 h-4 text-muted-foreground" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-foreground font-body">TripSit.me</p>
-                  <p className="text-xs text-muted-foreground font-body">Community-maintained harm reduction database</p>
+                  <p className="text-xs text-muted-foreground font-body">Community-maintained risk awareness database</p>
                   <p className="text-xs text-muted-foreground font-body mt-0.5">Type: <span className="text-amber-600 font-medium">Anecdotal / Community</span></p>
                   <a
                     href="https://combo.tripsit.me/"
@@ -281,18 +287,18 @@ export default function CombinationChecker() {
         {/* Legend when not searched */}
         {!searched && !loading && (
           <div className="space-y-4">
-            <h3 className="font-display font-semibold text-foreground">TripSit Interaction Legend</h3>
+            <h3 className="font-display font-semibold text-foreground">{t('combos.legend_title')}</h3>
             <p className="text-muted-foreground text-sm font-body">
-              TripSit uses the following community-defined interaction statuses:
+              {t('combos.legend_desc')}
             </p>
             <div className="grid sm:grid-cols-2 gap-3">
               {[
-                { status: 'Low Risk & Synergy', severity: 'none' as const, desc: 'Low documented risk with synergistic effects' },
-                { status: 'Low Risk & No Synergy', severity: 'none' as const, desc: 'Low documented risk, no notable synergy' },
-                { status: 'Low Risk & Decrease', severity: 'mild' as const, desc: 'Low risk, one may reduce the other\'s effects' },
-                { status: 'Caution', severity: 'moderate' as const, desc: 'Requires caution — unpredictable or amplified effects' },
-                { status: 'Unsafe', severity: 'severe' as const, desc: 'Considered unsafe, may cause significant harm' },
-                { status: 'Dangerous', severity: 'severe' as const, desc: 'Dangerous combination with serious health risks' },
+                { status: 'Limited Data — Synergy Reported', severity: 'none' as const, desc: t('combos.legend_synergy') },
+                { status: 'Limited Data — No Synergy', severity: 'none' as const, desc: t('combos.legend_no_synergy') },
+                { status: 'Limited Data — Decrease', severity: 'mild' as const, desc: t('combos.legend_decrease') },
+                { status: 'Caution Advised', severity: 'moderate' as const, desc: t('combos.legend_caution') },
+                { status: 'Documented Moderate Risk', severity: 'severe' as const, desc: t('combos.legend_unsafe') },
+                { status: 'Documented High Risk', severity: 'severe' as const, desc: t('combos.legend_dangerous') },
               ].map(item => (
                 <div key={item.status} className={`p-3 rounded-lg border flex items-start gap-2 ${severityStyles[item.severity]}`}>
                   {severityIcons[item.severity]}
@@ -309,10 +315,7 @@ export default function CombinationChecker() {
         {/* Bottom disclaimer */}
         <div className="disclaimer-box p-5">
           <p className="text-amber-800 text-sm font-body leading-relaxed">
-            <strong className="font-semibold">Data source notice:</strong> This tool uses data from TripSit.me, a community-maintained harm reduction resource.
-            All interaction data is <strong>anecdotal and community-sourced</strong> — it is not peer-reviewed medical literature.
-            No dosage, preparation, or route of administration information is provided.
-            Always consult a licensed healthcare professional for medical decisions.
+            <strong className="font-semibold">Data source notice:</strong> {t('combos.bottom_disclaimer')}
           </p>
         </div>
       </div>

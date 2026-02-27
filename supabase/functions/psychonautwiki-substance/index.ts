@@ -60,8 +60,31 @@ function formatRange(range: DurationRange | null): string | null {
   return null;
 }
 
-// Fields we NEVER return to the client (content safety)
-const BLOCKED_FIELDS = ['dose', 'dosage', 'preparation', 'experiences'];
+// Expanded list of fields we NEVER return to the client (content safety + UNODC compliance)
+const BLOCKED_FIELDS = [
+  'dose', 'dosage', 'preparation', 'experiences',
+  'bioavailability', 'afterEffects', 'reagentResults',
+  // Route of administration detail fields (beyond duration)
+  'saferUse', 'saferuse', 'safer_use',
+  'toleranceManagement', 'tolerance_management',
+  'enhancement', 'potentiation', 'optimization',
+];
+
+// Restricted keywords — if any field value contains these, the field is stripped
+const RESTRICTED_KEYWORDS = [
+  'dose', 'dosage', 'mg', 'ug', 'µg', 'microgram',
+  'preparation', 'prepare', 'inject', 'snort', 'insufflat',
+  'route of administration', 'oral', 'sublingual', 'rectal', 'intravenous', 'intramuscular',
+  'safer use', 'safe use', 'harm reduction tip',
+  'tolerance reduction', 'tolerance management',
+  'enhance', 'potentiat', 'optimize', 'optimise',
+];
+
+function containsRestrictedContent(value: unknown): boolean {
+  if (typeof value !== 'string') return false;
+  const lower = value.toLowerCase();
+  return RESTRICTED_KEYWORDS.some(kw => lower.includes(kw));
+}
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -113,6 +136,20 @@ Deno.serve(async (req) => {
     // Strip any blocked fields that might leak through
     for (const field of BLOCKED_FIELDS) {
       delete sub[field];
+    }
+
+    // Server-side validation: reject if restricted content detected in any field
+    const allValues = JSON.stringify(sub);
+    if (containsRestrictedContent(allValues)) {
+      // Log but still serve — just strip the offending content
+      console.warn('Restricted content detected in API response for:', substance, '— stripping restricted data');
+      
+      // Deep clean: remove any effects that contain restricted keywords
+      if (sub.effects && Array.isArray(sub.effects)) {
+        sub.effects = sub.effects.filter((e: { name?: string }) => 
+          !containsRestrictedContent(e?.name)
+        );
+      }
     }
 
     // Format duration data

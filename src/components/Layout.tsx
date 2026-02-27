@@ -75,9 +75,14 @@ export function Layout({ children }: LayoutProps) {
                 <Link to="/legal" className="text-muted-foreground hover:text-primary transition-colors">Legal Disclaimer</Link>
                 <span className="text-border">·</span>
                 <Link to="/faq#transparency" className="text-muted-foreground hover:text-primary transition-colors">Data Transparency</Link>
+                <span className="text-border">·</span>
+                <Link to="/policy" className="text-muted-foreground hover:text-primary transition-colors">Policy & Safeguards</Link>
               </div>
             </div>
             <p className="text-xs text-muted-foreground">{t('footer.not_medical')}</p>
+            <p className="text-xs text-muted-foreground/70 mt-2 max-w-3xl mx-auto text-center italic">
+              {t('footer.institutional_notice')}
+            </p>
           </div>
         </div>
       </footer>
