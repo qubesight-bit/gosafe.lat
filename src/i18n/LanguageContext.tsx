@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
 
 export type Lang = 'en' | 'es' | 'pt' | 'fr' | 'de';
 
@@ -34,6 +34,27 @@ const dictionaries: Record<Lang, Record<string, string>> = { en, es, pt, fr, de 
 
 const VALID_LANGS = new Set<string>(LANGUAGES.map(l => l.code));
 
+// Map country codes to our supported languages
+const COUNTRY_TO_LANG: Record<string, Lang> = {
+  // Spanish-speaking
+  ES: 'es', MX: 'es', AR: 'es', CO: 'es', CL: 'es', PE: 'es', VE: 'es',
+  EC: 'es', GT: 'es', CU: 'es', BO: 'es', DO: 'es', HN: 'es', PY: 'es',
+  SV: 'es', NI: 'es', CR: 'es', PA: 'es', UY: 'es', PR: 'es', GQ: 'es',
+  // Portuguese-speaking
+  BR: 'pt', PT: 'pt', AO: 'pt', MZ: 'pt', CV: 'pt',
+  // French-speaking
+  FR: 'fr', BE: 'fr', CH: 'fr', CA: 'fr', SN: 'fr', CI: 'fr', ML: 'fr',
+  CM: 'fr', MG: 'fr', NE: 'fr', BF: 'fr', TD: 'fr', GN: 'fr', RW: 'fr',
+  HT: 'fr', TG: 'fr', CG: 'fr', CD: 'fr', GA: 'fr', DJ: 'fr', KM: 'fr',
+  LU: 'fr', MC: 'fr',
+  // German-speaking
+  DE: 'de', AT: 'de', LI: 'de',
+  // English-speaking (explicit)
+  US: 'en', GB: 'en', AU: 'en', NZ: 'en', IE: 'en', ZA: 'en',
+};
+
+const GEO_DETECTED_KEY = 'gosafe-geo-detected';
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(() => {
     const stored = localStorage.getItem('gosafe-lang');
@@ -42,6 +63,28 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (VALID_LANGS.has(browserLang)) return browserLang as Lang;
     return 'en';
   });
+
+  // IP-based geolocation detection on first visit
+  useEffect(() => {
+    const alreadyStored = localStorage.getItem('gosafe-lang');
+    const alreadyDetected = sessionStorage.getItem(GEO_DETECTED_KEY);
+    if (alreadyStored || alreadyDetected) return;
+
+    sessionStorage.setItem(GEO_DETECTED_KEY, '1');
+
+    fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) })
+      .then(r => r.json())
+      .then(data => {
+        const country = data?.country_code?.toUpperCase();
+        if (country && COUNTRY_TO_LANG[country]) {
+          const detectedLang = COUNTRY_TO_LANG[country];
+          setLangState(detectedLang);
+          localStorage.setItem('gosafe-lang', detectedLang);
+          document.documentElement.lang = detectedLang;
+        }
+      })
+      .catch(() => { /* silent fail — keep browser/default lang */ });
+  }, []);
 
   const setLang = useCallback((newLang: Lang) => {
     setLangState(newLang);
