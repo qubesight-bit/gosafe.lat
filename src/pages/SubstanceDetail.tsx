@@ -237,7 +237,7 @@ export default function SubstanceDetail() {
             <Shield className="w-4 h-4 text-primary" /> Legal Status Overview
           </h3>
           <p className="text-xs text-muted-foreground font-body italic mb-3">
-            This information is for educational awareness only and does not constitute legal advice. Verify current laws with local authorities.
+            Legal status varies by jurisdiction and is subject to national and international regulation. This information is for educational awareness only and does not constitute legal advice. Verify current laws with local authorities.
           </p>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
@@ -304,9 +304,9 @@ export default function SubstanceDetail() {
                       return order[a.severity] - order[b.severity];
                     })
                     .map((combo, i) => {
-                      const styles: Record<string, string> = {
-                        none: 'bg-emerald-50 border-emerald-200 text-emerald-800',
-                        mild: 'bg-sky-50 border-sky-200 text-sky-800',
+                       const styles: Record<string, string> = {
+                        none: 'bg-slate-50 border-slate-200 text-slate-700',
+                        mild: 'bg-slate-100 border-slate-300 text-slate-800',
                         moderate: 'bg-amber-50 border-amber-200 text-amber-800',
                         severe: 'bg-red-50 border-red-200 text-red-800',
                       };
@@ -328,8 +328,8 @@ export default function SubstanceDetail() {
             <div className="bg-muted/30 border border-border rounded-lg p-4 flex items-start gap-3">
               <ExternalLink className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
               <div>
-                <p className="text-xs font-medium text-foreground font-body">Source: TripSit.me</p>
-                <p className="text-xs text-muted-foreground font-body">Community-maintained harm reduction database · Type: <span className="text-amber-600 font-medium">Anecdotal</span></p>
+              <p className="text-xs font-medium text-foreground font-body">Source: TripSit.me</p>
+                <p className="text-xs text-muted-foreground font-body">Community-maintained risk awareness database · Type: <span className="text-amber-600 font-medium">Anecdotal</span></p>
                 <a href="https://tripsit.me" target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline font-body">
                   tripsit.me →
                 </a>

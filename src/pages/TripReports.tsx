@@ -11,17 +11,17 @@ import {
 } from 'lucide-react';
 
 const intensityConfig: Record<string, { label: string; className: string }> = {
-  mild: { label: 'Mild', className: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
-  moderate: { label: 'Moderate', className: 'bg-amber-100 text-amber-800 border-amber-200' },
-  strong: { label: 'Strong', className: 'bg-orange-100 text-orange-800 border-orange-200' },
-  extreme: { label: 'Extreme', className: 'bg-red-100 text-red-800 border-red-200' },
+  mild: { label: 'Low Intensity', className: 'bg-slate-100 text-slate-700 border-slate-200' },
+  moderate: { label: 'Moderate Intensity', className: 'bg-amber-100 text-amber-800 border-amber-200' },
+  strong: { label: 'High Intensity', className: 'bg-orange-100 text-orange-800 border-orange-200' },
+  extreme: { label: 'Severe Intensity', className: 'bg-red-100 text-red-800 border-red-200' },
 };
 
 const sentimentConfig: Record<string, { label: string; icon: typeof Heart }> = {
-  positive: { label: 'Positive', icon: Heart },
-  mixed: { label: 'Mixed', icon: Gauge },
-  negative: { label: 'Negative', icon: MessageCircleWarning },
-  neutral: { label: 'Neutral', icon: Eye },
+  positive: { label: 'Favorable Outcome Reported', icon: Eye },
+  mixed: { label: 'Variable Outcomes', icon: Gauge },
+  negative: { label: 'Adverse Outcomes Reported', icon: MessageCircleWarning },
+  neutral: { label: 'Neutral Account', icon: Eye },
 };
 
 function ReportCard({ report }: { report: TripReport }) {
@@ -75,8 +75,8 @@ function ReportCard({ report }: { report: TripReport }) {
           {report.keyTakeaways.length > 0 && (
             <div>
               <h4 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5">
-                <Shield className="w-4 h-4 text-primary" />
-                Key Educational Takeaways
+              <Shield className="w-4 h-4 text-primary" />
+                Educational Observations
               </h4>
               <ul className="space-y-1.5">
                 {report.keyTakeaways.map((t, i) => (
@@ -148,9 +148,9 @@ function ReportCard({ report }: { report: TripReport }) {
               <div className="flex items-start gap-3">
                 <Shield className="w-5 h-5 text-accent-foreground mt-0.5 shrink-0" />
                 <div className="space-y-2">
-                  <h4 className="text-sm font-bold text-foreground">
-                    Test Before You Ingest
-                  </h4>
+                   <h4 className="text-sm font-bold text-foreground">
+                     Substance Verification Resources
+                   </h4>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Reagent test kits (Marquis, Mecke, Ehrlich) can help identify unknown substances and detect dangerous substitutions like NBOMe sold as LSD. Ehrlich reagent reacts with LSD/indoles but not NBOMe compounds. Testing takes minutes and can be life-saving.
                   </p>
@@ -255,6 +255,10 @@ const TripReports = () => {
               Erowid's Experience Vault
             </a>
             . All content is <strong>anecdotal and community-sourced</strong> — not peer-reviewed science. No dosage, preparation, or route of administration information is provided.
+          </p>
+          <p className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold">
+            <AlertTriangle className="w-3.5 h-3.5" />
+            Educational summary of publicly documented reports. Not clinical evidence. Not an endorsement.
           </p>
         </div>
 
@@ -367,7 +371,7 @@ const TripReports = () => {
                     <strong className="text-foreground">{t('reports.source_title')}</strong>{' '}
                     <a href="https://erowid.org" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Erowid.org</a>{' '}
                     Experience Vault — a community-maintained harm reduction resource.
-                    All report content is <strong>anecdotal</strong> and represents individual experiences that may not be representative.
+                    All report content is <strong>anecdotal</strong> and represents individual experiences that may not be representative. Outcomes are highly variable and unpredictable.
                   </p>
                   <p>
                     {t('reports.source_desc')}
@@ -394,6 +398,9 @@ const TripReports = () => {
             <p className="text-xs text-muted-foreground mt-1">
               {t('reports.resources_subtitle')}
             </p>
+            <p className="text-[10px] text-muted-foreground/70 mt-1 italic">
+              External organizations listed for informational purposes only. GoSafe.lat does not endorse or guarantee the services of any third party.
+            </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border/40">
             {[
@@ -414,14 +421,14 @@ const TripReports = () => {
               {
                 name: 'TripSit',
                 url: 'https://tripsit.me',
-                description: 'Real-time peer support chat, combination safety charts, and factsheets for hundreds of substances.',
+                description: 'Real-time peer support chat, combination risk awareness charts, and factsheets for hundreds of substances.',
                 cta: 'Chat Now',
                 ctaUrl: 'https://chat.tripsit.me',
               },
               {
                 name: 'Erowid',
                 url: 'https://erowid.org',
-                description: 'Comprehensive experience vault, substance information, and community-sourced harm reduction data since 1995.',
+                description: 'Comprehensive experience vault, substance information, and community-sourced educational data since 1995.',
                 cta: 'Experience Vault',
                 ctaUrl: 'https://erowid.org/experiences/',
               },

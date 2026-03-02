@@ -53,7 +53,7 @@ export function Layout({ children }: LayoutProps) {
               <DonateButton />
             </div>
             <p className="text-center text-xs text-muted-foreground font-body leading-relaxed max-w-2xl mx-auto">
-              Made and built by <a href="https://qubesight.lat" target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground hover:text-primary transition-colors underline underline-offset-2">QubeSight</a> for the people — GoSafe.lat is open-source and free to use for pharmacological education and harm reduction, helping prevent overdoses and dangerous pharmaceutical interactions.
+              Made and built by <a href="https://qubesight.lat" target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground hover:text-primary transition-colors underline underline-offset-2">QubeSight</a> for the people — GoSafe.lat is open-source and free to use for pharmacological education and risk awareness, helping prevent adverse outcomes from dangerous pharmaceutical interactions.
             </p>
             <div className="flex flex-wrap gap-x-6 gap-y-2 items-center justify-between text-xs text-muted-foreground">
               <div className="flex items-center gap-3">
