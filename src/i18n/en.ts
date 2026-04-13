@@ -342,6 +342,7 @@ export const en: Record<string, string> = {
   'symptoms.title': 'Symptom Checker',
   'symptoms.subtitle': 'Enter your symptoms for educational differential diagnosis information, triage scoring, and links to trusted medical knowledge.',
   'symptoms.disclaimer_1': 'Educational purposes only. This tool does not provide medical advice, diagnosis, or treatment recommendations. Always consult a licensed healthcare professional.',
+  'symptoms.english_only': 'This symptom checker is only available in English. The interface and results are provided by Isabel Healthcare and cannot be translated.',
   'symptoms.disclaimer_2': 'Not a medical device. Isabel Symptom Checker does not indicate a specific degree of likelihood or a definitive diagnosis for any condition. By showing a broad list of suggested conditions without specific ranking of probability, the system remains an informational tool rather than a diagnostic one.',
   'symptoms.label_symptoms': 'Symptoms',
   'symptoms.symptoms_help': 'Type symptoms and select from suggestions, or press Enter to add.',

@@ -337,6 +337,7 @@ export const es: Record<string, string> = {
   'symptoms.title': 'Verificador de Síntomas',
   'symptoms.subtitle': 'Ingrese sus síntomas para información educativa de diagnóstico diferencial, puntuación de triaje y enlaces a conocimiento médico confiable.',
   'symptoms.disclaimer_1': 'Solo con fines educativos. Esta herramienta no proporciona consejo médico, diagnóstico ni recomendaciones de tratamiento.',
+  'symptoms.english_only': 'Este verificador de síntomas solo está disponible en inglés. La interfaz y los resultados son proporcionados por Isabel Healthcare y no pueden ser traducidos.',
   'symptoms.disclaimer_2': 'No es un dispositivo médico. El Verificador de Síntomas Isabel no indica un grado específico de probabilidad ni un diagnóstico definitivo para ninguna condición.',
   'symptoms.label_symptoms': 'Síntomas',
   'symptoms.symptoms_help': 'Escriba síntomas y seleccione de las sugerencias, o presione Enter para agregar.',

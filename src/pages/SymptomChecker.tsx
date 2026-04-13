@@ -25,6 +25,13 @@ const SymptomChecker = () => {
           </p>
         </div>
 
+        <div className="disclaimer-box p-4 flex items-start gap-3 mb-4 border-blue-500/30 bg-blue-500/5">
+          <AlertCircle className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
+          <p className="text-sm font-body text-foreground/80">
+            <strong className="font-semibold">{t('symptoms.english_only')}</strong>
+          </p>
+        </div>
+
         <div className="card-elevated rounded-xl overflow-hidden mb-6">
           <iframe
             src="https://symptomchecker.isabelhealthcare.com/isabel-tool-page"

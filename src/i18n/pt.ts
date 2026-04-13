@@ -219,6 +219,7 @@ export const pt: Record<string, string> = {
   // Symptoms
   'symptoms.title': 'Verificador de Sintomas',
   'symptoms.subtitle': 'Insira seus sintomas para informação educativa de diagnóstico diferencial.',
+  'symptoms.english_only': 'Este verificador de sintomas está disponível apenas em inglês. A interface e os resultados são fornecidos pela Isabel Healthcare e não podem ser traduzidos.',
 
   // Not found
   'notfound.title': '404',

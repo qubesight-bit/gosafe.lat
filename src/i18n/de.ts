@@ -219,6 +219,7 @@ export const de: Record<string, string> = {
   // Symptoms
   'symptoms.title': 'Symptom-Checker',
   'symptoms.subtitle': 'Geben Sie Ihre Symptome ein für Bildungsinformationen zur Differentialdiagnose.',
+  'symptoms.english_only': 'Dieser Symptom-Checker ist nur auf Englisch verfügbar. Die Oberfläche und die Ergebnisse werden von Isabel Healthcare bereitgestellt und können nicht übersetzt werden.',
 
   // Not found
   'notfound.title': '404',
